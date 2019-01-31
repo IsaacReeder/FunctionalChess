@@ -5,7 +5,12 @@ class Schmedis {
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
         public static void main(String[] args) {
-        
+        Integer[] way = {0, 4, 8};
+        List<Integer>w = Arrays.asList(way);
+        w.forEach(System.out::println);
+        for(int i=0; i<9; i++){
+        System.out.println(Arrays.toString(decompose(i))); 
+        }
         Scanner in  = new Scanner(System.in);
       
         Jedis jedis = new Jedis("0.0.0.0",6379);
@@ -22,12 +27,13 @@ class Schmedis {
             move = in.nextInt();
             in.nextLine();
             b[move] = 'x';
+            printBoard(b);
             System.out.println("Press enter to see your opponents move");
             in.nextLine();
             char[] champion = null;
             Double championValue = 0.0;
                 for(char[] child : children(b, false)){
-                double value = minimax(child, 1000, true);
+                double value = minimax(child, 6, true);
                     if(champion == null || value < championValue){
                         champion = child;
                         championValue = value;
@@ -37,10 +43,18 @@ class Schmedis {
                 b = champion;
         }
 }
+
 ////////
+
       public static double minimax(char[] node,int depth,boolean maximizingPlayer) {
       Double value;
-        if (depth == 0 || nodeIsATerminalNode(node)) {
+        if (depth == 0){
+            int goodX = goodLines(node, 'x');
+            int goodO = goodLines(node, 'o');
+            double estimate = maximizingPlayer ? goodX-goodO : goodO-goodX;
+            return estimate;
+        }
+        if (nodeIsATerminalNode(node)) {
             if(somebodyWon(node))
                 return(maximizingPlayer ? ninf:inf);
             else
@@ -59,7 +73,9 @@ class Schmedis {
             
     }
       }
+
 ////////
+
         public static boolean tie(char[] node) {
 
         int count = 0;
@@ -68,18 +84,36 @@ class Schmedis {
         
         return count == 0;
         }
-        public static boolean somebodyWon(char[] node) {
 
-       if(node[0]!=' '&& node[0] == node[1] && node[1] == node[2]) return true; 
-       if(node[3]!=' '&& node[3] == node[4] && node[4] == node[5]) return true; 
-       if(node[6]!=' '&& node[6] == node[7] && node[7] == node[8]) return true; 
-       if(node[0]!=' '&& node[0] == node[3] && node[3] == node[6]) return true; 
-       if(node[1]!=' '&& node[1] == node[4] && node[4] == node[7]) return true; 
-       if(node[2]!=' '&& node[2] == node[5] && node[5] == node[8]) return true; 
-       if(node[0]!=' '&& node[0] == node[4] && node[4] == node[8]) return true; 
-       if(node[2]!=' '&& node[2] == node[4] && node[4] == node[6]) return true; 
-       return false; 
-       }
+////////
+
+        private static int[][] waysToWin = new int[][]
+            {
+                {0,1,2}, 
+                {3,4,5}, 
+                {6,7,8}, 
+                {0,3,6}, 
+                {1,4,7}, 
+                {2,5,8}, 
+                {0,4,8}, 
+                {2,4,6} 
+            };
+////////
+
+        public static boolean somebodyWon(char[] node) {
+            
+        for(int i=0;i < waysToWin.length;i++){
+            int x=waysToWin[i][0];
+            int y=waysToWin[i][1];
+            int z=waysToWin[i][2];
+            
+        if(node[x]!=' '&& node[x] == node[y] && node[y] == node[z]) return true; 
+        }
+        
+        return false; 
+        };
+
+////////
 
         public static List<char[]> children(char[] node, boolean maximizingPlayer) {
             List<char[]> children = new ArrayList<>();
@@ -100,4 +134,32 @@ class Schmedis {
             for(int i=0;i<3;i++) System.out.println( Character.toString(node[0+3*i]) +  Character.toString(node[1+3*i]            ) + Character.toString(node[2+3*i]));  
             try{Thread.sleep(50);}catch(InterruptedException e){} 
         }
+
+////////
+
+        public static int goodLines(char[] node, char me) {
+        int count = 0;
+        for(int i=0;i < waysToWin.length;i++){
+            int x=waysToWin[i][0];
+            int y=waysToWin[i][1];
+            int z=waysToWin[i][2];
+            
+        if((node[x]==me || node[x]==' ') && 
+            (node[y]==me || node[y]==' ') && 
+                (node[z]==me || node[z]==' ') &&
+                    (node[x]==me || node[y]==me || node[z]==me)
+          ) count++; 
+        }
+        
+        return count; 
+        };
+
+////////
+
+        public static int[] decompose(int position){
+
+           return new int[]{position/3, position%3}; 
+        };
+
+
 }
