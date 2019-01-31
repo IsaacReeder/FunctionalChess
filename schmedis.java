@@ -18,29 +18,62 @@ class Schmedis {
         System.out.println("Lets ping the server"+jedis.ping());
         
         char [] b = {' ',' ',' ',' ',' ',' ',' ',' ',' '};
-        while(true) { 
-            int move; 
-            System.out.println("Here is the current board");
-            printBoard(b);
-            
-            System.out.println("Please enter a number from zero to eight, for where you want to move");
-            move = in.nextInt();
-            in.nextLine();
-            b[move] = 'x';
-            printBoard(b);
-            System.out.println("Press enter to see your opponents move");
-            in.nextLine();
-            char[] champion = null;
-            Double championValue = 0.0;
-                for(char[] child : children(b, false)){
-                double value = minimax(child, 6, true);
-                    if(champion == null || value < championValue){
-                        champion = child;
-                        championValue = value;
-                    } 
-    
-                }
-                b = champion;
+        System.out.println("Choose X or O"); 
+        char c=in.next(".").charAt(0);
+        if(c=='x'){
+
+            while(true) { 
+                int move; 
+                System.out.println("Here is the current board");
+                printBoard(b);
+                
+                System.out.println("Please enter a number from zero to eight, for where you want to move");
+                move = in.nextInt();
+                in.nextLine();
+                b[move] = 'x';
+                printBoard(b);
+                System.out.println("Press enter to see your opponents move");
+                in.nextLine();
+                char[] champion = null;
+                Double championValue = 0.0;
+                    for(char[] child : children(b, false)){
+                    double value = minimax(child, 6, true);
+                        if(champion == null || value < championValue){
+                            champion = child;
+                            championValue = value;
+                        } 
+        
+                    }
+                    b = champion;
+            }
+        }else{
+
+            while(true) { 
+                
+                System.out.println("Press enter to see your opponents move");
+                in.nextLine();
+                char[] champion = null;
+                Double championValue = 0.0;
+                    for(char[] child : children(b, true)){
+                    double value = minimax(child, 6, false);
+                        if(champion == null || value < championValue){
+                            champion = child;
+                            championValue = value;
+                        } 
+        
+                    }
+                    b = champion;
+                int move; 
+                System.out.println("Here is the current board");
+                printBoard(b);
+                
+                System.out.println("Please enter a number from zero to eight, for where you want to move");
+                move = in.nextInt();
+                in.nextLine();
+                b[move] = 'o';
+                printBoard(b);
+            }
+
         }
 }
 
