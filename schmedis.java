@@ -37,7 +37,7 @@ class Schmedis {
                 char[] champion = null;
                 Double championValue = 0.0;
                     for(char[] child : children(b, false)){
-                    double value = minimax(child, 6, true);
+                    double value = minimax(child, 9, true);
                         if(champion == null || value < championValue){
                             champion = child;
                             championValue = value;
@@ -55,8 +55,8 @@ class Schmedis {
                 char[] champion = null;
                 Double championValue = 0.0;
                     for(char[] child : children(b, true)){
-                    double value = minimax(child, 6, false);
-                        if(champion == null || value < championValue){
+                    double value = minimax(child, 9, false);
+                        if(champion == null || value > championValue){
                             champion = child;
                             championValue = value;
                         } 
