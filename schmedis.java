@@ -1,5 +1,8 @@
 import java.util.*;
 import redis.clients.jedis.Jedis;
+import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
+
 class Schmedis {
     static final double inf = Double.POSITIVE_INFINITY;
     static final double ninf = Double.NEGATIVE_INFINITY; 
@@ -8,16 +11,24 @@ class Schmedis {
         Integer[] way = {0, 4, 8};
         List<Integer>w = Arrays.asList(way);
         w.forEach(System.out::println);
-        for(int i=0; i<9; i++){
-        System.out.println(Arrays.toString(decompose(i))); 
-        }
         Scanner in  = new Scanner(System.in);
       
         Jedis jedis = new Jedis("0.0.0.0",6379);
 
         System.out.println("Lets ping the server"+jedis.ping());
         
-        char [] b = {' ',' ',' ',' ',' ',' ',' ',' ',' '};
+        char [] b = {' ',' ',' ',' ',' ',' ',' ',' ',' '};      
+//      char [] b = {
+//                  'C','H','B','Q','K','B','H','C',
+//                  'P','P','P','P','P','P','P','P',
+//                  ' ',' ',' ',' ',' ',' ',' ',' ',
+//                  ' ',' ',' ',' ',' ',' ',' ',' ',
+//                  ' ',' ',' ',' ',' ',' ',' ',' ',
+//                  ' ',' ',' ',' ',' ',' ',' ',' ',
+//                  'p','p','p','p','p','p','p','p',
+//                  'c','h','b','q','k','b','h','c'
+//                  };
+// horse 3.20, bishop 3.33, castle 5.10, queen 8.80 
         System.out.println("Choose X or O"); 
         char c=in.next(".").charAt(0);
         if(c=='x'){
@@ -36,14 +47,14 @@ class Schmedis {
                 in.nextLine();
                 char[] champion = null;
                 Double championValue = 0.0;
-                    for(char[] child : children(b, false)){
-                    double value = minimax(child, 9, true);
-                        if(champion == null || value < championValue){
-                            champion = child;
-                            championValue = value;
-                        } 
-        
-                    }
+                for(char[] child : children(b, false)){
+                double value = minimax(child, 9, true);
+                    if(champion == null || value < championValue){
+                        champion = child;
+                        championValue = value;
+                    } 
+    
+                }
                     b = champion;
             }
         }else{
@@ -54,14 +65,14 @@ class Schmedis {
                 in.nextLine();
                 char[] champion = null;
                 Double championValue = 0.0;
-                    for(char[] child : children(b, true)){
-                    double value = minimax(child, 9, false);
-                        if(champion == null || value > championValue){
-                            champion = child;
-                            championValue = value;
-                        } 
-        
-                    }
+                for(char[] child : children(b, true)){
+                double value = minimax(child, 9, false);
+                    if(champion == null || value > championValue){
+                        champion = child;
+                        championValue = value;
+                    } 
+    
+                }
                     b = champion;
                 int move; 
                 System.out.println("Here is the current board");
@@ -80,12 +91,9 @@ class Schmedis {
 ////////
 
       public static double minimax(char[] node,int depth,boolean maximizingPlayer) {
-      Double value;
+        Double value;
         if (depth == 0){
-            int goodX = goodLines(node, 'x');
-            int goodO = goodLines(node, 'o');
-            double estimate = maximizingPlayer ? goodX-goodO : goodO-goodX;
-            return estimate;
+            return estimate(node, maximizingPlayer);
         }
         if (nodeIsATerminalNode(node)) {
             if(somebodyWon(node))
@@ -104,7 +112,7 @@ class Schmedis {
                 value = Math.min(value, minimax(child, depth - 1, true));
             return value; 
             
-    }
+        }
       }
 
 ////////
@@ -189,10 +197,49 @@ class Schmedis {
 
 ////////
 
-        public static int[] decompose(int position){
+        public static double estimate(char[]node, boolean maximizingPlayer){
+            int goodX = goodLines(node, 'x');
+            int goodO = goodLines(node, 'o');
+            double estimate = maximizingPlayer ? goodX-goodO : goodO-goodX;
+            return estimate;
+        
+        }
 
-           return new int[]{position/3, position%3}; 
-        };
+////////
 
+        public static double chessEstimate(char[]node, boolean maximizingPlayer){
+            int goodX = goodLines(node, 'x');
+            int goodO = goodLines(node, 'o');
+            double estimate = maximizingPlayer ? goodX-goodO : goodO-goodX;
+            return estimate;
+        }
+
+////////
+       
+       public static void pieceValue(char piece) {
+           double value;
+           if(piece == 'C') value=-5.10;
+           if(piece == 'H') value=-3.20;
+           if(piece == 'B') value=-3.33;
+           if(piece == 'Q') value=-8.80;
+           if(piece == 'P') value=-1.0;
+           if(piece == 'K') value=0.0;
+           if(piece == 'c') value=5.10;
+           if(piece == 'h') value=3.20;
+           if(piece == 'b') value=3.33;
+           if(piece == 'q') value=8.80;
+           if(piece == 'p') value=1.0;
+           if(piece == 'k') value=0.0;
+           if(piece == ' ') value=0.0;
+           return value;
+       }
+
+////////
+
+        public static List<Double> boardValues(char[] node) {
+            List<Double> xs = Arrays.asList(node).stream().map(x -> 0.0).collect(Collectors.toList());
+        
+        return xs;
+        } 
 
 }
