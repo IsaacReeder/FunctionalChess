@@ -2,12 +2,15 @@ import java.util.*;
 import redis.clients.jedis.Jedis;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
+import java.util.Arrays;
+import org.apache.commons.lang3.ArrayUtils;
 
 class Schmedis {
     static final double inf = Double.POSITIVE_INFINITY;
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
         public static void main(String[] args) {
+        System.out.println(boardValue(chessBoard));
         Integer[] way = {0, 4, 8};
         List<Integer>w = Arrays.asList(way);
         w.forEach(System.out::println);
@@ -18,17 +21,17 @@ class Schmedis {
         System.out.println("Lets ping the server"+jedis.ping());
         
         char [] b = {' ',' ',' ',' ',' ',' ',' ',' ',' '};      
-//      char [] b = {
-//                  'C','H','B','Q','K','B','H','C',
-//                  'P','P','P','P','P','P','P','P',
-//                  ' ',' ',' ',' ',' ',' ',' ',' ',
-//                  ' ',' ',' ',' ',' ',' ',' ',' ',
-//                  ' ',' ',' ',' ',' ',' ',' ',' ',
-//                  ' ',' ',' ',' ',' ',' ',' ',' ',
-//                  'p','p','p','p','p','p','p','p',
-//                  'c','h','b','q','k','b','h','c'
-//                  };
-// horse 3.20, bishop 3.33, castle 5.10, queen 8.80 
+        char [] chessBoard = {
+                    'C','H','B','Q','K','B','H','C',
+                    'P','P','P','P','P','P','P','P',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    'p','p','p','p','p','p','p','p',
+                    'c','h','b','q','k','b','h','c'
+                    };
+  
         System.out.println("Choose X or O"); 
         char c=in.next(".").charAt(0);
         if(c=='x'){
@@ -216,8 +219,8 @@ class Schmedis {
 
 ////////
        
-       public static double pieceValue(char piece) {
-           Double value = 0.0;
+       public static Double pieceValue(char piece) {
+           double value = 0.0;
            if(piece == 'C') value=-5.10;
            if(piece == 'H') value=-3.20;
            if(piece == 'B') value=-3.33;
@@ -236,8 +239,10 @@ class Schmedis {
 
 ////////
 
-        public static double boardValue(char[] node) {
-            return Arrays.asList(node).stream().map(x -> pieceValue(x)).mapToDouble(x -> x).sum();
+        public static Double boardValue(char[] node) {
+            Character[] characterArray = ArrayUtils.toObject(node);
+            List<Character> cs = Arrays.asList(characterArray);
+            return cs.stream().map(x -> pieceValue(x)).mapToDouble(x -> x).sum();
         
         } 
 
