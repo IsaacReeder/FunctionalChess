@@ -216,8 +216,8 @@ class Schmedis {
 
 ////////
        
-       public static void pieceValue(char piece) {
-           double value;
+       public static double pieceValue(char piece) {
+           Double value = 0.0;
            if(piece == 'C') value=-5.10;
            if(piece == 'H') value=-3.20;
            if(piece == 'B') value=-3.33;
@@ -236,10 +236,9 @@ class Schmedis {
 
 ////////
 
-        public static List<Double> boardValues(char[] node) {
-            List<Double> xs = Arrays.asList(node).stream().map(x -> 0.0).collect(Collectors.toList());
+        public static double boardValue(char[] node) {
+            return Arrays.asList(node).stream().map(x -> pieceValue(x)).mapToDouble(x -> x).sum();
         
-        return xs;
         } 
 
 }
