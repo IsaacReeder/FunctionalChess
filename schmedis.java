@@ -13,10 +13,10 @@ class Schmedis {
 //        for(int i=0;i<64;i++)System.out.println(queenSlides(i));
         System.out.println("*************************************************************");
         System.out.println("*************************************************************");
-//        for(int i=0;i<64;i++)System.out.println(rookSlides(i));
+        for(int i=0;i<64;i++)System.out.println(rookSlides(i));
         System.out.println("**************************************************************");
         System.out.println("*************************************************************");
-//        for(int i=0;i<64;i++)System.out.println(bishopSlides(i));
+        for(int i=0;i<64;i++)System.out.println(bishopSlides(i));
         System.out.println("*************************************************************");
         System.out.println("*************************************************************");
         for(int i=0;i<64;i++)System.out.println(horseSlides(i));
@@ -267,64 +267,72 @@ class Schmedis {
                 int r = startingRow-2;
                 int c = startingColumn+1;
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
                 if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c); 
-                if (slide.size()==1)slides.add(slide);  
+                if (slide.size()==2)slides.add(slide);  
             }
         
             {
                 int r = startingRow-2;
                 int c = startingColumn-1;
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
                 if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c); 
-                if (slide.size()==1)slides.add(slide);  
+                if (slide.size()==2)slides.add(slide);  
             }
         
             {
                 int r = startingRow-1;
                 int c = startingColumn+2;
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
                 if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c); 
-                if (slide.size()==1)slides.add(slide);  
+                if (slide.size()==2)slides.add(slide);  
             }
         
             {
                 int r = startingRow-1;
                 int c = startingColumn-2;
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
                 if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c); 
-                if (slide.size()==1)slides.add(slide);  
+                if (slide.size()==2)slides.add(slide);  
             }
         
             {
                 int r = startingRow+2;
                 int c = startingColumn+1;
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
                 if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c); 
-                if (slide.size()==1)slides.add(slide);  
+                if (slide.size()==2)slides.add(slide);  
             }
         
             {
                 int r = startingRow+2;
                 int c = startingColumn-1;
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
                 if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c); 
-                if (slide.size()==1)slides.add(slide);  
+                if (slide.size()==2)slides.add(slide);  
             }
         
             {
                 int r = startingRow+1;
                 int c = startingColumn+2;
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
                 if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c); 
-                if (slide.size()==1)slides.add(slide);  
+                if (slide.size()==2)slides.add(slide);  
             }
         
             {
                 int r = startingRow+1;
                 int c = startingColumn-2;
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
                 if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c); 
-                if (slide.size()==1)slides.add(slide);  
+                if (slide.size()==2)slides.add(slide);  
             }
 
         return slides;   
@@ -339,26 +347,30 @@ class Schmedis {
         
             for(int i=1;i<=7;i++){
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
             for (int j=1;j<=i;j++){int r = startingRow + j; int c = startingColumn + j; if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c);}
-                if (slide.size()==i)slides.add(slide);  
+                if (slide.size()==i+1)slides.add(slide);  
             }
         
             for(int i=1;i<=7;i++){
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
             for (int j=1;j<=i;j++){int r = startingRow + j; int c = startingColumn - j; if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c);}
-                if (slide.size()==i)slides.add(slide);  
+                if (slide.size()==i+1)slides.add(slide);  
             }
         
             for(int i=1;i<=7;i++){
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
             for (int j=1;j<=i;j++){int r = startingRow - j; int c = startingColumn - j; if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c);}
-                if (slide.size()==i)slides.add(slide);  
+                if (slide.size()==i+1)slides.add(slide);  
             }
         
             for(int i=1;i<=7;i++){
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
             for (int j=1;j<=i;j++){int r = startingRow - j; int c = startingColumn + j; if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c);}
-                if (slide.size()==i)slides.add(slide);  
+                if (slide.size()==i+1)slides.add(slide);  
             }
             
         return slides;   
@@ -374,26 +386,30 @@ class Schmedis {
         
             for(int i=1;i<=7;i++){
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
             for (int j=1;j<=i;j++){int r = startingRow - j; int c = startingColumn + 0; if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c);}
-                if (slide.size()==i)slides.add(slide);  
+                if (slide.size()==i+1)slides.add(slide);  
             }
         
             for(int i=1;i<=7;i++){
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
             for (int j=1;j<=i;j++){int r = startingRow + j; int c = startingColumn + 0; if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c);}
-                if (slide.size()==i)slides.add(slide);  
+                if (slide.size()==i+1)slides.add(slide);  
             }
         
             for(int i=1;i<=7;i++){
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
             for (int j=1;j<=i;j++){int r = startingRow + 0; int c = startingColumn - j; if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c);}
-                if (slide.size()==i)slides.add(slide);  
+                if (slide.size()==i+1)slides.add(slide);  
             }
         
             for(int i=1;i<=7;i++){
                 List<Integer> slide = new ArrayList<Integer>();
+                slide.add(start);
             for (int j=1;j<=i;j++){int r = startingRow + 0; int c = startingColumn + j; if (r>=0 && r<8 && c>=0 && c<8) slide.add(r*8+c);}
-                if (slide.size()==i)slides.add(slide);  
+                if (slide.size()==i+1)slides.add(slide);  
             }
             
         return slides;   
@@ -420,5 +436,5 @@ class Schmedis {
 
 ////////
 
-
+    
 }
