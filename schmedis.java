@@ -99,34 +99,34 @@ class Schmedis {
             }
 
         }
-}
+        }
 
 ////////
 
-      public static double minimax(char[] node,int depth,boolean maximizingPlayer) {
-        Double value;
-        if (depth == 0){
-            return estimate(node, maximizingPlayer);
-        }
-        if (nodeIsATerminalNode(node)) {
-            if(somebodyWon(node))
-                return(maximizingPlayer ? ninf:inf);
-            else
-                return(0.0); 
-        }    
-        if (maximizingPlayer) {
-            value = ninf; 
-            for(char[] child : children(node, maximizingPlayer)) 
-                value = Math.max(value, minimax(child, depth - 1, false));
-            return value;
-        } else {
-            value = inf; 
-            for(char[] child : children(node, maximizingPlayer)) 
-                value = Math.min(value, minimax(child, depth - 1, true));
-            return value; 
+        public static double minimax(char[] node,int depth,boolean maximizingPlayer) {
+            Double value;
+            if (depth == 0){
+                return estimate(node, maximizingPlayer);
+            }
+            if (nodeIsATerminalNode(node)) {
+                if(somebodyWon(node))
+                    return(maximizingPlayer ? ninf:inf);
+                else
+                    return(0.0); 
+            }    
+            if (maximizingPlayer) {
+                value = ninf; 
+                for(char[] child : children(node, maximizingPlayer)) 
+                    value = Math.max(value, minimax(child, depth - 1, false));
+                return value;
+            } else {
+                value = inf; 
+                for(char[] child : children(node, maximizingPlayer)) 
+                    value = Math.min(value, minimax(child, depth - 1, true));
+                return value; 
             
+            }
         }
-      }
 
 ////////
 
@@ -180,12 +180,13 @@ class Schmedis {
                 
         }
         return children;
-}
+        }
         public static boolean nodeIsATerminalNode(char[] node) {
             return tie(node) || somebodyWon(node);
-}
+        }
         public static void printBoard(char[] node){
-            for(int i=0;i<3;i++) System.out.println( Character.toString(node[0+3*i]) +  Character.toString(node[1+3*i]            ) + Character.toString(node[2+3*i]));  
+            for(int i=0;i<3;i++) System.out.println( Character.toString(node[0+3*i]) +  Character.toString(node[1+3*i] ) +
+            Character.toString(node[2+3*i]));  
             try{Thread.sleep(50);}catch(InterruptedException e){} 
         }
 
@@ -229,23 +230,23 @@ class Schmedis {
 
 ////////
        
-       public static Double pieceValue(char piece) {
-           double value = 0.0;
-           if(piece == 'C') value=-5.10;
-           if(piece == 'H') value=-3.20;
-           if(piece == 'B') value=-3.33;
-           if(piece == 'Q') value=-8.80;
-           if(piece == 'P') value=-1.0;
-           if(piece == 'K') value=0.0;
-           if(piece == 'c') value=5.10;
-           if(piece == 'h') value=3.20;
-           if(piece == 'b') value=3.33;
-           if(piece == 'q') value=8.80;
-           if(piece == 'p') value=1.0;
-           if(piece == 'k') value=0.0;
-           if(piece == ' ') value=0.0;
-           return value;
-       }
+        public static Double pieceValue(char piece) {
+            double value = 0.0;
+            if(piece == 'C') value=-5.10;
+            if(piece == 'H') value=-3.20;
+            if(piece == 'B') value=-3.33;
+            if(piece == 'Q') value=-8.80;
+            if(piece == 'P') value=-1.0;
+            if(piece == 'K') value=0.0;
+            if(piece == 'c') value=5.10;
+            if(piece == 'h') value=3.20;
+            if(piece == 'b') value=3.33;
+            if(piece == 'q') value=8.80;
+            if(piece == 'p') value=1.0;
+            if(piece == 'k') value=0.0;
+            if(piece == ' ') value=0.0;
+            return value;
+        }
 
 ////////
 
@@ -379,32 +380,36 @@ class Schmedis {
 
 ////////
   
-    public static List<char[]>pawnBoards(int start, char[] board){
-        List<char[]> boards = new ArrayList<char[]>();
-        int startingRow = start/8;
-        int startingColumn = start%8;
-        pP = board[start]; 
-        int direction = pP=='p'? -1 : 1;
+        public static List<char[]>pawnBoards(int start, char[] board, char[] olderBoard){
+            List<char[]> boards = new ArrayList<char[]>();
+            int startingRow = start/8;
+            int startingColumn = start%8;
+            pP = board[start]; 
+            int direction = pP=='p'? -1 : 1;
         
-        boolean penultimate = startingRow+direction==0||startingRow+direction==7;
-        int oneSquareAhead = (startingRow+direction)*8+startingColumn;
-        int twoSquaresAhead = (startingRow+direction*2)*8+startingColumn;
-        boolean squareAheadIsEmpty = board[oneSquareAhead] == ' ';
-        boolean 2SquaresAheadIsEmpty = board[twoSquaresAhead] == ' ';
-        boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP = 'P' && startingRow==1;: 
+            boolean penultimate = startingRow+direction==0||startingRow+direction==7;
+            int oneSquareAhead = (startingRow+direction)*8+startingColumn;
+            int twoSquaresAhead = (startingRow+direction*2)*8+startingColumn;
+            boolean squareAheadIsEmpty = board[oneSquareAhead] == ' ';
+            boolean twoSquaresAheadIsEmpty = board[twoSquaresAhead] == ' ';
+            boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP = 'P' && startingRow==1;: 
 //HANDLE TWO SQUARE PAWN PUSH        
-        if pawnAtOriginalPosition&&squareAheadIsEmpty&&2SquaresAheadIsEmpty{
+        if (pawnAtOriginalPosition&&squareAheadIsEmpty&&2SquaresAheadIsEmpty){
             char[] modifiedBoard = board.clone(); 
             modifiedBoard[start] = ' ';
             modifiedBoard[oneSquareAhead] = pP;
             boards.add(modifiedBoard);
+
         }
 //HANDLE ONE SQUARE PAWN PUSH       
-        if squareAheadIsEmpty{
-            if penultimate{
+        if (squareAheadIsEmpty){
+            if (penultimate){
                 char[] promotions = pP=='p' ? {'c', 'h', 'b', 'q'} : {'C', 'H', 'B', 'Q'};
                 for(int i=0;i<promotions.length;i++){
                     char[] modifiedBoard = Board.clone();
+                    modifiedBoard[start] = ' ';
+                    modifiedBoard[oneSquareAhead] = promotions[i];
+                    boards.add(modifiedBoard);
                 }                  
             }else{
                 char[] modifiedBoard = board.clone(); 
@@ -413,7 +418,16 @@ class Schmedis {
                 boards.add(modifiedBoard);
                 
             }
+        
+            int leftRight=-1;
+            int targetR=startingRow+direction;
+            int targetC=startingColumn+leftRight;
+            if (targetC >= 0) && (targetC <= 7){
+                int target = targetR*8+targetC;
+
+            }
         }
+        
         return boards;
         }
 
@@ -472,7 +486,7 @@ class Schmedis {
             slideList.addAll(horizontalSlides);
              
             return slideList;
-       }    
+        }    
 
 ////////
 
