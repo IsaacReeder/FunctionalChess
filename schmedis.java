@@ -378,7 +378,47 @@ class Schmedis {
         }
 
 ////////
+  
+    public static List<char[]>pawnBoards(int start, char[] board){
+        List<char[]> boards = new ArrayList<char[]>();
+        int startingRow = start/8;
+        int startingColumn = start%8;
+        pP = board[start]; 
+        int direction = pP=='p'? -1 : 1;
+        
+        boolean penultimate = startingRow+direction==0||startingRow+direction==7;
+        int oneSquareAhead = (startingRow+direction)*8+startingColumn;
+        int twoSquaresAhead = (startingRow+direction*2)*8+startingColumn;
+        boolean squareAheadIsEmpty = board[oneSquareAhead] == ' ';
+        boolean 2SquaresAheadIsEmpty = board[twoSquaresAhead] == ' ';
+        boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP = 'P' && startingRow==1;: 
+//HANDLE TWO SQUARE PAWN PUSH        
+        if pawnAtOriginalPosition&&squareAheadIsEmpty&&2SquaresAheadIsEmpty{
+            char[] modifiedBoard = board.clone(); 
+            modifiedBoard[start] = ' ';
+            modifiedBoard[oneSquareAhead] = pP;
+            boards.add(modifiedBoard);
+        }
+//HANDLE ONE SQUARE PAWN PUSH       
+        if squareAheadIsEmpty{
+            if penultimate{
+                char[] promotions = pP=='p' ? {'c', 'h', 'b', 'q'} : {'C', 'H', 'B', 'Q'};
+                for(int i=0;i<promotions.length;i++){
+                    char[] modifiedBoard = Board.clone();
+                }                  
+            }else{
+                char[] modifiedBoard = board.clone(); 
+                modifiedBoard[start] = ' ';
+                modifiedBoard[oneSquareAhead] = pP;
+                boards.add(modifiedBoard);
+                
+            }
+        }
+        return boards;
+        }
 
+////////
+ 
         public static List<List<Integer>>rookSlides(int start){
             List<List<Integer>> slides = new ArrayList<List<Integer>>();
             int startingRow = start/8;
