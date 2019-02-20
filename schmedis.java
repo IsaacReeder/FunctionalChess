@@ -418,18 +418,18 @@ class Schmedis {
                     boards.add(modifiedBoard);
                 
                 }
-        
-                int leftRight=-1;
-                int targetR=startingRow+direction;
-                int targetC=startingColumn+leftRight;
-                if (targetC >= 0) && (targetC <= 7){
-                    int target = targetR*8+targetC;
-
-                }
+                
             }
         
             return boards;
         }
+//                int leftRight=-1;
+//                int targetR=startingRow+direction;
+//                int targetC=startingColumn+leftRight;
+//                if (targetC >= 0) && (targetC <= 7){
+//                    int target = targetR*8+targetC;
+//
+//                }
 
 ////////
  
