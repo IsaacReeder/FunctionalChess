@@ -394,41 +394,41 @@ class Schmedis {
             boolean twoSquaresAheadIsEmpty = board[twoSquaresAhead] == ' ';
             boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP = 'P' && startingRow==1;: 
 //HANDLE TWO SQUARE PAWN PUSH        
-        if (pawnAtOriginalPosition&&squareAheadIsEmpty&&2SquaresAheadIsEmpty){
-            char[] modifiedBoard = board.clone(); 
-            modifiedBoard[start] = ' ';
-            modifiedBoard[oneSquareAhead] = pP;
-            boards.add(modifiedBoard);
-
-        }
-//HANDLE ONE SQUARE PAWN PUSH       
-        if (squareAheadIsEmpty){
-            if (penultimate){
-                char[] promotions = pP=='p' ? {'c', 'h', 'b', 'q'} : {'C', 'H', 'B', 'Q'};
-                for(int i=0;i<promotions.length;i++){
-                    char[] modifiedBoard = Board.clone();
-                    modifiedBoard[start] = ' ';
-                    modifiedBoard[oneSquareAhead] = promotions[i];
-                    boards.add(modifiedBoard);
-                }                  
-            }else{
+            if (pawnAtOriginalPosition&&squareAheadIsEmpty&&2SquaresAheadIsEmpty){
                 char[] modifiedBoard = board.clone(); 
                 modifiedBoard[start] = ' ';
                 modifiedBoard[oneSquareAhead] = pP;
                 boards.add(modifiedBoard);
-                
-            }
-        
-            int leftRight=-1;
-            int targetR=startingRow+direction;
-            int targetC=startingColumn+leftRight;
-            if (targetC >= 0) && (targetC <= 7){
-                int target = targetR*8+targetC;
 
             }
-        }
+//HANDLE ONE SQUARE PAWN PUSH       
+            if (squareAheadIsEmpty){
+                if (penultimate){
+                    char[] promotions = pP=='p' ? {'c', 'h', 'b', 'q'} : {'C', 'H', 'B', 'Q'};
+                    for(int i=0;i<promotions.length;i++){
+                        char[] modifiedBoard = Board.clone();
+                        modifiedBoard[start] = ' ';
+                        modifiedBoard[oneSquareAhead] = promotions[i];
+                        boards.add(modifiedBoard);
+                    }                     
+                }else{
+                    char[] modifiedBoard = board.clone(); 
+                    modifiedBoard[start] = ' ';
+                    modifiedBoard[oneSquareAhead] = pP;
+                    boards.add(modifiedBoard);
+                
+                }
         
-        return boards;
+                int leftRight=-1;
+                int targetR=startingRow+direction;
+                int targetC=startingColumn+leftRight;
+                if (targetC >= 0) && (targetC <= 7){
+                    int target = targetR*8+targetC;
+
+                }
+            }
+        
+            return boards;
         }
 
 ////////
