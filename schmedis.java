@@ -392,9 +392,9 @@ class Schmedis {
             int twoSquaresAhead = (startingRow+direction*2)*8+startingColumn;
             boolean squareAheadIsEmpty = board[oneSquareAhead] == ' ';
             boolean twoSquaresAheadIsEmpty = board[twoSquaresAhead] == ' ';
-            boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP = 'P' && startingRow==1;: 
+            boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP = 'P' && startingRow==1;
 //HANDLE TWO SQUARE PAWN PUSH        
-            if (pawnAtOriginalPosition&&squareAheadIsEmpty&&2SquaresAheadIsEmpty){
+            if (pawnAtOriginalPosition&&squareAheadIsEmpty&&twoSquaresAheadIsEmpty){
                 char[] modifiedBoard = board.clone(); 
                 modifiedBoard[start] = ' ';
                 modifiedBoard[oneSquareAhead] = pP;
@@ -404,7 +404,9 @@ class Schmedis {
 //HANDLE ONE SQUARE PAWN PUSH       
             if (squareAheadIsEmpty){
                 if (penultimate){
-                    char[] promotions = pP=='p' ? {'c', 'h', 'b', 'q'} : {'C', 'H', 'B', 'Q'};
+                    char[] whitePromotions = {'c', 'h', 'b', 'q'};
+                    char[] blackPromotions = {'C', 'H', 'B', 'Q'};
+                    char[] promotions = pP=='p' ? whitePromotions : blackPromotions;
                     for(int i=0;i<promotions.length;i++){
                         char[] modifiedBoard = Board.clone();
                         modifiedBoard[start] = ' ';
