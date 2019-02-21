@@ -393,6 +393,10 @@ class Schmedis {
             boolean squareAheadIsEmpty = board[oneSquareAhead] == ' ';
             boolean twoSquaresAheadIsEmpty = board[twoSquaresAhead] == ' ';
             boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP == 'P' && startingRow==1;
+            char[] whitePromotions = {'c', 'h', 'b', 'q'};
+            char[] blackPromotions = {'C', 'H', 'B', 'Q'};
+            char[] promotions = pP=='p' ? whitePromotions : blackPromotions;
+
 //HANDLE TWO SQUARE PAWN PUSH        
             if (pawnAtOriginalPosition&&squareAheadIsEmpty&&twoSquaresAheadIsEmpty){
                 char[] modifiedBoard = board.clone(); 
@@ -402,11 +406,9 @@ class Schmedis {
 
             }
 //HANDLE ONE SQUARE PAWN PUSH       
+            
             if (squareAheadIsEmpty){
                 if (penultimate){
-                    char[] whitePromotions = {'c', 'h', 'b', 'q'};
-                    char[] blackPromotions = {'C', 'H', 'B', 'Q'};
-                    char[] promotions = pP=='p' ? whitePromotions : blackPromotions;
                     for(int i=0;i<promotions.length;i++){
                         char[] modifiedBoard = board.clone();
                         modifiedBoard[start] = ' ';
@@ -422,33 +424,34 @@ class Schmedis {
                 }
                 
             }
-//PAWN PWNS DIAGNOLLY
-           
-            {
-                int eastWest = -1
+//PAWN MOVES DIAGONALLY
+            for(int eastWest = -1;eastWest<=1;eastWest+=2) {
                 int targetR = startingRow+direction;
                 int targetC = startingColumn+eastWest;
-                if (targetC >= 0) && (targetC <= 7){
+                if (targetC >= 0 && targetC <= 7){
                     int target = targetR*8+targetC;
                     char targetThing = board[target];
-                    if targetThing != ' ' && (Character.isUpperCase(targetThing)!=Character.isUpperCase(pP))){
-                        char modifiedBoard = board.clone();
-                        modifiedBoard[start] = ' ';
-                        modifiedBoard[target] = pP;
-                        boards.add(modifiedBoard);    
+                    if (targetThing != ' ' && Character.isUpperCase(targetThing)!=Character.isUpperCase(pP)){
+                        if (penultimate){
+                            for(int i=0;i<promotions.length;i++){
+                                char[] modifiedBoard = board.clone();
+                                modifiedBoard[start] = ' ';
+                                modifiedBoard[target] = promotions[i];
+                                boards.add(modifiedBoard);
+                            }                     
+                        }else{
+                            char[] modifiedBoard = board.clone();
+                            modifiedBoard[start] = ' ';
+                            modifiedBoard[target] = pP;
+                            boards.add(modifiedBoard);
+                        }
+    
                     }
                 }
             }
         
             return boards;
         }
-//                int leftRight=-1;
-//                int targetR=startingRow+direction;
-//                int targetC=startingColumn+leftRight;
-//                if (targetC >= 0) && (targetC <= 7){
-//                    int target = targetR*8+targetC;
-//
-//                }
 
 ////////
  
