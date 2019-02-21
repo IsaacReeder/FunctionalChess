@@ -380,7 +380,8 @@ class Schmedis {
 
 ////////
   
-        public static List<char[]>pawnBoards(int start, char[] board, char[] olderBoard){
+        public static List<char[]>pawnBoards(int start, List<char[]> history){
+            char[] board = history.get(history.size()-1);
             List<char[]> boards = new ArrayList<char[]>();
             int startingRow = start/8;
             int startingColumn = start%8;
@@ -449,7 +450,22 @@ class Schmedis {
                     }
                 }
             }
-        
+
+            for(int eastWest = -1;eastWest<=1;eastWest+=2) 
+            {
+                int gaurdRow = pP == 'p' ? 3 : 4;
+                int enemyPawnOriginRow = gaurdRow + direction*2; 
+                int enemyPawnColumn = startingColumn + eastWest;
+                boolean pawnIsOnGaurdRow = startingRow == gaurdRow; 
+                if(pawnIsOnGuardRow && history.size() >= 2 && enemyPawnColumn >= 0 && enemyPawnColumn <= 7){
+                    sneakyBastardStart = enemyPawnOriginRow*8+enemyPawnColumn; 
+                    sneakyBastardEnd = gaurdRow*8+enemyPawnColumn; 
+                    char previousBoard = history.get(history.size()-2);
+                    char enemyPawn = pP == 'p' ? P : p;
+                    if(
+                }
+            }
+
             return boards;
         }
 
