@@ -384,7 +384,7 @@ class Schmedis {
             List<char[]> boards = new ArrayList<char[]>();
             int startingRow = start/8;
             int startingColumn = start%8;
-            pP = board[start]; 
+            char pP = board[start]; 
             int direction = pP=='p'? -1 : 1;
         
             boolean penultimate = startingRow+direction==0||startingRow+direction==7;
@@ -392,7 +392,7 @@ class Schmedis {
             int twoSquaresAhead = (startingRow+direction*2)*8+startingColumn;
             boolean squareAheadIsEmpty = board[oneSquareAhead] == ' ';
             boolean twoSquaresAheadIsEmpty = board[twoSquaresAhead] == ' ';
-            boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP = 'P' && startingRow==1;
+            boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP == 'P' && startingRow==1;
 //HANDLE TWO SQUARE PAWN PUSH        
             if (pawnAtOriginalPosition&&squareAheadIsEmpty&&twoSquaresAheadIsEmpty){
                 char[] modifiedBoard = board.clone(); 
@@ -408,7 +408,7 @@ class Schmedis {
                     char[] blackPromotions = {'C', 'H', 'B', 'Q'};
                     char[] promotions = pP=='p' ? whitePromotions : blackPromotions;
                     for(int i=0;i<promotions.length;i++){
-                        char[] modifiedBoard = Board.clone();
+                        char[] modifiedBoard = board.clone();
                         modifiedBoard[start] = ' ';
                         modifiedBoard[oneSquareAhead] = promotions[i];
                         boards.add(modifiedBoard);
@@ -421,6 +421,23 @@ class Schmedis {
                 
                 }
                 
+            }
+//PAWN PWNS DIAGNOLLY
+           
+            {
+                int eastWest = -1
+                int targetR = startingRow+direction;
+                int targetC = startingColumn+eastWest;
+                if (targetC >= 0) && (targetC <= 7){
+                    int target = targetR*8+targetC;
+                    char targetThing = board[target];
+                    if targetThing != ' ' && (Character.isUpperCase(targetThing)!=Character.isUpperCase(pP))){
+                        char modifiedBoard = board.clone();
+                        modifiedBoard[start] = ' ';
+                        modifiedBoard[target] = pP;
+                        boards.add(modifiedBoard);    
+                    }
+                }
             }
         
             return boards;
