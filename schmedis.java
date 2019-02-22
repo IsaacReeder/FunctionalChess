@@ -456,12 +456,12 @@ class Schmedis {
                 int gaurdRow = pP == 'p' ? 3 : 4;
                 int enemyPawnOriginRow = gaurdRow + direction*2; 
                 int enemyPawnColumn = startingColumn + eastWest;
-                boolean pawnIsOnGaurdRow = startingRow == gaurdRow; 
+                boolean pawnIsOnGuardRow = startingRow == gaurdRow; 
                 if(pawnIsOnGuardRow && history.size() >= 2 && enemyPawnColumn >= 0 && enemyPawnColumn <= 7){
-                    sneakyBastardStart = enemyPawnOriginRow*8+enemyPawnColumn; 
-                    sneakyBastardEnd = gaurdRow*8+enemyPawnColumn; 
+                    int sneakyBastardStart = enemyPawnOriginRow*8+enemyPawnColumn; 
+                    int sneakyBastardEnd = gaurdRow*8+enemyPawnColumn; 
                     char[] previousBoard = history.get(history.size()-2);
-                    char enemyPawn = pP == 'p' ? P : p;
+                    char enemyPawn = pP == 'p' ? 'P' : 'p';
                     boolean enemyPawnWasAtSneakyBastardStart = previousBoard[sneakyBastardStart]==enemyPawn;
                     boolean enemyPawnGoneNowFromSneakyBastardStart = board[sneakyBastardStart]==' ';
                     boolean enemyPawnNowAtSneakyBastardEnd = board[sneakyBastardStart]==enemyPawn;
@@ -470,9 +470,10 @@ class Schmedis {
                           enemyPawnGoneNowFromSneakyBastardStart && 
                               enemyPawnNowAtSneakyBastardEnd && 
                                   enemyPawnWasNotNextToMeBefore){
+                        char[] modifiedBoard = board.clone();
                         modifiedBoard[start] = ' ';
-                        targetRow = startRow+direction;
-                        targetColumn = enemyPawnColumn;
+                        int targetRow = startingRow+direction;
+                        int targetColumn = enemyPawnColumn;
                         int target = targetRow*8+targetColumn;
                         modifiedBoard[target] = pP;
                         modifiedBoard[sneakyBastardEnd] = ' ';                       
