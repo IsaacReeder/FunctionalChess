@@ -453,23 +453,26 @@ class Schmedis {
 
             for(int eastWest = -1;eastWest<=1;eastWest+=2) 
             {
-                int gaurdRow = pP == 'p' ? 3 : 4;
-                int enemyPawnOriginRow = gaurdRow + direction*2; 
+                int guardRow = pP == 'p' ? 3 : 4;
+                int enemyPawnOriginRow = guardRow + direction*2; 
                 int enemyPawnColumn = startingColumn + eastWest;
-                boolean pawnIsOnGuardRow = startingRow == gaurdRow; 
-                if(pawnIsOnGuardRow && history.size() >= 2 && enemyPawnColumn >= 0 && enemyPawnColumn <= 7){
+                boolean previousBoardExists = history.size() >= 2;
+                boolean pawnIsOnGuardRow = startingRow == guardRow; 
+                boolean enemyPawnColumnIsOnTheBoard = enemyPawnColumn >= 0 && enemyPawnColumn <= 7;
+                if(pawnIsOnGuardRow && previousBoardExists && enemyPawnColumnIsOnTheBoard){
                     int sneakyBastardStart = enemyPawnOriginRow*8+enemyPawnColumn; 
-                    int sneakyBastardEnd = gaurdRow*8+enemyPawnColumn; 
+                    int sneakyBastardEnd = guardRow*8+enemyPawnColumn; 
                     char[] previousBoard = history.get(history.size()-2);
                     char enemyPawn = pP == 'p' ? 'P' : 'p';
                     boolean enemyPawnWasAtSneakyBastardStart = previousBoard[sneakyBastardStart]==enemyPawn;
                     boolean enemyPawnGoneNowFromSneakyBastardStart = board[sneakyBastardStart]==' ';
                     boolean enemyPawnNowAtSneakyBastardEnd = board[sneakyBastardStart]==enemyPawn;
-                    boolean enemyPawnWasNotNextToMeBefore = previousBoard[sneakyBastardEnd]==' ';
-                    if(enemyPawnWasAtSneakyBastardStart && 
-                          enemyPawnGoneNowFromSneakyBastardStart && 
-                              enemyPawnNowAtSneakyBastardEnd && 
-                                  enemyPawnWasNotNextToMeBefore){
+                    boolean enemyPawnWasNotAtSneakyBastardEndBefore = previousBoard[sneakyBastardEnd]==' ';
+                    boolean enPassant = enemyPawnWasAtSneakyBastardStart 
+                        && enemyPawnGoneNowFromSneakyBastardStart 
+                            && enemyPawnNowAtSneakyBastardEnd 
+                                && enemyPawnWasNotAtSneakyBastardEndBefore; 
+                    if(enPassant){
                         char[] modifiedBoard = board.clone();
                         modifiedBoard[start] = ' ';
                         int targetRow = startingRow+direction;
