@@ -462,10 +462,14 @@ class Schmedis {
                     sneakyBastardEnd = gaurdRow*8+enemyPawnColumn; 
                     char[] previousBoard = history.get(history.size()-2);
                     char enemyPawn = pP == 'p' ? P : p;
-                    if(boolean enemyPawnWasAtSneakyBastardStart = previousBoard[sneakyBastardStart]==enemyPawn &&
-                    boolean enemyPawnGoneNowFromSneakyBastardStart = board[sneakyBastardStart]==' ' &&
-                    boolean enemyPawnNowAtSneakyBastardEnd = board[sneakyBastardStart]==enemyPawn &&
-                    boolean enemyPawnWasNotNextToMeBefore = previousBoard[sneakyBastardEnd]==' '){
+                    boolean enemyPawnWasAtSneakyBastardStart = previousBoard[sneakyBastardStart]==enemyPawn;
+                    boolean enemyPawnGoneNowFromSneakyBastardStart = board[sneakyBastardStart]==' ';
+                    boolean enemyPawnNowAtSneakyBastardEnd = board[sneakyBastardStart]==enemyPawn;
+                    boolean enemyPawnWasNotNextToMeBefore = previousBoard[sneakyBastardEnd]==' ';
+                    if(enemyPawnWasAtSneakyBastardStart && 
+                          enemyPawnGoneNowFromSneakyBastardStart && 
+                              enemyPawnNowAtSneakyBastardEnd && 
+                                  enemyPawnWasNotNextToMeBefore){
                         modifiedBoard[start] = ' ';
                         targetRow = startRow+direction;
                         targetColumn = enemyPawnColumn;
@@ -473,7 +477,7 @@ class Schmedis {
                         modifiedBoard[target] = pP;
                         modifiedBoard[sneakyBastardEnd] = ' ';                       
                         boards.add(modifiedBoard);
-                    }
+                   }
                 }
             }
 
