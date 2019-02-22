@@ -9,17 +9,46 @@ class Schmedis {
     static final double inf = Double.POSITIVE_INFINITY;
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 //        for(int i=0;i<64;i++)System.out.println(queenSlides(i));
         System.out.println("*************************************************************");
         System.out.println("*************************************************************");
-        for(int i=0;i<64;i++)System.out.println(rookSlides(i));
+//        for(int i=0;i<64;i++)System.out.println(rookSlides(i));
         System.out.println("**************************************************************");
         System.out.println("*************************************************************");
-        for(int i=0;i<64;i++)System.out.println(bishopSlides(i));
+//        for(int i=0;i<64;i++)System.out.println(bishopSlides(i));
         System.out.println("*************************************************************");
         System.out.println("*************************************************************");
-        for(int i=0;i<64;i++)System.out.println(horseSlides(i));
+//        for(int i=0;i<64;i++)System.out.println(horseSlides(i));
+//below is the test for en passant      
+        List<char[]> history = new ArrayList<>();     
+        char [] previousChessBoard = {
+                    'C',' ','B','Q','K','B','H','C',
+                    'P','P','P','P','P','P','P','P',
+                    ' ',' ','H',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ','p',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    'p','p','p','p',' ','p','p','p',
+                    'c','h','b','q','k','b','h','c'
+                    };
+        char [] currentChessBoard = {
+                    'C',' ','B','Q','K','B','H','C',
+                    'P','P','P',' ','P','P','P','P',
+                    ' ',' ','H',' ',' ',' ',' ',' ',
+                    ' ',' ',' ','P','p',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    'p','p','p','p',' ','p','p','p',
+                    'c','h','b','q','k','b','h','c'
+                    };
+        history.add(previousChessBoard);
+        history.add(currentChessBoard);
+        List <char[]> resultList = pawnBoards (3*8+4, history);
+        for(char[] cb : resultList) 
+        {
+            printChessBoard(cb);
+        }
         Integer[] way = {0, 4, 8};
         List<Integer>w = Arrays.asList(way);
         w.forEach(System.out::println);
@@ -380,7 +409,7 @@ class Schmedis {
 
 ////////
   
-        public static List<char[]>pawnBoards(int start, List<char[]> history){
+        public static List<char[]> pawnBoards (int start, List<char[]> history){
             char[] board = history.get(history.size()-1);
             List<char[]> boards = new ArrayList<char[]>();
             int startingRow = start/8;
@@ -451,6 +480,8 @@ class Schmedis {
                 }
             }
 
+//////// EN PASSANT BELOW
+
             for(int eastWest = -1;eastWest<=1;eastWest+=2) 
             {
                 int guardRow = pP == 'p' ? 3 : 4;
@@ -466,18 +497,18 @@ class Schmedis {
                     char enemyPawn = pP == 'p' ? 'P' : 'p';
                     boolean enemyPawnWasAtSneakyBastardStart = previousBoard[sneakyBastardStart]==enemyPawn;
                     boolean enemyPawnGoneNowFromSneakyBastardStart = board[sneakyBastardStart]==' ';
-                    boolean enemyPawnNowAtSneakyBastardEnd = board[sneakyBastardStart]==enemyPawn;
+                    boolean enemyPawnNowAtSneakyBastardEnd = board[sneakyBastardEnd]==enemyPawn;
                     boolean enemyPawnWasNotAtSneakyBastardEndBefore = previousBoard[sneakyBastardEnd]==' ';
                     boolean enPassant = enemyPawnWasAtSneakyBastardStart 
                         && enemyPawnGoneNowFromSneakyBastardStart 
-                            && enemyPawnNowAtSneakyBastardEnd 
-                                && enemyPawnWasNotAtSneakyBastardEndBefore; 
+                        && enemyPawnNowAtSneakyBastardEnd 
+                        && enemyPawnWasNotAtSneakyBastardEndBefore; 
                     if(enPassant){
-                        char[] modifiedBoard = board.clone();
-                        modifiedBoard[start] = ' ';
                         int targetRow = startingRow+direction;
                         int targetColumn = enemyPawnColumn;
                         int target = targetRow*8+targetColumn;
+                        char[] modifiedBoard = board.clone();
+                        modifiedBoard[start] = ' ';
                         modifiedBoard[target] = pP;
                         modifiedBoard[sneakyBastardEnd] = ' ';                       
                         boards.add(modifiedBoard);
@@ -547,5 +578,14 @@ class Schmedis {
 
 ////////
 
-    
+        public static void printChessBoard(char[] node){
+            for(int r=0;r<8;r++) {
+                for(int c=0;c<8;c++){
+                    System.out.print(Character.toString(node[r*8+c]));
+                } 
+                System.out.println();
+            }
+            try{Thread.sleep(50);}catch(InterruptedException e){} 
+        }
+        
 }
