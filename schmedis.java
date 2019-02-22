@@ -460,9 +460,20 @@ class Schmedis {
                 if(pawnIsOnGuardRow && history.size() >= 2 && enemyPawnColumn >= 0 && enemyPawnColumn <= 7){
                     sneakyBastardStart = enemyPawnOriginRow*8+enemyPawnColumn; 
                     sneakyBastardEnd = gaurdRow*8+enemyPawnColumn; 
-                    char previousBoard = history.get(history.size()-2);
+                    char[] previousBoard = history.get(history.size()-2);
                     char enemyPawn = pP == 'p' ? P : p;
-                    if(
+                    if(boolean enemyPawnWasAtSneakyBastardStart = previousBoard[sneakyBastardStart]==enemyPawn &&
+                    boolean enemyPawnGoneNowFromSneakyBastardStart = board[sneakyBastardStart]==' ' &&
+                    boolean enemyPawnNowAtSneakyBastardEnd = board[sneakyBastardStart]==enemyPawn &&
+                    boolean enemyPawnWasNotNextToMeBefore = previousBoard[sneakyBastardEnd]==' '){
+                        modifiedBoard[start] = ' ';
+                        targetRow = startRow+direction;
+                        targetColumn = enemyPawnColumn;
+                        int target = targetRow*8+targetColumn;
+                        modifiedBoard[target] = pP;
+                        modifiedBoard[sneakyBastardEnd] = ' ';                       
+                        boards.add(modifiedBoard);
+                    }
                 }
             }
 
