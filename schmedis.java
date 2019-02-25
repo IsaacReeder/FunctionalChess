@@ -441,16 +441,17 @@ class Schmedis {
                     boolean onBoard = row>=0 && row<=7 && column>=0 && column<=7;
                     boolean noMove = r==0 && c==0;
                     boolean realMove = !noMove;
-                    char targetThing = board(target);
-                    char startThing = board(start);
-                    boolean colorOfTarget = Character.isUpperCase(targetThing);
-                    boolean colorOfStart = Character.isUpperCase(startThing);
-                    boolean enemyAtTarget = colorOfTArget != colorOfStart;;
-                    boolean targetIsEmpty = targetThing != ' ';
-                    boolean enemyAtTarget = colorOfTarget != colorOfStart;
                     if(onBoard&&realMove){
                         int target = row*8+column;
-                        kingMoves.add(target);
+                        char targetThing = board(target);
+                        char startThing = board(start);
+                        boolean colorOfTarget = Character.isUpperCase(targetThing);
+                        boolean colorOfStart = Character.isUpperCase(startThing);
+                        boolean targetIsEmpty = targetThing != ' ';
+                        boolean enemyAtTarget = colorOfTarget != colorOfStart;
+                        if(targetIsEmpty||enemyAtTarget){
+                            kingMoves.add(target);
+                        }
                     } 
                 }
             }
