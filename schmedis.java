@@ -445,6 +445,9 @@ class Schmedis {
                     char startThing = board(start);
                     boolean colorOfTarget = Character.isUpperCase(targetThing);
                     boolean colorOfStart = Character.isUpperCase(startThing);
+                    boolean enemyAtTarget = colorOfTArget != colorOfStart;;
+                    boolean targetIsEmpty = targetThing != ' ';
+                    boolean enemyAtTarget = colorOfTarget != colorOfStart;
                     if(onBoard&&realMove){
                         int target = row*8+column;
                         kingMoves.add(target);
