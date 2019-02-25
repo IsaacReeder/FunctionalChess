@@ -10,6 +10,18 @@ class Schmedis {
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
     public static void main(String[] args) {
+        Set<int> test1 = new HashSet<Integer>();
+        test1.add(1);
+        test1.add(2);
+        test1.add(3);
+ 
+        Set<int> test2 = new HashSet<Integer>();
+        test1.add(1);
+        test1.add(2);
+        test1.add(3);
+        test1.add(4);
+        test1.add(5);
+
 //        for(int i=0;i<64;i++)System.out.println(queenSlides(i));
         System.out.println("*************************************************************");
         System.out.println("*************************************************************");
