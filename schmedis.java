@@ -10,17 +10,24 @@ class Schmedis {
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
     public static void main(String[] args) {
-        Set<int> test1 = new HashSet<Integer>();
-        test1.add(1);
-        test1.add(2);
-        test1.add(3);
- 
-        Set<int> test2 = new HashSet<Integer>();
-        test1.add(1);
-        test1.add(2);
-        test1.add(3);
-        test1.add(4);
-        test1.add(5);
+          Set<Integer> test1 = new HashSet<Integer>();
+          test1.add(0);
+          test1.add(1);
+          test1.add(2);
+          test1.add(8);
+          test1.add(10);
+          test1.add(16);
+          test1.add(17);
+          test1.add(18);
+   
+          Set<Integer> test2 = new HashSet<Integer>();
+          test2.add(1);
+          test2.add(2);
+          test2.add(3);
+          test2.add(4);
+          test2.add(5);
+
+          System.out.println(differenceJava8(test1, test2));
 
 //        for(int i=0;i<64;i++)System.out.println(queenSlides(i));
         System.out.println("*************************************************************");
@@ -420,6 +427,29 @@ class Schmedis {
         }
 
 ////////
+
+        public static List<char[]> kingBoards (int start, List<char[]> history) {
+            Set<Integer> kingMoves = new HashSet<Integer>();
+            char[] board = history.get(history.size()-1);
+            List<char[]> boards = new ArrayList<char[]>();
+            int startingRow = start/8;
+            int startingColumn = start%8;
+            for(int r=-1;r<=1;r++){
+                for(int c=-1;c<=1;c++){
+                    int row = startingRow+r;
+                    int column = startingColumn+c;
+                    boolean onBoard = row>=0 && row<=7 && column>=0 && column<=7;
+                    boolean noMove = r==0 && c==0;
+                    boolean realMove = !noMove;
+                    if(onBoard&&realMove){
+                        kingMoves.add();
+                    } 
+                }
+            }
+
+        }
+
+////////
   
         public static List<char[]> pawnBoards (int start, List<char[]> history){
             char[] board = history.get(history.size()-1);
@@ -598,6 +628,14 @@ class Schmedis {
                 System.out.println();
             }
             try{Thread.sleep(50);}catch(InterruptedException e){} 
+        }
+
+////////
+
+        public static <T> Set<T> differenceJava8(final Set<T> setOne, final Set<T> setTwo) {
+             Set<T> result = new HashSet<T>(setOne);
+             result.removeIf(setTwo::contains);
+             return result;
         }
         
 }
