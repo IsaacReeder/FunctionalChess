@@ -441,12 +441,18 @@ class Schmedis {
                     boolean onBoard = row>=0 && row<=7 && column>=0 && column<=7;
                     boolean noMove = r==0 && c==0;
                     boolean realMove = !noMove;
+                    char targetThing = board(target);
+                    char startThing = board(start);
+                    boolean colorOfTarget = Character.isUpperCase(targetThing);
+                    boolean colorOfStart = Character.isUpperCase(startThing);
                     if(onBoard&&realMove){
-                        kingMoves.add();
+                        int target = row*8+column;
+                        kingMoves.add(target);
                     } 
                 }
             }
 
+        return kingMoves;
         }
 
 ////////
