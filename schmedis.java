@@ -502,6 +502,25 @@ class Schmedis {
 
 ////////
 
+        public static Set<Integer>kingHalo(int start, char[] board) {
+            int startingRow = start/8;
+            int startingColumn = start%8;
+            char pP = board[start]; 
+            int direction = pP=='p'? -1 : 1;
+            Set<Integer> halo = new HashSet<Integer>();
+            for(int eastWest = -1;eastWest<=1;eastWest+=2) {
+                int targetR = startingRow+direction;
+                int targetC = startingColumn+eastWest;
+                if (targetC >= 0 && targetC <= 7){
+                    int target = targetR*8+targetC;
+                    halo.add(target);
+                }
+            }
+        return halo;
+        }
+
+////////
+
         public static List<char[]> pawnBoards (int start, List<char[]> history){
             char[] board = history.get(history.size()-1);
             List<char[]> boards = new ArrayList<char[]>();
