@@ -6,10 +6,41 @@ import java.util.Arrays;
 import org.apache.commons.lang3.ArrayUtils;
 
 class Schmedis {
+    public interface ILambda<R,P> {
+        public R slides(P param);
+    } 
+
+    public static class Bishop implements ILambda <List<List<Integer>>,Integer> {
+        public List<List<Integer>> slides(Integer start) { return Schmedis.bishopSlides(start); }
+    }
+    public static class Rook implements ILambda <List<List<Integer>>,Integer> {
+        public List<List<Integer>> slides(Integer start) { return Schmedis.rookSlides(start); }
+    }
+    public static class Horse implements ILambda <List<List<Integer>>,Integer> {
+        public List<List<Integer>> slides(Integer start) { return Schmedis.horseSlides(start); }
+    }
+    public static class Queen implements ILambda <List<List<Integer>>,Integer> {
+        public List<List<Integer>> slides(Integer start) { return Schmedis.queenSlides(start); }
+    }
+    
     static final double inf = Double.POSITIVE_INFINITY;
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
     public static void main(String[] args) {
+        char [] haloBoard = {
+                    'C',' ','B','Q','K','B','H','C',
+                    'P','P','P','P','P','P','P','P',
+                    ' ',' ','H',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ','p',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    'c',' ',' ','q',' ',' ',' ',' ',
+                    'p','p','p','p',' ','p','p','p',
+                    ' ','h','b',' ','k','b','h','c'
+                    };
+          System.out.println( "Bishop Halo" + genericHalo( 61, haloBoard, new Bishop() ));
+          System.out.println( "Rook Halo" +  genericHalo( 40, haloBoard, new Rook() ));
+          System.out.println( "Horse Halo" + genericHalo( 18, haloBoard, new Horse() ));
+          System.out.println( "Queen Halo" + genericHalo( 43, haloBoard, new Queen() ));
           Set<Integer> test1 = new HashSet<Integer>();
           test1.add(0);
           test1.add(1);
@@ -455,30 +486,35 @@ class Schmedis {
                     } 
                 }
             }
-        return null;
+            return null;
         }
 
 ////////
 
-        public static Set<Integer>bishopHalo(int start, char[]board) {
+        public static Set<Integer>genericHalo(int start, char[] board, ILambda <List<List<Integer>>,Integer> f ) {
             int startingRow = start/8;
             int startingColumn = start%8;
             Set<Integer> halo = new HashSet<Integer>();
-            List<List<Integer>>slides = bishopSlides(start);
+            List<List<Integer>>slides = f.slides(start);
             for( List<Integer>slide : slides )
             {
+                System.out.println(slide);
                 int indexOfFirstElement = 0;
                 int indexOfLastElement = slide.size()-1;
                 boolean somethingInTheWay = false;
                 for(int i = indexOfFirstElement+1; i<indexOfLastElement; i++)
                 {
-                    if (board[i] != ' ') {
+                    int position = slide.get(i);
+                    if (board[position] != ' ') {
                         somethingInTheWay = true;
                     }
                 }
-                if(!somethingInTheWay) halo.add(slide.get(indexOfLastElement));
+                if(!somethingInTheWay)
+                {
+                    halo.add(slide.get(indexOfLastElement));
+                }
             }
-        return halo; 
+            return halo; 
         }
 
 ////////
@@ -497,7 +533,7 @@ class Schmedis {
                     halo.add(target);
                 }
             }
-        return halo;
+            return halo;
         }
 
 ////////
@@ -516,7 +552,7 @@ class Schmedis {
                     halo.add(target);
                 }
             }
-        return halo;
+            return halo;
         }
 
 ////////
