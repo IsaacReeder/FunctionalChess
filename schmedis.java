@@ -465,15 +465,18 @@ class Schmedis {
             int startingColumn = start%8;
             Set<Integer> halo = new HashSet<Integer>();
             List<List<Integer>>slides = bishopSlides(start);
-            for( List<Integer>slide : slides );
-            for(eastWest = -1;eastWest<=1;eastWest+=2) {
-                int targetR = startingRow+direction;
-                int targetC = startingColumn+eastWest;
-                if (targetC >= 0 && targetC <= 7) {
-                    int target = targetR*8+targetC;
-                    halo.add(target);
+            for( List<Integer>slide : slides )
+            {
+                int indexOfFirstElement = 0;
+                int indexOfLastElement = slide.size()-1
+                boolean somethingInTheWay = false;
+                for(indexOfFirstElement+1; i<indexOfLastElement; i++);
+                {
+                    if(board[i] != ' ' somethingInTheWay = true)
                 }
+                if(!somethingInTheWay) halo.add(slide.get(indexOfLastElement));
             }
+        
         }
 
 ////////
