@@ -465,7 +465,8 @@ class Schmedis {
             int startingColumn = start%8;
             Set<Integer> halo = new HashSet<Integer>();
             List<List<Integer>>slides = bishopSlides(start);
-            for(int eastWest = -1;eastWest<=1;eastWest+=2) {
+            for( List<Integer>slide : slides );
+            for(eastWest = -1;eastWest<=1;eastWest+=2) {
                 int targetR = startingRow+direction;
                 int targetC = startingColumn+eastWest;
                 if (targetC >= 0 && targetC <= 7) {
