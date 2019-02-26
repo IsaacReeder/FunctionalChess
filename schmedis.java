@@ -443,8 +443,8 @@ class Schmedis {
                     boolean realMove = !noMove;
                     if(onBoard&&realMove){
                         int target = row*8+column;
-                        char targetThing = board(target);
-                        char startThing = board(start);
+                        char targetThing = board[target];
+                        char startThing = board[start];
                         boolean colorOfTarget = Character.isUpperCase(targetThing);
                         boolean colorOfStart = Character.isUpperCase(startThing);
                         boolean targetIsEmpty = targetThing != ' ';
@@ -455,12 +455,12 @@ class Schmedis {
                     } 
                 }
             }
-
+        return null;
         }
 
 ////////
 
-        public static Set<Integer>bishopHalo(int start) {
+        public static Set<Integer>bishopHalo(int start, char[]board) {
             int startingRow = start/8;
             int startingColumn = start%8;
             Set<Integer> halo = new HashSet<Integer>();
@@ -468,20 +468,22 @@ class Schmedis {
             for( List<Integer>slide : slides )
             {
                 int indexOfFirstElement = 0;
-                int indexOfLastElement = slide.size()-1
+                int indexOfLastElement = slide.size()-1;
                 boolean somethingInTheWay = false;
-                for(indexOfFirstElement+1; i<indexOfLastElement; i++);
+                for(int i = indexOfFirstElement+1; i<indexOfLastElement; i++)
                 {
-                    if(board[i] != ' ' somethingInTheWay = true)
+                    if (board[i] != ' ') {
+                        somethingInTheWay = true;
+                    }
                 }
                 if(!somethingInTheWay) halo.add(slide.get(indexOfLastElement));
             }
-        
+        return halo; 
         }
 
 ////////
 
-        public static Set<Integer>pawnHalo(int start) {
+        public static Set<Integer>pawnHalo(int start, char[] board) {
             int startingRow = start/8;
             int startingColumn = start%8;
             char pP = board[start]; 
@@ -495,6 +497,7 @@ class Schmedis {
                     halo.add(target);
                 }
             }
+        return halo;
         }
 
 ////////
