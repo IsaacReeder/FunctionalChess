@@ -41,6 +41,8 @@ class Schmedis {
           System.out.println( "Rook Halo" +  genericHalo( 40, haloBoard, new Rook() ));
           System.out.println( "Horse Halo" + genericHalo( 18, haloBoard, new Horse() ));
           System.out.println( "Queen Halo" + genericHalo( 43, haloBoard, new Queen() ));
+          System.out.println( "Pawn Halo" + pawnHalo( 8, haloBoard ));
+          System.out.println( "King Halo" + kingHalo( 60, haloBoard ));
           Set<Integer> test1 = new HashSet<Integer>();
           test1.add(0);
           test1.add(1);
@@ -498,7 +500,6 @@ class Schmedis {
             List<List<Integer>>slides = f.slides(start);
             for( List<Integer>slide : slides )
             {
-                System.out.println(slide);
                 int indexOfFirstElement = 0;
                 int indexOfLastElement = slide.size()-1;
                 boolean somethingInTheWay = false;
@@ -541,19 +542,23 @@ class Schmedis {
         public static Set<Integer>kingHalo(int start, char[] board) {
             int startingRow = start/8;
             int startingColumn = start%8;
-            char pP = board[start]; 
-            int direction = pP=='p'? -1 : 1;
             Set<Integer> halo = new HashSet<Integer>();
-            for(int eastWest = -1;eastWest<=1;eastWest+=2) {
-                int targetR = startingRow+direction;
-                int targetC = startingColumn+eastWest;
-                if (targetC >= 0 && targetC <= 7){
-                    int target = targetR*8+targetC;
-                    halo.add(target);
-                }
+            for(int r=-1;r<=1;r++){
+                for(int c=-1;c<=1;c++){
+                    int row = startingRow+r;
+                    int column = startingColumn+c;
+                    boolean onBoard = row>=0 && row<=7 && column>=0 && column<=7;
+                    boolean noMove = r==0 && c==0;
+                    boolean realMove = !noMove;
+                    if(onBoard&&realMove){
+                        int target = row*8+column;
+                        halo.add(target);
+                    }
+                } 
             }
             return halo;
         }
+        
 
 ////////
 
@@ -743,4 +748,51 @@ class Schmedis {
              return result;
         }
         
+////////
+      
+       public static <Integer> enemyHalo (int locationOfFriendlyPigeon, char[] board) {
+           set<Integer> halo = new<Integer>();
+           int friendlyPigeon = board(locationOfFriendlyPigeon);
+           boolean colorOfFriendlyPigeon = Character.isUpperCase(friendlyPigeon);
+           for(int i=0;i<64; i++){
+               int pigeon = board[i];
+               boolean colorOfPigeon = Character.isUpperCase(pigeon);
+               boolean enemyPigeon = colorOfPigeon != colorOfFriendlyPigeon;
+               boolean empty = pigeon == ' ';
+               if( !empty && enemyPigeon )
+               {
+                   switch(pigeon)
+                   {
+                       case 'k':  
+                       case 'K':  
+                           halo.addAll( kingHalo( i, Board ));
+                           break;
+                       case 'p':  
+                       case 'P';
+                           halo.addAll( pawnHalo( i, Board ));
+                           break;
+                       case 'h':  
+                       case 'H';
+                           halo.addAll( genericHalo( i, haloBoard, Horse() ));
+                           break;
+                       case 'b':  
+                       case 'B';
+                           halo.addAll( genericHalo( i, haloBoard, Bishop() ));
+                           break;
+                       case 'q':  
+                       case 'Q';
+                           halo.addAll( genericHalo( i, haloBoard, Queen() ));
+                           break;
+                       case 'c':  
+                       case 'C';
+                           halo.addAll( genericHalo( i, haloBoard, Rook() ));
+                           break;
+                   }
+               } 
+           } 
+
+           return halo;
+       } 
+
+
 }
