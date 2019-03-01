@@ -81,20 +81,20 @@ class Schmedis {
                     'P','P','P','P','P','P','P','P',
                     ' ',' ','H',' ',' ',' ',' ',' ',
                     ' ',' ',' ',' ','p',' ',' ',' ',
+                    ' ',' ',' ','H',' ','C',' ',' ',
                     ' ',' ',' ',' ',' ',' ',' ',' ',
-                    ' ',' ',' ',' ',' ',' ',' ',' ',
-                    'p','p','p','p',' ','p','p','p',
-                    'c','h','b','q','k','b','h','c'
+                    'p','p','p',' ',' ',' ','p','p',
+                    'c','h','b',' ','k',' ','h','c'
                     };
         char [] currentChessBoard = {
                     'C',' ','B','Q','K','B','H','C',
                     'P','P','P',' ','P','P','P','P',
                     ' ',' ','H',' ',' ',' ',' ',' ',
                     ' ',' ',' ','P','p',' ',' ',' ',
+                    ' ',' ',' ','H',' ','C',' ',' ',
                     ' ',' ',' ',' ',' ',' ',' ',' ',
-                    ' ',' ',' ',' ',' ',' ',' ',' ',
-                    'p','p','p','p',' ','p','p','p',
-                    'c','h','b','q','k','b','h','c'
+                    'p','p','p',' ',' ',' ','p','p',
+                    'c','h','b',' ','k',' ','h','c'
                     };
 
         
@@ -493,7 +493,7 @@ class Schmedis {
                         char startThing = board[start];
                         boolean colorOfTarget = Character.isUpperCase(targetThing);
                         boolean colorOfStart = Character.isUpperCase(startThing);
-                        boolean targetIsEmpty = targetThing != ' ';
+                        boolean targetIsEmpty = targetThing == ' ';
                         boolean enemyAtTarget = colorOfTarget != colorOfStart;
                         if(targetIsEmpty||enemyAtTarget){
                             kingMoves.add(target);
