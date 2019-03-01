@@ -43,6 +43,8 @@ class Schmedis {
           System.out.println( "Queen Halo" + genericHalo( 43, haloBoard, new Queen() ));
           System.out.println( "Pawn Halo" + pawnHalo( 8, haloBoard ));
           System.out.println( "King Halo" + kingHalo( 60, haloBoard ));
+          System.out.println( "Enemy Halo" + enemyHalo( 60, haloBoard ));
+
           Set<Integer> test1 = new HashSet<Integer>();
           test1.add(0);
           test1.add(1);
@@ -94,12 +96,23 @@ class Schmedis {
                     'p','p','p','p',' ','p','p','p',
                     'c','h','b','q','k','b','h','c'
                     };
+
+        
         history.add(previousChessBoard);
         history.add(currentChessBoard);
-        List <char[]> resultList = pawnBoards (3*8+4, history);
-        for(char[] cb : resultList) 
         {
-            printChessBoard(cb);
+            List <char[]> resultList = pawnBoards (3*8+4, history);
+            for(char[] cb : resultList) 
+            {
+                printChessBoard(cb);
+            }
+        }
+        {
+            List <char[]> resultList = kingBoards (60, history);
+            for(char[] cb : resultList) 
+            {
+                printChessBoard(cb);
+            }
         }
         Integer[] way = {0, 4, 8};
         List<Integer>w = Arrays.asList(way);
@@ -488,7 +501,17 @@ class Schmedis {
                     } 
                 }
             }
-            return null;
+            Set<Integer> halo = enemyHalo( start, board );
+            kingMoves.removeAll(halo);
+            for (Integer i : kingMoves) 
+            {
+                char[] alteredBoard = board.clone();
+                char pigeon = board[start];
+                alteredBoard[start] = ' ';
+                alteredBoard[i] = pigeon;
+                boards.add(alteredBoard);
+            }
+            return boards;
         }
 
 ////////
@@ -750,9 +773,9 @@ class Schmedis {
         
 ////////
       
-       public static <Integer> enemyHalo (int locationOfFriendlyPigeon, char[] board) {
-           set<Integer> halo = new<Integer>();
-           int friendlyPigeon = board(locationOfFriendlyPigeon);
+       public static Set<Integer> enemyHalo (int locationOfFriendlyPigeon, char[] board) {
+           Set<Integer> halo = new HashSet<Integer>();
+           int friendlyPigeon = board[locationOfFriendlyPigeon];
            boolean colorOfFriendlyPigeon = Character.isUpperCase(friendlyPigeon);
            for(int i=0;i<64; i++){
                int pigeon = board[i];
@@ -765,27 +788,27 @@ class Schmedis {
                    {
                        case 'k':  
                        case 'K':  
-                           halo.addAll( kingHalo( i, Board ));
+                           halo.addAll( kingHalo( i, board ));
                            break;
                        case 'p':  
-                       case 'P';
-                           halo.addAll( pawnHalo( i, Board ));
+                       case 'P':
+                           halo.addAll( pawnHalo( i, board ));
                            break;
                        case 'h':  
-                       case 'H';
-                           halo.addAll( genericHalo( i, haloBoard, Horse() ));
+                       case 'H':
+                           halo.addAll( genericHalo( i, board, new  Horse() ));
                            break;
                        case 'b':  
-                       case 'B';
-                           halo.addAll( genericHalo( i, haloBoard, Bishop() ));
+                       case 'B':
+                           halo.addAll( genericHalo( i, board, new  Bishop() ));
                            break;
                        case 'q':  
-                       case 'Q';
-                           halo.addAll( genericHalo( i, haloBoard, Queen() ));
+                       case 'Q':
+                           halo.addAll( genericHalo( i, board, new  Queen() ));
                            break;
                        case 'c':  
-                       case 'C';
-                           halo.addAll( genericHalo( i, haloBoard, Rook() ));
+                       case 'C':
+                           halo.addAll( genericHalo( i, board, new  Rook() ));
                            break;
                    }
                } 
