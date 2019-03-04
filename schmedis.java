@@ -817,5 +817,17 @@ class Schmedis {
            return halo;
        } 
 
+////////
+
+       public static boolean stable(int start, char[] history){
+           boolean invariablePosition = true;
+           char[] boards = history;
+           int castlePosition = board[];
+           for (int i=0; i<boards.size; i++) 
+           {
+                
+           } 
+
+       }
 
 }
