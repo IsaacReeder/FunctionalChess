@@ -475,42 +475,68 @@ class Schmedis {
 ////////
 
         public static List<char[]> kingBoards (int start, List<char[]> history) {
-            Set<Integer> kingMoves = new HashSet<Integer>();
-            char[] board = history.get(history.size()-1);
+
             List<char[]> boards = new ArrayList<char[]>();
+
             int startingRow = start/8;
             int startingColumn = start%8;
-            for(int r=-1;r<=1;r++){
-                for(int c=-1;c<=1;c++){
-                    int row = startingRow+r;
-                    int column = startingColumn+c;
-                    boolean onBoard = row>=0 && row<=7 && column>=0 && column<=7;
-                    boolean noMove = r==0 && c==0;
-                    boolean realMove = !noMove;
-                    if(onBoard&&realMove){
-                        int target = row*8+column;
-                        char targetThing = board[target];
-                        char startThing = board[start];
-                        boolean colorOfTarget = Character.isUpperCase(targetThing);
-                        boolean colorOfStart = Character.isUpperCase(startThing);
-                        boolean targetIsEmpty = targetThing == ' ';
-                        boolean enemyAtTarget = colorOfTarget != colorOfStart;
-                        if(targetIsEmpty||enemyAtTarget){
-                            kingMoves.add(target);
-                        }
-                    } 
+
+            char[] board = history.get(history.size()-1);
+
+            Set<Integer> halo = enemyHalo( start, board );
+
+            {
+
+
+                
+                boolean kingIsAtStart = Character.toLowerCase(board[start]) == 'k';
+                boolean startPlus1IsBlank = board[start+1] == ' ' ;
+                boolean startPlus2IsBlank = board[start+2] == ' ' ;
+                boolean castleOfTheSameColorAsKingIsAtStartPlus3 = Character.toLowerCase(board[start+3]) == 'c' 
+                    && Character.isUpperCase(board[start]) == Character.isUpperCase(board[start+3]);
+                boolean startIsStable = stable(start, history);
+                boolean startPlus3IsStable = stable(start+3, history);
+                boolean startIsNotInHalo = ! halo.contains(start);
+                boolean startPlus1IsNotInHalo = ! halo.contains(start+1);
+                boolean startPlus2IsNotInHalo = ! halo.contains(start+2);
+                boolean castlekingsSide = kingIsAtStart&& startPlus1IsBlank && startPlus2IsBlank && castleOfTheSameColorAsKingIsAtStartPlus3
+                    && startIsStable && startPlus3IsStable && startIsNotInHalo && startPlus1IsNotInHalo && startPlus2IsNotInHalo;
+            }
+          
+            {
+                Set<Integer> kingMoves = new HashSet<Integer>();
+                for(int r=-1;r<=1;r++){
+                    for(int c=-1;c<=1;c++){
+                        int row = startingRow+r;
+                        int column = startingColumn+c;
+                        boolean onBoard = row>=0 && row<=7 && column>=0 && column<=7;
+                        boolean noMove = r==0 && c==0;
+                        boolean realMove = !noMove;
+                        if(onBoard&&realMove){
+                            int target = row*8+column;
+                            char targetThing = board[target];
+                            char startThing = board[start];
+                            boolean colorOfTarget = Character.isUpperCase(targetThing);
+                            boolean colorOfStart = Character.isUpperCase(startThing);
+                            boolean targetIsEmpty = targetThing == ' ';
+                            boolean enemyAtTarget = colorOfTarget != colorOfStart;
+                            if(targetIsEmpty||enemyAtTarget){
+                                kingMoves.add(target);
+                            }
+                        } 
+                    }
+                }
+                kingMoves.removeAll(halo);
+                for (Integer i : kingMoves) 
+                {
+                    char[] alteredBoard = board.clone();
+                    char pigeon = board[start];
+                    alteredBoard[start] = ' ';
+                    alteredBoard[i] = pigeon;
+                    boards.add(alteredBoard);
                 }
             }
-            Set<Integer> halo = enemyHalo( start, board );
-            kingMoves.removeAll(halo);
-            for (Integer i : kingMoves) 
-            {
-                char[] alteredBoard = board.clone();
-                char pigeon = board[start];
-                alteredBoard[start] = ' ';
-                alteredBoard[i] = pigeon;
-                boards.add(alteredBoard);
-            }
+
             return boards;
         }
 
@@ -829,7 +855,7 @@ class Schmedis {
                char otherPiece = aBoardFromTheList[position];
                if(otherPiece != piece)invariablePosition = false;
            } 
-       return invariablePosition;
+           return invariablePosition;
        }
 
 }
