@@ -819,15 +819,17 @@ class Schmedis {
 
 ////////
 
-       public static boolean stable(int start, char[] history){
+       public static boolean stable(int start, List<char[]> history){
+           int arbitraryTimeInHistory = 0 ;
+           char[] arbitraryBoardFromHistory = history.get(arbitraryTimeInHistory); 
+           char pigeon = arbitraryBoardFromHistory[start]; 
            boolean invariablePosition = true;
-           char[] boards = history;
-           int castlePosition = board[];
-           for (int i=0; i<boards.size; i++) 
+           for (char[] otherBoard : history) 
            {
-                
+               char otherPigeon = otherBoard[start];
+               if(otherPigeon != pigeon)invariablePosition = false;
            } 
-
+       return boolean;
        }
 
 }
