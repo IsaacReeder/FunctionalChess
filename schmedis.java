@@ -91,10 +91,10 @@ class Schmedis {
                     'P','P','P',' ','P','P','P','P',
                     ' ',' ','H',' ',' ',' ',' ',' ',
                     ' ',' ',' ','P','p',' ',' ',' ',
-                    ' ',' ',' ','H',' ','C',' ',' ',
-                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ','H',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ','h',
                     'p','p','p',' ',' ',' ','p','p',
-                    'c','h','b',' ','k',' ','h','c'
+                    'c','h','b',' ','k',' ',' ','c'
                     };
 
         
@@ -499,8 +499,28 @@ class Schmedis {
                 boolean startIsNotInHalo = ! halo.contains(start);
                 boolean startPlus1IsNotInHalo = ! halo.contains(start+1);
                 boolean startPlus2IsNotInHalo = ! halo.contains(start+2);
-                boolean castlekingsSide = kingIsAtStart&& startPlus1IsBlank && startPlus2IsBlank && castleOfTheSameColorAsKingIsAtStartPlus3
+                boolean castleKingsSide = kingIsAtStart&& startPlus1IsBlank && startPlus2IsBlank && castleOfTheSameColorAsKingIsAtStartPlus3
                     && startIsStable && startPlus3IsStable && startIsNotInHalo && startPlus1IsNotInHalo && startPlus2IsNotInHalo;
+                if(castleKingsSide) 
+                {
+                    char[] alteredBoard = board.clone();
+                    char pigeonKing = board[start];
+                    char pigeonCastle = board[start+3];
+                    alteredBoard[start] = ' ';
+                    alteredBoard[start+1] = pigeonCastle;
+                    alteredBoard[start+2] = pigeonKing;
+                    alteredBoard[start+3] = ' ';
+                    boards.add(alteredBoard);
+                }
+            }
+    
+            {
+                //positive is negative
+                //distance to the castle is-4 instead of +3
+                //the halo only has to cover 3 squares, where he starts ends and the place in between
+                //castle ends up just to the right of the king
+                //king endes up two spaces to the left
+                //watch you tube video about this move(castling KingsSide)
             }
           
             {
