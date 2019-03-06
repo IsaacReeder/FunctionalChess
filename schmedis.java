@@ -94,7 +94,7 @@ class Schmedis {
                     ' ',' ',' ','H',' ',' ',' ',' ',
                     ' ',' ',' ',' ',' ',' ',' ','h',
                     'p','p','p',' ',' ',' ','p','p',
-                    'c','h','b',' ','k',' ',' ','c'
+                    'c',' ',' ',' ','k',' ',' ','c'
                     };
 
         
@@ -485,10 +485,8 @@ class Schmedis {
 
             Set<Integer> halo = enemyHalo( start, board );
 
-            {
+            if(start==4 && board[4] == 'K' || start==60 && board[60] == 'k'){
 
-
-                
                 boolean kingIsAtStart = Character.toLowerCase(board[start]) == 'k';
                 boolean startPlus1IsBlank = board[start+1] == ' ' ;
                 boolean startPlus2IsBlank = board[start+2] == ' ' ;
@@ -514,13 +512,34 @@ class Schmedis {
                 }
             }
     
-            {
-                //positive is negative
-                //distance to the castle is-4 instead of +3
-                //the halo only has to cover 3 squares, where he starts ends and the place in between
-                //castle ends up just to the right of the king
-                //king endes up two spaces to the left
-                //watch you tube video about this move(castling KingsSide)
+            if(start==4 && board[4] == 'K' || start==60 && board[60] == 'k'){
+
+                boolean kingIsAtStart = Character.toLowerCase(board[start]) == 'k';
+                boolean startMinus1IsBlank = board[start-1] == ' ' ;
+                boolean startMinus2IsBlank = board[start-2] == ' ' ;
+                boolean startMinus3IsBlank = board[start-3] == ' ' ;
+                boolean castleOfTheSameColorAsKingIsAtStartMinus4 = Character.toLowerCase(board[start-4]) == 'c' 
+                    && Character.isUpperCase(board[start]) == Character.isUpperCase(board[start-4]);
+                boolean startIsStable = stable(start, history);
+                boolean startMinus4IsStable = stable(start-4, history);
+                boolean startIsNotInHalo = ! halo.contains(start);
+                boolean startMinus1IsNotInHalo = ! halo.contains(start-1);
+                boolean startMinus2IsNotInHalo = ! halo.contains(start-2);
+                boolean castleQueenSide = kingIsAtStart&&startMinus1IsBlank && startMinus2IsBlank && startMinus3IsBlank &&
+                    castleOfTheSameColorAsKingIsAtStartMinus4 && startIsStable && startMinus4IsStable && startIsNotInHalo && 
+                        startMinus1IsNotInHalo && startMinus2IsNotInHalo;
+                        
+                if(castleQueenSide) 
+                {
+                    char[] alteredBoard = board.clone();
+                    char pigeonKing = board[start];
+                    char pigeonCastle = board[start-4];
+                    alteredBoard[start] = ' ';
+                    alteredBoard[start-1] = pigeonCastle;
+                    alteredBoard[start-2] = pigeonKing;
+                    alteredBoard[start-4] = ' ';
+                    boards.add(alteredBoard);
+                }
             }
           
             {
