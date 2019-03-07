@@ -486,16 +486,36 @@ class Schmedis {
             char[] board = history.get(history.size()-1);
             List<char[]> boards = new ArrayList<char[]>();
             List<List<Integer>> slides = bishopSlides(start); 
+	    System.out.println(slides + "SLIDES");
             for( List<Integer>slide : slides )
             {
-                int indexOfFirstElement = 0;
-                int indexOfLastElement = slide.size()-1;
+   
+
+
+
+
+
                 boolean somethingInTheWay = false;
-                for(int i = indexOfFirstElement+1; i<indexOfLastElement; i++)
                 {
-                    int position = slide.get(i);
+                    int indexOfFirstElement = 0;
+                    int indexOfLastElement = slide.size()-1;
+                    for(int i = indexOfFirstElement+1; i<indexOfLastElement; i++)
+                    {
+                        int position = slide.get(i);
+                        if (board[position] != ' ') {
+                            somethingInTheWay = true;
+                        }
+                    }
+                }
+
+
+
+//If this slide is clear and ends in a place we can go, then we'll make a board for this specific move.
+
+
+
+                {
                     int target = slide.get(slide.size()-1);
-                    char pigeon = board[target];
                     char pigeonAtTarget = board[target];
                     char pigeonAtStart = board[start];
                     boolean targetIsEmpty = pigeonAtTarget == ' ';
@@ -503,16 +523,23 @@ class Schmedis {
                     boolean targetIsEmptyOrEnemy = targetIsEmpty || enemyAtTarget;  
                     boolean nothingIsInTheWay = !somethingInTheWay;
                     boolean clearPathToAPlaceWeCanGo = nothingIsInTheWay && targetIsEmptyOrEnemy;
-                    if (targetIsEmptyOrEnemy) {
+                    if (clearPathToAPlaceWeCanGo) {
                         char[] alteredBoard = board.clone();
-                        board[start] = ' ';
-                        board[target] = pigeonAtStart;
+                        alteredBoard[start] = ' ';
+                        alteredBoard[target] = pigeonAtStart;
                         boards.add(alteredBoard);
                     }
                 }
+
+
+
+
+
+
+
             }
          
-        return boards;
+            return boards;
         } 
 
 ////////
