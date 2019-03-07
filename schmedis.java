@@ -93,7 +93,7 @@ class Schmedis {
                     ' ',' ',' ','P','p',' ',' ',' ',
                     ' ',' ',' ','H',' ',' ',' ',' ',
                     ' ',' ',' ',' ',' ',' ',' ','h',
-                    'p','p','p',' ',' ',' ','p','p',
+                    'p','p','p',' ','b',' ','p','p',
                     'c',' ',' ',' ','k',' ',' ','c'
                     };
 
@@ -114,6 +114,14 @@ class Schmedis {
                 printChessBoard(cb);
             }
         }
+        {
+            List <char[]> resultList = bishopBoards (52, history);
+            for(char[] cb : resultList) 
+            {
+                printChessBoard(cb);
+            }
+        }
+
         Integer[] way = {0, 4, 8};
         List<Integer>w = Arrays.asList(way);
         w.forEach(System.out::println);
@@ -471,6 +479,41 @@ class Schmedis {
         return slides;   
 
         }
+
+////////
+
+        public static List<char[]> bishopBoards (int start, List<char[]> history) {
+            char[] board = history.get(history.size()-1);
+            List<char[]> boards = new ArrayList<char[]>();
+            List<List<Integer>> slides = bishopSlides(start); 
+            for( List<Integer>slide : slides )
+            {
+                int indexOfFirstElement = 0;
+                int indexOfLastElement = slide.size()-1;
+                boolean somethingInTheWay = false;
+                for(int i = indexOfFirstElement+1; i<indexOfLastElement; i++)
+                {
+                    int position = slide.get(i);
+                    int target = slide.get(slide.size()-1);
+                    char pigeon = board[target];
+                    char pigeonAtTarget = board[target];
+                    char pigeonAtStart = board[start];
+                    boolean targetIsEmpty = pigeonAtTarget == ' ';
+                    boolean enemyAtTarget = Character.isUpperCase(pigeonAtTarget) != Character.isUpperCase(pigeonAtStart);
+                    boolean targetIsEmptyOrEnemy = targetIsEmpty || enemyAtTarget;  
+                    boolean nothingIsInTheWay = !somethingInTheWay;
+                    boolean clearPathToAPlaceWeCanGo = nothingIsInTheWay && targetIsEmptyOrEnemy;
+                    if (targetIsEmptyOrEnemy) {
+                        char[] alteredBoard = board.clone();
+                        board[start] = ' ';
+                        board[target] = pigeonAtStart;
+                        boards.add(alteredBoard);
+                    }
+                }
+            }
+         
+        return boards;
+        } 
 
 ////////
 
