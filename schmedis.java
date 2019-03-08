@@ -75,68 +75,178 @@ class Schmedis {
         System.out.println("*************************************************************");
 //        for(int i=0;i<64;i++)System.out.println(horseSlides(i));
 //below is the test for en passant      
-        List<char[]> history = new ArrayList<>();     
+            List<char[]> history = new ArrayList<>();     
+            System.out.println("########COUNT CHECK BELOW ############");
+        {
 
-        char [] previousChessBoard = {
-                    'C',' ','B','Q','K','B','H','C',
-                    'P','P','P','P','P','P','P','P',
-                    ' ',' ','H',' ',' ',' ',' ',' ',
-                    ' ',' ',' ',' ','p',' ',' ',' ',
-                    ' ',' ',' ','H',' ','C',' ',' ',
-                    ' ',' ',' ',' ',' ',' ',' ',' ',
-                    'p','p','p',' ',' ',' ','p','p',
-                    'c','h','b',' ','k',' ','h','c'
-                    };
-        char [] currentChessBoard = {
-                    'C',' ','B','Q','K','B','H','C',
-                    'P','P','P',' ','P','P','P','P',
-                    ' ',' ','H',' ',' ',' ',' ',' ',
-                    ' ',' ',' ','P','p',' ',' ',' ',
-                    ' ',' ',' ','H',' ',' ',' ',' ',
-                    'c',' ',' ',' ',' ',' ',' ','h',
-                    'p','p','p',' ','b',' ','p','p',
-                    ' ',' ',' ',' ','k','h',' ','c'
-                    };
+            char [] previousChessBoard = {
+                        'C',' ','B','Q','K','B','H','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ','H',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ','p',' ',' ',' ',
+                        ' ',' ',' ','H',' ','C',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p',' ',' ',' ','p','p',
+                        'c','h','b',' ','k',' ','h','c'
+                        };
+    
+            char [] previousChessBoardOne = {
+                        'C',' ','B','Q','K','B','H','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ','H',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ','p',' ',' ',' ',
+                        ' ',' ',' ','H',' ','C',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p',' ',' ',' ','p','p',
+                        'c','h','b',' ','k',' ','h','c'
+                        };
+            char [] currentChessBoard = {
+                        'C',' ','B','Q','K','B','H','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ','H',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ','p',' ',' ',' ',
+                        ' ',' ',' ','H',' ','C',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p',' ',' ',' ','p','p',
+                        'c','h','b',' ','k',' ','h','c'
+                        };
+            
+            history.add(previousChessBoard);
+            history.add(previousChessBoardOne);
+            System.out.println(recurrenceCount(currentChessBoard, history)); 
+            System.out.println("########COUNT CHECK ABOVE ############");
+
+        }
+        {
+            char [] previousChessBoard = {
+                        'C',' ','B','Q','K','B','H','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ','H',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ','p',' ',' ',' ',
+                        ' ',' ',' ','H',' ','C',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p',' ',' ',' ','p','p',
+                        'c','h','b',' ','k',' ','h','c'
+                        };
+            char [] currentChessBoard = {
+                        'C',' ','B','Q','K','B','H','C',
+                        'P','P','P',' ','P','P','P','P',
+                        ' ',' ','H',' ',' ',' ',' ',' ',
+                        ' ',' ',' ','P','p',' ',' ',' ',
+                        ' ',' ',' ','H',' ',' ',' ',' ',
+                        'c',' ',' ',' ',' ',' ',' ','h',
+                        'p','p','p',' ','b','B','p','p',
+                        ' ',' ',' ',' ','k','h',' ','c'
+                        };
+            
+            history.add(previousChessBoard);
+            history.add(currentChessBoard);
+            System.out.println(inCheck(60, history)); 
+    
+            {
+                List <char[]> resultList = pawnBoards (3*8+4, history);
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+            {
+                List <char[]> resultList = kingBoards (60, history);
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+            {
+                List <char[]> resultList = genericBoards (52, history, new Bishop());
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+            {
+                List <char[]> resultList = genericBoards (61, history, new Horse());
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+            {
+                List <char[]> resultList = genericBoards (40, history, new Rook());
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+
+
+        }
         
-        history.add(previousChessBoard);
-        history.add(currentChessBoard);
+        {    
+    
+            char [] previousChessBoard = {
+                        'C',' ','B','Q','K','B','H','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ','H',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ','p',' ',' ',' ',
+                        ' ',' ',' ','H',' ','C',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p',' ',' ',' ','p','p',
+                        'c','h','b',' ','k',' ','h','c'
+                        };
+            char [] currentChessBoard = {
+                        'C',' ','B','Q','K','B','H','C',
+                        'P','P','P',' ','P','P','P','P',
+                        ' ',' ','H',' ',' ',' ',' ',' ',
+                        ' ',' ',' ','P','p',' ',' ',' ',
+                        ' ',' ',' ','H',' ',' ',' ',' ',
+                        'c',' ',' ',' ',' ',' ',' ','h',
+                        'p','p','p',' ','b',' ','p','p',
+                        ' ',' ',' ',' ','k','h',' ','c'
+                        };
+            
+            history.add(previousChessBoard);
+            history.add(currentChessBoard);
+    
+    
+            {
+                List <char[]> resultList = pawnBoards (3*8+4, history);
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+            {
+                List <char[]> resultList = kingBoards (60, history);
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+            {
+                List <char[]> resultList = genericBoards (52, history, new Bishop());
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+            {
+                List <char[]> resultList = genericBoards (61, history, new Horse());
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+            {
+                List <char[]> resultList = genericBoards (40, history, new Rook());
+                for(char[] cb : resultList) 
+                {
+                    printChessBoard(cb);
+                }
+            }
+        }
 
 
-        {
-            List <char[]> resultList = pawnBoards (3*8+4, history);
-            for(char[] cb : resultList) 
-            {
-                printChessBoard(cb);
-            }
-        }
-        {
-            List <char[]> resultList = kingBoards (60, history);
-            for(char[] cb : resultList) 
-            {
-                printChessBoard(cb);
-            }
-        }
-        {
-            List <char[]> resultList = genericBoards (52, history, new Bishop());
-            for(char[] cb : resultList) 
-            {
-                printChessBoard(cb);
-            }
-        }
-        {
-            List <char[]> resultList = genericBoards (61, history, new Horse());
-            for(char[] cb : resultList) 
-            {
-                printChessBoard(cb);
-            }
-        }
-        {
-            List <char[]> resultList = genericBoards (40, history, new Rook());
-            for(char[] cb : resultList) 
-            {
-                printChessBoard(cb);
-            }
-        }
 
         Integer[] way = {0, 4, 8};
         List<Integer>w = Arrays.asList(way);
@@ -976,5 +1086,57 @@ class Schmedis {
             return halo.contains(start);
         }    
 
+////////*
+
+        public static int recurrenceCount(char [] board, List<char[]> history) {
+            int count = 0; 
+            for( char[] aBoardFromTheList : history)if (Arrays.equals(aBoardFromTheList, board))count++; 
+            return count; 
+        }
+
+////////
+     
+        public static List<char[]> chessChildren (List<char[]> history, boolean maximizingPlayer) {
+            List<List<char[]>> children = new ArrayList<>();     
+            char[] board = history.get(history.size()-1);            
+            for(int i=0; i<64; i++) {
+                char pigeon = board[i];
+		if(pigeon != ' ' && maximizingPlayer == Character.isLowerCase(pigeon))
+                {
+                    switch(pigeon)
+                    {
+                        case 'k':  
+                        case 'K':  
+                            { 
+                                List<char[]> boards = kingBoards(i, history);
+     			    }
+                            break;
+                        case 'p':  
+                        case 'P':
+                            halo.addAll( pawnHalo( i, board ));
+                            break;
+                        case 'h':  
+                        case 'H':
+                            halo.addAll( genericHalo( i, board, new  Horse() ));
+                            break;
+                        case 'b':  
+                        case 'B':
+                            halo.addAll( genericHalo( i, board, new  Bishop() ));
+                            break;
+                        case 'q':  
+                        case 'Q':
+                            halo.addAll( genericHalo( i, board, new  Queen() ));
+                            break;
+                        case 'c':  
+                        case 'C':
+                            halo.addAll( genericHalo( i, board, new  Rook() ));
+                            break;
+                    }
+                } 
+            }
+            return children;
+        }
+
+////////
 
 }
