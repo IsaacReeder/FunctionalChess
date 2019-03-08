@@ -76,6 +76,7 @@ class Schmedis {
 //        for(int i=0;i<64;i++)System.out.println(horseSlides(i));
 //below is the test for en passant      
         List<char[]> history = new ArrayList<>();     
+
         char [] previousChessBoard = {
                     'C',' ','B','Q','K','B','H','C',
                     'P','P','P','P','P','P','P','P',
@@ -92,14 +93,15 @@ class Schmedis {
                     ' ',' ','H',' ',' ',' ',' ',' ',
                     ' ',' ',' ','P','p',' ',' ',' ',
                     ' ',' ',' ','H',' ',' ',' ',' ',
-                    ' ',' ',' ',' ',' ',' ',' ','h',
+                    'c',' ',' ',' ',' ',' ',' ','h',
                     'p','p','p',' ','b',' ','p','p',
-                    'c',' ',' ',' ','k',' ',' ','c'
+                    ' ',' ',' ',' ','k','h',' ','c'
                     };
-
         
         history.add(previousChessBoard);
         history.add(currentChessBoard);
+
+
         {
             List <char[]> resultList = pawnBoards (3*8+4, history);
             for(char[] cb : resultList) 
@@ -115,7 +117,21 @@ class Schmedis {
             }
         }
         {
-            List <char[]> resultList = bishopBoards (52, history);
+            List <char[]> resultList = genericBoards (52, history, new Bishop());
+            for(char[] cb : resultList) 
+            {
+                printChessBoard(cb);
+            }
+        }
+        {
+            List <char[]> resultList = genericBoards (61, history, new Horse());
+            for(char[] cb : resultList) 
+            {
+                printChessBoard(cb);
+            }
+        }
+        {
+            List <char[]> resultList = genericBoards (40, history, new Rook());
             for(char[] cb : resultList) 
             {
                 printChessBoard(cb);
@@ -476,25 +492,19 @@ class Schmedis {
                 if (slide.size()==i+1)slides.add(slide);  
             }
             
-        return slides;   
+            return slides;   
 
         }
 
 ////////
 
-        public static List<char[]> bishopBoards (int start, List<char[]> history) {
+        public static List<char[]> genericBoards (int start, List<char[]> history, ILambda <List<List<Integer>>,Integer> f ) {
             char[] board = history.get(history.size()-1);
             List<char[]> boards = new ArrayList<char[]>();
-            List<List<Integer>> slides = bishopSlides(start); 
+            List<List<Integer>> slides = f.slides(start); 
 	    System.out.println(slides + "SLIDES");
             for( List<Integer>slide : slides )
             {
-   
-
-
-
-
-
                 boolean somethingInTheWay = false;
                 {
                     int indexOfFirstElement = 0;
@@ -508,11 +518,7 @@ class Schmedis {
                     }
                 }
 
-
-
 //If this slide is clear and ends in a place we can go, then we'll make a board for this specific move.
-
-
 
                 {
                     int target = slide.get(slide.size()-1);
@@ -530,12 +536,6 @@ class Schmedis {
                         boards.add(alteredBoard);
                     }
                 }
-
-
-
-
-
-
 
             }
          
@@ -966,5 +966,15 @@ class Schmedis {
            } 
            return invariablePosition;
        }
+
+////////
+
+        public static boolean inCheck(int start, List<char[]> history) {
+            char[] board = history.get(history.size()-1);
+            Set<Integer> halo = enemyHalo(start, board);    
+
+            return halo.contains(start);
+        }    
+
 
 }
