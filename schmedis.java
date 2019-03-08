@@ -74,7 +74,7 @@ class Schmedis {
         System.out.println("*************************************************************");
         System.out.println("*************************************************************");
 //        for(int i=0;i<64;i++)System.out.println(horseSlides(i));
-//below is the test for en passant      
+
             List<char[]> history = new ArrayList<>();     
             System.out.println("########COUNT CHECK BELOW ############");
         {
@@ -1096,7 +1096,7 @@ class Schmedis {
 
 ////////
      
-        public static List<char[]> chessChildren (List<char[]> history, boolean maximizingPlayer) {
+        public static List<List<char[]>> chessChildren (List<char[]> history, boolean maximizingPlayer) {
             List<List<char[]>> children = new ArrayList<>();     
             char[] board = history.get(history.size()-1);            
             for(int i=0; i<64; i++) {
@@ -1109,27 +1109,67 @@ class Schmedis {
                         case 'K':  
                             { 
                                 List<char[]> boards = kingBoards(i, history);
+                                for(char[] aBoardInTheList : boards) {
+                                    List<char[]> alteredHistory = history.clone();
+                                    alteredHistory.add(aBoardInTheList);
+                                    children.add(alteredHistory);
+                                }
      			    }
                             break;
                         case 'p':  
                         case 'P':
-                            halo.addAll( pawnHalo( i, board ));
+                            { 
+                                List<char[]> boards = pawnBoards(i, history);
+                                for(char[] aBoardInTheList : boards) {
+                                    List<char[]> alteredHistory = history.clone();
+                                    alteredHistory.add(aBoardInTheList);
+                                    children.add(alteredHistory);
+                                }
+     			    }
                             break;
                         case 'h':  
                         case 'H':
-                            halo.addAll( genericHalo( i, board, new  Horse() ));
+                            { 
+                                List<char[]> boards = genericBoards(i, history, new Horse());
+                                for(char[] aBoardInTheList : boards) {
+                                    List<char[]> alteredHistory = history.clone();
+                                    alteredHistory.add(aBoardInTheList);
+                                    children.add(alteredHistory);
+                                }
+     			    }
                             break;
                         case 'b':  
                         case 'B':
-                            halo.addAll( genericHalo( i, board, new  Bishop() ));
+                            { 
+                                List<char[]> boards = genericBoards(i, history, new Bishop());
+                                for(char[] aBoardInTheList : boards) {
+                                    List<char[]> alteredHistory = history.clone();
+                                    alteredHistory.add(aBoardInTheList);
+                                    children.add(alteredHistory);
+                                }
+     			    }
                             break;
                         case 'q':  
                         case 'Q':
-                            halo.addAll( genericHalo( i, board, new  Queen() ));
+                            { 
+                                List<char[]> boards = genericBoards(i, history, new Queen());
+                                for(char[] aBoardInTheList : boards) {
+                                    List<char[]> alteredHistory = history.clone();
+                                    alteredHistory.add(aBoardInTheList);
+                                    children.add(alteredHistory);
+                                }
+     			    }
                             break;
                         case 'c':  
                         case 'C':
-                            halo.addAll( genericHalo( i, board, new  Rook() ));
+                            { 
+                                List<char[]> boards = genericBoards(i, history, new Rook());
+                                for(char[] aBoardInTheList : boards) {
+                                    List<char[]> alteredHistory = history.clone();
+                                    alteredHistory.add(aBoardInTheList);
+                                    children.add(alteredHistory);
+                                }
+     			    }
                             break;
                     }
                 } 
