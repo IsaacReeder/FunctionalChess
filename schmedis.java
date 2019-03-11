@@ -1087,7 +1087,7 @@ class Schmedis {
 ////////
 
         public static boolean inCheck(boolean white, List<char  []  > history) {
-            char kingTofind = white ? 'k' : 'K';
+            char kingToFind = white ? 'k' : 'K';
             char[] board = history.get(history.size()-1);
             int start = -1;
             for(int i=0; i<64; i++){
@@ -1124,8 +1124,8 @@ class Schmedis {
                                 List<char[]> boards = kingBoards(i, history);
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
-                                    children.add(alteredHistory);
+                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, alteredHistory)) children.add(alteredHistory);
                                 }
      			    }
                             break;
@@ -1135,8 +1135,8 @@ class Schmedis {
                                 List<char[]> boards = pawnBoards(i, history);
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
-                                    children.add(alteredHistory);
+                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, alteredHistory)) children.add(alteredHistory);
                                 }
      			    }
                             break;
@@ -1146,8 +1146,8 @@ class Schmedis {
                                 List<char[]> boards = genericBoards(i, history, new Horse());
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
-                                    children.add(alteredHistory);
+                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, alteredHistory)) children.add(alteredHistory);
                                 }
      			    }
                             break;
@@ -1157,8 +1157,8 @@ class Schmedis {
                                 List<char[]> boards = genericBoards(i, history, new Bishop());
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
-                                    children.add(alteredHistory);
+                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, alteredHistory)) children.add(alteredHistory);
                                 }
      			    }
                             break;
@@ -1168,8 +1168,8 @@ class Schmedis {
                                 List<char[]> boards = genericBoards(i, history, new Queen());
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
-                                    children.add(alteredHistory);
+                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, alteredHistory)) children.add(alteredHistory);
                                 }
      			    }
                             break;
@@ -1179,8 +1179,8 @@ class Schmedis {
                                 List<char[]> boards = genericBoards(i, history, new Rook());
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
-                                    children.add(alteredHistory);
+                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, alteredHistory)) children.add(alteredHistory);
                                 }
      			    }
                             break;
