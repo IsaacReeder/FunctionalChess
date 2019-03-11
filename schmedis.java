@@ -89,7 +89,6 @@ class Schmedis {
                         'p','p','p',' ',' ',' ','p','p',
                         'c','h','b',' ','k',' ','h','c'
                         };
-    
             char [] previousChessBoardOne = {
                         'C',' ','B','Q','K','B','H','C',
                         'P','P','P','P','P','P','P','P',
@@ -147,7 +146,9 @@ class Schmedis {
             
             history.add(previousChessBoard);
             history.add(currentChessBoard);
-            System.out.println(inCheck(60, history)); 
+            System.out.println("########INCHECK TEST BELOW ############");
+            System.out.println(inCheck(true, history)); 
+            System.out.println("########INCHECK TEST ABOVE ############");
     
             {
                 List <char[]> resultList = pawnBoards (3*8+4, history);
@@ -335,7 +336,7 @@ class Schmedis {
         }
         }
 
-////////
+////////At some point it will be necessary to write a function that handles the Fifty-move rule.
 
         public static double minimax(char[] node,int depth,boolean maximizingPlayer) {
             Double value;
@@ -1085,8 +1086,13 @@ class Schmedis {
 
 ////////
 
-        public static boolean inCheck(int start, List<char[]> history) {
+        public static boolean inCheck(boolean white, List<char  []  > history) {
+            char kingTofind = white ? 'k' : 'K';
             char[] board = history.get(history.size()-1);
+            int start = -1;
+            for(int i=0; i<64; i++){
+                if(board[i]==kingToFind)start=i;
+            }
             Set<Integer> halo = enemyHalo(start, board);    
 
             return halo.contains(start);
@@ -1104,7 +1110,7 @@ class Schmedis {
 ////////
      
         public static List<List<char[]>> chessChildren (List<char[]> history, boolean maximizingPlayer) {
-            List<List<char[]>> children = new ArrayList<>();     
+            List<  List<char[]>  > children = new ArrayList<>();     
             char[] board = history.get(history.size()-1);            
             for(int i=0; i<64; i++) {
                 char pigeon = board[i];
@@ -1118,7 +1124,7 @@ class Schmedis {
                                 List<char[]> boards = kingBoards(i, history);
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
      			    }
@@ -1129,7 +1135,7 @@ class Schmedis {
                                 List<char[]> boards = pawnBoards(i, history);
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
      			    }
@@ -1140,7 +1146,7 @@ class Schmedis {
                                 List<char[]> boards = genericBoards(i, history, new Horse());
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
      			    }
@@ -1151,7 +1157,7 @@ class Schmedis {
                                 List<char[]> boards = genericBoards(i, history, new Bishop());
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
      			    }
@@ -1162,7 +1168,7 @@ class Schmedis {
                                 List<char[]> boards = genericBoards(i, history, new Queen());
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
-                                    alteredHistory.add(aBoardInTheList);
+                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
      			    }
@@ -1173,6 +1179,7 @@ class Schmedis {
                                 List<char[]> boards = genericBoards(i, history, new Rook());
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
+                                    if(!inCheck(maximizingPlayer, aBoardInTheList)) alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
      			    }
