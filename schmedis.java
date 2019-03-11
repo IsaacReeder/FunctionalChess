@@ -113,8 +113,14 @@ class Schmedis {
             
             history.add(previousChessBoard);
             history.add(previousChessBoardOne);
-            System.out.println(recurrenceCount(currentChessBoard, history)); 
+            history.add(currentChessBoard);
+            System.out.println(threefoldRepetition(history)); 
             System.out.println("########COUNT CHECK ABOVE ############");
+
+            System.out.println("########CHESS CHILDREN TEST BELOW ############");
+            List<List<char[]>> children = chessChildren(history, true);
+            System.out.println(children.size()); 
+            System.out.println("########CHESS CHILDREN TEST ABOVE ############");
 
         }
         {
@@ -1088,10 +1094,11 @@ class Schmedis {
 
 ////////*
 
-        public static int recurrenceCount(char [] board, List<char[]> history) {
+        public static boolean threefoldRepetition(List<char[]> history) {
+            char[] board = history.get(history.size()-1);
             int count = 0; 
             for( char[] aBoardFromTheList : history)if (Arrays.equals(aBoardFromTheList, board))count++; 
-            return count; 
+            return count == 3; 
         }
 
 ////////
@@ -1110,7 +1117,7 @@ class Schmedis {
                             { 
                                 List<char[]> boards = kingBoards(i, history);
                                 for(char[] aBoardInTheList : boards) {
-                                    List<char[]> alteredHistory = history.clone();
+                                    List<char[]> alteredHistory = new ArrayList<>(history);
                                     alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
@@ -1121,7 +1128,7 @@ class Schmedis {
                             { 
                                 List<char[]> boards = pawnBoards(i, history);
                                 for(char[] aBoardInTheList : boards) {
-                                    List<char[]> alteredHistory = history.clone();
+                                    List<char[]> alteredHistory = new ArrayList<>(history);
                                     alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
@@ -1132,7 +1139,7 @@ class Schmedis {
                             { 
                                 List<char[]> boards = genericBoards(i, history, new Horse());
                                 for(char[] aBoardInTheList : boards) {
-                                    List<char[]> alteredHistory = history.clone();
+                                    List<char[]> alteredHistory = new ArrayList<>(history);
                                     alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
@@ -1143,7 +1150,7 @@ class Schmedis {
                             { 
                                 List<char[]> boards = genericBoards(i, history, new Bishop());
                                 for(char[] aBoardInTheList : boards) {
-                                    List<char[]> alteredHistory = history.clone();
+                                    List<char[]> alteredHistory = new ArrayList<>(history);
                                     alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
@@ -1154,7 +1161,7 @@ class Schmedis {
                             { 
                                 List<char[]> boards = genericBoards(i, history, new Queen());
                                 for(char[] aBoardInTheList : boards) {
-                                    List<char[]> alteredHistory = history.clone();
+                                    List<char[]> alteredHistory = new ArrayList<>(history);
                                     alteredHistory.add(aBoardInTheList);
                                     children.add(alteredHistory);
                                 }
@@ -1165,8 +1172,7 @@ class Schmedis {
                             { 
                                 List<char[]> boards = genericBoards(i, history, new Rook());
                                 for(char[] aBoardInTheList : boards) {
-                                    List<char[]> alteredHistory = history.clone();
-                                    alteredHistory.add(aBoardInTheList);
+                                    List<char[]> alteredHistory = new ArrayList<>(history);
                                     children.add(alteredHistory);
                                 }
      			    }
