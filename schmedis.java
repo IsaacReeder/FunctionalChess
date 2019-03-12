@@ -1261,12 +1261,26 @@ class Schmedis {
 ////////
 
         public static boolean sameCountAndSamePawn (char[] boardOne, char[] boardTwo){
-            boolean countIsTheSame = sameCount(boardOne, boardTwo);
-            boolean pawnsAreAlone = pawnsOnly(boardOne, boardTwo);
-            return countIsTheSame && pawnsAreAlone;
+            boolean countIsTheSame = sameCounts(boardOne, boardTwo);
+            boolean pawnsAreTheSame = samePawns(boardOne, boardTwo);
+            return countIsTheSame && pawnsAreTheSame;
 
         } 
 
 ////////
 
+        public static boolean stagnantForFiftyMoves(List<char[]> history) {
+            if(history.size() >= 50){
+                List<char[]> subHistory = history.subList(history.size()-50, history.size());
+                char[] boardOne = subHistory.get(0);
+                boolean stagnant = true;
+                for(char[] board : subHistory){
+                    if(!sameCountAndSamePawn(boardOne, board)) stagnant = false;
+                    return stagnant;
+                }
+            }
+            return false;
+        }
+
+////////
 }
