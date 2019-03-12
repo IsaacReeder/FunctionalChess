@@ -27,6 +27,22 @@ class Schmedis {
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
     public static void main(String[] args) {
+        {
+            char [] chessBoard = {
+                        'C',' ','B','Q','K','B','H','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ','H',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ','p',' ',' ',' ',
+                        ' ',' ',' ','H',' ','C',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p',' ',' ',' ','p','p',
+                        'c','h','b',' ','k',' ','h','c'
+            };
+            List<Character> charlie = Arrays.asList(chessBoard); 
+            System.out.println(charlie);
+//            Map<Character, Long> counts = list.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()))
+
+        }
         char [] haloBoard = {
                     'C',' ','B','Q','K','B','H','C',
                     'P','P','P','P','P','P','P','P',
@@ -337,6 +353,8 @@ class Schmedis {
         }
 
 ////////At some point it will be necessary to write a function that handles the Fifty-move rule.
+////////CheckMate is discovered as bad news for the player who has recieved the minimax call
+////////bad news for the player whos color matches the boolean
 
         public static double minimax(char[] node,int depth,boolean maximizingPlayer) {
             Double value;
