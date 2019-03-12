@@ -3,6 +3,8 @@ import redis.clients.jedis.Jedis;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.ArrayUtils;
 
 class Schmedis {
@@ -38,10 +40,12 @@ class Schmedis {
                         'p','p','p',' ',' ',' ','p','p',
                         'c','h','b',' ','k',' ','h','c'
             };
-            List<Character> charlie = Arrays.asList(chessBoard); 
-            System.out.println(charlie);
-//            Map<Character, Long> counts = list.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()))
-
+            List<Character> charlie = new ArrayList<Character>();
+            for(char pigeon : chessBoard){
+            charlie.add(pigeon);
+            }
+            Map<String, Long> counts = charlie.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+            System.out.println(count);
         }
         char [] haloBoard = {
                     'C',' ','B','Q','K','B','H','C',
