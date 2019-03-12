@@ -1241,14 +1241,32 @@ class Schmedis {
 ////////
 
         public static char[] pawnsOnly(char[] board){
-            char[] alteredBoard = board.clone;
+            char[] alteredBoard = board.clone();
             for(int i=0; i<64; i++){
-                if(board[i] != 'p' && != 'P')alteredBoard[i] = ' ';
+                if(board[i] != 'p' && board[i] != 'P')alteredBoard[i] = ' ';
             }
 
             return alteredBoard;
         }
 
 ///////
+
+        public static boolean samePawns (char[] boardOne, char[] boardTwo){
+            char[] transformed = pawnsOnly(boardOne);      
+            char[] transformedTwo = pawnsOnly(boardTwo);      
+            boolean same = transformed.equals(transformedTwo);
+            return same;
+        }
+
+////////
+
+        public static boolean sameCountAndSamePawn (char[] boardOne, char[] boardTwo){
+            boolean countIsTheSame = sameCount(boardOne, boardTwo);
+            boolean pawnsAreAlone = pawnsOnly(boardOne, boardTwo);
+            return countIsTheSame && pawnsAreAlone;
+
+        } 
+
+////////
 
 }
