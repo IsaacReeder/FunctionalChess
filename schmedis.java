@@ -1273,11 +1273,10 @@ class Schmedis {
             if(history.size() >= 50){
                 List<char[]> subHistory = history.subList(history.size()-50, history.size());
                 char[] boardOne = subHistory.get(0);
-                boolean stagnant = true;
                 for(char[] board : subHistory){
-                    if(!sameCountAndSamePawn(boardOne, board)) stagnant = false;
-                    return stagnant;
+                    if(!sameCountAndSamePawn(boardOne, board)) return false;
                 }
+                return true;
             }
             return false;
         }
