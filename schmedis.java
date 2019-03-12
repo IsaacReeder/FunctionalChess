@@ -30,7 +30,7 @@ class Schmedis {
    
     public static void main(String[] args) {
         {
-            char [] chessBoard = {
+            char [] chessBoardTele = {
                         'C',' ','B','Q','K','B','H','C',
                         'P','P','P','P','P','P','P','P',
                         ' ',' ','H',' ',' ',' ',' ',' ',
@@ -40,12 +40,17 @@ class Schmedis {
                         'p','p','p',' ',' ',' ','p','p',
                         'c','h','b',' ','k',' ','h','c'
             };
-            List<Character> charlie = new ArrayList<Character>();
-            for(char pigeon : chessBoard){
-            charlie.add(pigeon);
-            }
-            Map<String, Long> counts = charlie.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-            System.out.println(count);
+            char [] chessBoardTeleTwo = {
+                        'C',' ','B','Q','K','B',' ','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ','H',' ',' ','H',' ',' ',
+                        ' ',' ',' ',' ','p',' ',' ',' ',
+                        ' ',' ','H',' ',' ','C',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p',' ',' ',' ','p','p',
+                        'c','h','b',' ','k',' ','h','c'
+            };
+            System.out.println(sameCounts(chessBoardTele, chessBoardTeleTwo));
         }
         char [] haloBoard = {
                     'C',' ','B','Q','K','B','H','C',
@@ -1213,5 +1218,37 @@ class Schmedis {
         }
 
 ////////
+
+        public static Map<Character, Long> domainTransformer(char[] chessBoardTele) {
+            List<Character> charlie = new ArrayList<Character>();
+            for(char pigeon : chessBoardTele){
+                charlie.add(pigeon);
+            }
+            Map<Character, Long> counts = charlie.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+            return counts;
+        }
+
+////////
+
+        public static boolean sameCounts (char[] boardOne, char[] boardTwo){
+            Map<Character, Long> transformed = domainTransformer(boardOne);      
+            Map<Character, Long> transformedTwo = domainTransformer(boardTwo);      
+            
+            boolean same = transformed.equals(transformedTwo);
+            return same;
+        }
+
+////////
+
+        public static char[] pawnsOnly(char[] board){
+            char[] alteredBoard = board.clone;
+            for(int i=0; i<64; i++){
+                if(board[i] != 'p' && != 'P')alteredBoard[i] = ' ';
+            }
+
+            return alteredBoard;
+        }
+
+///////
 
 }
