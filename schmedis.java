@@ -50,7 +50,7 @@ class Schmedis {
                         'p','p','p',' ',' ',' ','p','p',
                         'c','h','b',' ','k',' ','h','c'
             };
-            System.out.println(sameCounts(chessBoardTele, chessBoardTeleTwo));
+            System.out.println(noPiecesCapturedBetweenTheseTwoBoards(chessBoardTele, chessBoardTeleTwo));
         }
         char [] haloBoard = {
                     'C',' ','B','Q','K','B','H','C',
@@ -1219,7 +1219,7 @@ class Schmedis {
 
 ////////
 
-        public static Map<Character, Long> domainTransformer(char[] chessBoardTele) {
+        public static Map<Character, Long> boardToCountsForEachKindOfPiece(char[] chessBoardTele) {
             List<Character> charlie = new ArrayList<Character>();
             for(char pigeon : chessBoardTele){
                 charlie.add(pigeon);
@@ -1230,9 +1230,9 @@ class Schmedis {
 
 ////////
 
-        public static boolean sameCounts (char[] boardOne, char[] boardTwo){
-            Map<Character, Long> transformed = domainTransformer(boardOne);      
-            Map<Character, Long> transformedTwo = domainTransformer(boardTwo);      
+        public static boolean noPiecesCapturedBetweenTheseTwoBoards (char[] boardOne, char[] boardTwo){
+            Map<Character, Long> transformed = boardToCountsForEachKindOfPiece(boardOne);      
+            Map<Character, Long> transformedTwo = boardToCountsForEachKindOfPiece(boardTwo);      
             
             boolean same = transformed.equals(transformedTwo);
             return same;
@@ -1240,7 +1240,7 @@ class Schmedis {
 
 ////////
 
-        public static char[] pawnsOnly(char[] board){
+        public static char[] boardToPawnsOnlyBoard (char[] board){
             char[] alteredBoard = board.clone();
             for(int i=0; i<64; i++){
                 if(board[i] != 'p' && board[i] != 'P')alteredBoard[i] = ' ';
@@ -1251,18 +1251,18 @@ class Schmedis {
 
 ///////
 
-        public static boolean samePawns (char[] boardOne, char[] boardTwo){
-            char[] transformed = pawnsOnly(boardOne);      
-            char[] transformedTwo = pawnsOnly(boardTwo);      
+        public static boolean noChangeInPawnsBetweenTheseTwoBoards (char[] boardOne, char[] boardTwo){
+            char[] transformed = boardToPawnsOnlyBoard(boardOne);      
+            char[] transformedTwo = boardToPawnsOnlyBoard(boardTwo);      
             boolean same = transformed.equals(transformedTwo);
             return same;
         }
 
 ////////
 
-        public static boolean sameCountAndSamePawn (char[] boardOne, char[] boardTwo){
-            boolean countIsTheSame = sameCounts(boardOne, boardTwo);
-            boolean pawnsAreTheSame = samePawns(boardOne, boardTwo);
+        public static boolean stagnantBetweenTheseTwoBoards (char[] boardOne, char[] boardTwo){
+            boolean countIsTheSame = noPiecesCapturedBetweenTheseTwoBoards(boardOne, boardTwo);
+            boolean pawnsAreTheSame = noChangeInPawnsBetweenTheseTwoBoards(boardOne, boardTwo);
             return countIsTheSame && pawnsAreTheSame;
 
         } 
@@ -1270,15 +1270,25 @@ class Schmedis {
 ////////
 
         public static boolean stagnantForFiftyMoves(List<char[]> history) {
-            if(history.size() >= 50){
-                List<char[]> subHistory = history.subList(history.size()-50, history.size());
-                char[] boardOne = subHistory.get(0);
+            if(history.size() >= 51){
+                List<char[]> subHistory = history.subList(history.size()-51, history.size());
+                char[] boardZero = subHistory.get(0);
                 for(char[] board : subHistory){
-                    if(!sameCountAndSamePawn(boardOne, board)) return false;
+                    if(!stagnantBetweenTheseTwoBoards(boardZero, board)) return false;
                 }
                 return true;
             }
             return false;
+        }
+
+////////
+
+        public static boolean checkMate(boolean white, List<char[]> history){
+            boolean imInCheck = inCheck(white, history);
+            List<List<char[]>> children = chessChildren (history, white); 
+            boolean noMoves = children.size()==0;
+            return imInCheck && noMoves;              
+        
         }
 
 ////////
