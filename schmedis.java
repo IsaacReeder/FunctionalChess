@@ -1299,11 +1299,11 @@ class Schmedis {
 
         public static double chessMinimax(List<char[]> node,int depth,boolean maximizingPlayer) {
             Double value;
-            if (depth == 0 || gameOver(node, depth, maximizingPlayer){ 
+            if (depth == 0 || gameOver(node, maximizingPlayer){ 
                 if (checkMate(maximizingPlayer, history)) return maximizingPlayer ? ninf : inf;       
                 if (stagnantForFiftyMoves(history)) return 0;       
                 if (threeFoldRepetition(history)) return 0;       
-                if (noMoves(maximizingPlayer, history)) return 0;       
+                if (noMoves(maximizingPlayer, history)) return boardValue(node.get(node.size()-1));       
             }
  
             if (nodeIsATerminalNode(node)) {
@@ -1328,7 +1328,7 @@ class Schmedis {
 
 ////////
 
-        public static boolean gameOver(List<char> node, int depth, boolean maximizingPlayer){
+        public static boolean gameOver(List<char> node, boolean maximizingPlayer){
             return checkMate(maximizingPlayer, node) || noMoves(maximizingPlayer, history) || stagnantForFiftyMoves(node)
             || threefoldRepetition(node); 
                         
