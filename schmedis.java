@@ -1284,12 +1284,21 @@ class Schmedis {
 ////////
 
         public static boolean checkMate(boolean white, List<char[]> history){
-            boolean imInCheck = inCheck(white, history);
-            List<List<char[]>> children = chessChildren (history, white); 
-            boolean noMoves = children.size()==0;
-            return imInCheck && noMoves;              
-        
+            if (inCheck(white, history) && noMoves(white, history){
+
+            }
+            return inCheck(white, history) && chessChildren(history, white).size()==0;              
         }
 
 ////////
+
+        public static boolean noMoves(boolean white, List<char> history){
+            
+
+            return chessChildren(history, white).size()==0;              
+             
+        }
+
+////////
+
 }
