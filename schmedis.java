@@ -30,6 +30,23 @@ class Schmedis {
    
     public static void main(String[] args) {
         {
+//test for printChessHistory
+        List<char[]> history = new ArrayList<>();     
+        char [] chessBoard = {
+                    'C','H','B','Q','K','B','H','C',
+                    'P','P','P','P','P','P','P','P',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    'p','p','p','p','p','p','p','p',
+                    'c','h','b','q','k','b','h','c'
+                    };
+        history.add(chessBoard);
+        printChessHistory(history);
+        
+        }
+        {
             char [] chessBoardTele = {
                         'C',' ','B','Q','K','B','H','C',
                         'P','P','P','P','P','P','P','P',
@@ -443,9 +460,14 @@ class Schmedis {
         }
         return children;
         }
+
+////////
+
         public static boolean nodeIsATerminalNode(char[] node) {
             return tie(node) || somebodyWon(node);
         }
+
+////////
         public static void printBoard(char[] node){
             for(int i=0;i<3;i++) System.out.println( Character.toString(node[0+3*i]) +  Character.toString(node[1+3*i] ) +
             Character.toString(node[2+3*i]));  
@@ -1032,6 +1054,14 @@ class Schmedis {
 
 ////////
 
+        public static void printChessHistory(List<char[]> history){
+            System.out.println("printChessHistory(): " + history.size());
+            printChessBoard(history.get(history.size()-1));
+            return;
+        }
+
+////////
+
         public static void printChessBoard(char[] node){
             for(int r=0;r<8;r++) {
                 for(int c=0;c<8;c++){
@@ -1299,19 +1329,13 @@ class Schmedis {
 
         public static double chessMinimax(List<char[]> node,int depth,boolean maximizingPlayer) {
             Double value;
-            if (depth == 0 || gameOver(node, maximizingPlayer){ 
+            if (depth == 0 || gameOver(node, maximizingPlayer)){ 
                 if (checkMate(maximizingPlayer, history)) return maximizingPlayer ? ninf : inf;       
                 if (stagnantForFiftyMoves(history)) return 0;       
                 if (threeFoldRepetition(history)) return 0;       
-                if (noMoves(maximizingPlayer, history)) return boardValue(node.get(node.size()-1));       
+                if (noMoves(maximizingPlayer, history)) return 0;
+                return boardValue(node.get(node.size()-1));       
             }
- 
-            if (nodeIsATerminalNode(node)) {
-                if(somebodyWon(node))
-                    return(maximizingPlayer ? ninf:inf);
-                else
-                    return(0.0); 
-            }    
             if (maximizingPlayer) {
                 value = ninf; 
                 for(char[] child : children(node, maximizingPlayer)) 
@@ -1322,7 +1346,6 @@ class Schmedis {
                 for(char[] child : children(node, maximizingPlayer)) 
                     value = Math.min(value, minimax(child, depth - 1, true));
                 return value; 
-            
             }
         }
 
