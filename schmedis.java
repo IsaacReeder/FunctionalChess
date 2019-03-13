@@ -43,9 +43,26 @@ class Schmedis {
                     'c','h','b','q','k','b','h','c'
                     };
         history.add(chessBoard);
-        printChessHistory(history);
+        while(!gameOver(history, history.size() % 2==1 ))
+        {
+            printChessHistory(history);
+            if (history.size() % 2==1) {
+                value = ninf; 
+                List<char[]> nextNodes = chessChildren(node, history.size() % 2==1);
+                List<char[]> championNode = nextNodes.get(0);
+                for(List<char[]> child : nextNodes) 
+                    valueForThisMove = chessMinimax(value, chessMinimax(child, depth - 1, false));
+                return valueForThisMove;
+            } else {
+                value = inf; 
+                for(List<char[]> child : chessChildren(node, history.size() % 2==1)) 
+                    value = Math.min(value, chessMinimax(node, depth - 1, true));
+                return value; 
+            }
+        }
         
         }
+//
         {
             char [] chessBoardTele = {
                         'C',' ','B','Q','K','B','H','C',
@@ -1319,7 +1336,7 @@ class Schmedis {
 
 ////////
 
-        public static boolean noMoves(boolean white, List<char> history){
+        public static boolean noMoves(boolean white, List<char[]> history){
             return chessChildren(history, white).size()==0;              
         }
 
@@ -1330,29 +1347,29 @@ class Schmedis {
         public static double chessMinimax(List<char[]> node,int depth,boolean maximizingPlayer) {
             Double value;
             if (depth == 0 || gameOver(node, maximizingPlayer)){ 
-                if (checkMate(maximizingPlayer, history)) return maximizingPlayer ? ninf : inf;       
-                if (stagnantForFiftyMoves(history)) return 0;       
-                if (threeFoldRepetition(history)) return 0;       
-                if (noMoves(maximizingPlayer, history)) return 0;
+                if (checkMate(maximizingPlayer, node)) return maximizingPlayer ? ninf : inf;       
+                if (stagnantForFiftyMoves(node)) return 0;       
+                if (threefoldRepetition(node)) return 0;       
+                if (noMoves(maximizingPlayer, node)) return 0;
                 return boardValue(node.get(node.size()-1));       
             }
             if (maximizingPlayer) {
                 value = ninf; 
-                for(char[] child : children(node, maximizingPlayer)) 
-                    value = Math.max(value, minimax(child, depth - 1, false));
+                for(List<char[]> child : chessChildren(node, maximizingPlayer)) 
+                    value = Math.max(value, chessMinimax(child, depth - 1, false));
                 return value;
             } else {
                 value = inf; 
-                for(char[] child : children(node, maximizingPlayer)) 
-                    value = Math.min(value, minimax(child, depth - 1, true));
+                for(List<char[]> child : chessChildren(node, maximizingPlayer)) 
+                    value = Math.min(value, chessMinimax(node, depth - 1, true));
                 return value; 
             }
         }
 
 ////////
 
-        public static boolean gameOver(List<char> node, boolean maximizingPlayer){
-            return checkMate(maximizingPlayer, node) || noMoves(maximizingPlayer, history) || stagnantForFiftyMoves(node)
+        public static boolean gameOver(List<char[]> node, boolean maximizingPlayer){
+            return checkMate(maximizingPlayer, node) || noMoves(maximizingPlayer, node) || stagnantForFiftyMoves(node)
             || threefoldRepetition(node); 
                         
         }
