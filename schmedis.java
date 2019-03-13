@@ -30,36 +30,41 @@ class Schmedis {
    
     public static void main(String[] args) {
         {
-//test for printChessHistory
-        List<char[]> history = new ArrayList<>();     
-        char [] chessBoard = {
-                    'C','H','B','Q','K','B','H','C',
-                    'P','P','P','P','P','P','P','P',
-                    ' ',' ',' ',' ',' ',' ',' ',' ',
-                    ' ',' ',' ',' ',' ',' ',' ',' ',
-                    ' ',' ',' ',' ',' ',' ',' ',' ',
-                    ' ',' ',' ',' ',' ',' ',' ',' ',
-                    'p','p','p','p','p','p','p','p',
-                    'c','h','b','q','k','b','h','c'
-                    };
-        history.add(chessBoard);
-        while(!gameOver(history, history.size() % 2==1 ))
-        {
-            printChessHistory(history);
-            if (history.size() % 2==1) {
-                value = ninf; 
-                List<char[]> nextNodes = chessChildren(node, history.size() % 2==1);
-                List<char[]> championNode = nextNodes.get(0);
-                for(List<char[]> child : nextNodes) 
-                    valueForThisMove = chessMinimax(value, chessMinimax(child, depth - 1, false));
-                return valueForThisMove;
-            } else {
-                value = inf; 
-                for(List<char[]> child : chessChildren(node, history.size() % 2==1)) 
-                    value = Math.min(value, chessMinimax(node, depth - 1, true));
-                return value; 
+            //test for printChessHistory
+            List<char[]> history = new ArrayList<>();     
+            char [] chessBoard = {
+                        'C','H','B','Q','K','B','H','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p','p','p','p','p','p',
+                        'c','h','b','q','k','b','h','c'
+                        };
+            history.add(chessBoard);
+            int depth = 3;
+            while(!gameOver(history, history.size() % 2==1 ))
+            {
+                boolean white = history.size() % 2==1;
+                printChessHistory(history);
+                {
+                    List<List<char[]>> nextNodes = chessChildren( history, white );
+                    List<char[]> championNode = nextNodes.get(0);
+                    double championValue = white ? ninf : inf;
+                    for(List<char[]> challengerNode : nextNodes) 
+                    {
+                        double challengerValue = chessMinimax(challengerNode, depth, !white);               
+                        boolean challengerBeatsChampion = white ? challengerValue > championValue : challengerValue < championValue; 
+                        if(challengerBeatsChampion)
+                        {
+                            championValue = challengerValue;
+                            championNode = challengerNode;
+                        }
+                    }
+                    history = championNode;
+                } 
             }
-        }
         
         }
 //
