@@ -1293,6 +1293,46 @@ class Schmedis {
             return chessChildren(history, white).size()==0;              
         }
 
+////////termination conditions are expensive and we should make them share the chessChildren with the other part of minimax that makes 
+//recursive calls.
 ////////
 
+        public static double chessMinimax(List<char[]> node,int depth,boolean maximizingPlayer) {
+            Double value;
+            if (depth == 0 || gameOver(node, depth, maximizingPlayer){ 
+                if (checkMate(maximizingPlayer, history)) return maximizingPlayer ? ninf : inf;       
+                if (stagnantForFiftyMoves(history)) return 0;       
+                if (threeFoldRepetition(history)) return 0;       
+                if (noMoves(maximizingPlayer, history)) return 0;       
+            }
+ 
+            if (nodeIsATerminalNode(node)) {
+                if(somebodyWon(node))
+                    return(maximizingPlayer ? ninf:inf);
+                else
+                    return(0.0); 
+            }    
+            if (maximizingPlayer) {
+                value = ninf; 
+                for(char[] child : children(node, maximizingPlayer)) 
+                    value = Math.max(value, minimax(child, depth - 1, false));
+                return value;
+            } else {
+                value = inf; 
+                for(char[] child : children(node, maximizingPlayer)) 
+                    value = Math.min(value, minimax(child, depth - 1, true));
+                return value; 
+            
+            }
+        }
+
+////////
+
+        public static boolean gameOver(List<char> node, int depth, boolean maximizingPlayer){
+            return checkMate(maximizingPlayer, node) || noMoves(maximizingPlayer, history) || stagnantForFiftyMoves(node)
+            || threefoldRepetition(node); 
+                        
+        }
+
+////////
 }
