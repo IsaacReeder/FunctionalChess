@@ -43,7 +43,7 @@ class Schmedis {
                         'c','h','b','q','k','b','h','c'
                         };
             history.add(chessBoard);
-            int depth = 3;
+            int depth = 1;
             while(!gameOver(history, history.size() % 2==1 ))
             {
                 boolean white = history.size() % 2==1;
@@ -1310,7 +1310,7 @@ class Schmedis {
         public static boolean noChangeInPawnsBetweenTheseTwoBoards (char[] boardOne, char[] boardTwo){
             char[] transformed = boardToPawnsOnlyBoard(boardOne);      
             char[] transformedTwo = boardToPawnsOnlyBoard(boardTwo);      
-            boolean same = transformed.equals(transformedTwo);
+            boolean same = Arrays.equals(transformed, transformedTwo);
             return same;
         }
 
