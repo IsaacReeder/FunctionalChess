@@ -44,26 +44,34 @@ class Schmedis {
                         };
             history.add(chessBoard);
             int depth = 1;
-            while(!gameOver(history, history.size() % 2==1 ))
+            boolean myTeam = history.size() % 2==1;
+            while(!gameOver(history, myTeam))
             {
-                boolean white = history.size() % 2==1;
                 printChessHistory(history);
+
+
+
+
+                List<List<char[]>> nextNodes = chessChildren( history, myTeam );
+                List<char[]> championNode = nextNodes.get(0);
+                double championValue = myTeam ? ninf : inf;
+                for(List<char[]> challengerNode : nextNodes) 
                 {
-                    List<List<char[]>> nextNodes = chessChildren( history, white );
-                    List<char[]> championNode = nextNodes.get(0);
-                    double championValue = white ? ninf : inf;
-                    for(List<char[]> challengerNode : nextNodes) 
+                    boolean otherTeam = !myTeam;
+                    double challengerValue = chessMinimax(challengerNode, depth, !myTeam);               
+                    boolean challengerBeatsChampion = myTeam ? challengerValue > championValue : challengerValue < championValue; 
+                    if(challengerBeatsChampion)
                     {
-                        double challengerValue = chessMinimax(challengerNode, depth, !white);               
-                        boolean challengerBeatsChampion = white ? challengerValue > championValue : challengerValue < championValue; 
-                        if(challengerBeatsChampion)
-                        {
-                            championValue = challengerValue;
-                            championNode = challengerNode;
-                        }
+                        championValue = challengerValue;
+                        championNode = challengerNode;
                     }
-                    history = championNode;
-                } 
+                }
+
+
+
+
+                history = championNode;
+                myTeam = history.size() % 2==1;
             }
         
         }
@@ -1355,7 +1363,6 @@ class Schmedis {
 
         public static double chessMinimax(List<char[]> node,int depth,boolean maximizingPlayer) {
             Double value;
-            System.out.println(printChessHistory(node));
             if (depth == 0 || gameOver(node, maximizingPlayer)){ 
                 if (checkMate(maximizingPlayer, node)) return maximizingPlayer ? ninf : inf;       
                 if (stagnantForFiftyMoves(node)) return 0;       
@@ -1363,17 +1370,25 @@ class Schmedis {
                 if (noMoves(maximizingPlayer, node)) return 0;
                 return boardValue(node.get(node.size()-1));       
             }
-            if (maximizingPlayer) {
-                value = ninf; 
-                for(List<char[]> child : chessChildren(node, maximizingPlayer)) 
-                    value = Math.max(value, chessMinimax(child, depth - 1, false));
-                return value;
-            } else {
-                value = inf; 
-                for(List<char[]> child : chessChildren(node, maximizingPlayer)) 
-                    value = Math.min(value, chessMinimax(child, depth - 1, true));
-                return value; 
+
+
+            
+            List<List<char[]>> nextNodes = chessChildren( node, maximizingPlayer );
+            double championValue = maximizingPlayer ? ninf : inf;
+            for(List<char[]> challengerNode : nextNodes) 
+            {
+                boolean otherTeam = !maximizingPlayer;
+                double challengerValue = chessMinimax(challengerNode, depth-1, !maximizingPlayer);               
+                boolean challengerBeatsChampion = maximizingPlayer ? challengerValue > championValue : challengerValue < championValue; 
+                if(challengerBeatsChampion)
+                {
+                    championValue = challengerValue;
+                }
             }
+            return championValue;
+
+
+
         }
 
 ////////
