@@ -43,7 +43,7 @@ class Schmedis {
                         'c','h','b','q','k','b','h','c'
                         };
             history.add(chessBoard);
-            int depth = 1;
+            int depth = 3;
             boolean myTeam = history.size() % 2==1;
             while(!gameOver(history, myTeam))
             {
@@ -58,7 +58,7 @@ class Schmedis {
                 for(List<char[]> challengerNode : nextNodes) 
                 {
                     boolean otherTeam = !myTeam;
-                    double challengerValue = chessMinimax(challengerNode, depth, !myTeam);               
+                    double challengerValue = chessAlphaBeta(challengerNode, depth, ninf, inf, !myTeam);               
                     boolean challengerBeatsChampion = myTeam ? challengerValue > championValue : challengerValue < championValue; 
                     if(challengerBeatsChampion)
                     {
@@ -1361,7 +1361,7 @@ class Schmedis {
 //recursive calls.
 ////////
 
-        public static double chessMinimax(List<char[]> node,int depth,boolean maximizingPlayer) {
+        public static double chessAlphaBeta(List<char[]> node, int depth, double alpha, double beta, boolean maximizingPlayer) {
             Double value;
             if (depth == 0 || gameOver(node, maximizingPlayer)){ 
                 if (checkMate(maximizingPlayer, node)) return maximizingPlayer ? ninf : inf;       
@@ -1378,12 +1378,19 @@ class Schmedis {
             for(List<char[]> challengerNode : nextNodes) 
             {
                 boolean otherTeam = !maximizingPlayer;
-                double challengerValue = chessMinimax(challengerNode, depth-1, !maximizingPlayer);               
+                double challengerValue = chessAlphaBeta(challengerNode, depth-1, alpha, beta, !maximizingPlayer);               
                 boolean challengerBeatsChampion = maximizingPlayer ? challengerValue > championValue : challengerValue < championValue; 
                 if(challengerBeatsChampion)
                 {
                     championValue = challengerValue;
                 }
+                if(maximizingPlayer)
+                {
+                    alpha = Math.max(alpha, championValue); 
+                }else{
+                    beta = Math.min(beta, championValue); 
+                } 
+                if(alpha >= beta)break;
             }
             return championValue;
 
