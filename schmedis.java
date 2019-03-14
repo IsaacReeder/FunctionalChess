@@ -1355,6 +1355,7 @@ class Schmedis {
 
         public static double chessMinimax(List<char[]> node,int depth,boolean maximizingPlayer) {
             Double value;
+            System.out.println(printChessHistory(node));
             if (depth == 0 || gameOver(node, maximizingPlayer)){ 
                 if (checkMate(maximizingPlayer, node)) return maximizingPlayer ? ninf : inf;       
                 if (stagnantForFiftyMoves(node)) return 0;       
