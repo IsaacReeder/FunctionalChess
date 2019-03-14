@@ -690,7 +690,6 @@ class Schmedis {
             char[] board = history.get(history.size()-1);
             List<char[]> boards = new ArrayList<char[]>();
             List<List<Integer>> slides = f.slides(start); 
-	    System.out.println(slides + "SLIDES");
             for( List<Integer>slide : slides )
             {
                 boolean somethingInTheWay = false;
@@ -1172,12 +1171,17 @@ class Schmedis {
             for(int i=0; i<64; i++){
                 if(board[i]==kingToFind)start=i;
             }
+            if(start == -1)
+            {
+                System.out.println("CANT FIND THA FRICKIN KING ! ! !");
+                printAllChessHistory(history);            
+            }
             Set<Integer> halo = enemyHalo(start, board);    
 
             return halo.contains(start);
         }    
 
-////////*
+////////
 
         public static boolean threefoldRepetition(List<char[]> history) {
             char[] board = history.get(history.size()-1);
@@ -1366,7 +1370,7 @@ class Schmedis {
             } else {
                 value = inf; 
                 for(List<char[]> child : chessChildren(node, maximizingPlayer)) 
-                    value = Math.min(value, chessMinimax(node, depth - 1, true));
+                    value = Math.min(value, chessMinimax(child, depth - 1, true));
                 return value; 
             }
         }
@@ -1377,6 +1381,14 @@ class Schmedis {
             return checkMate(maximizingPlayer, node) || noMoves(maximizingPlayer, node) || stagnantForFiftyMoves(node)
             || threefoldRepetition(node); 
                         
+        }
+
+////////
+
+        public static void printAllChessHistory(List<char[]> history){
+            System.out.println("printChessHistory(): " + history.size());
+            for(char[] d : history) printChessBoard(d);
+            return;
         }
 
 ////////
