@@ -927,14 +927,13 @@ class Schmedis {
             int oneSquareAhead = (startingRow+direction)*8+startingColumn;
             int twoSquaresAhead = (startingRow+direction*2)*8+startingColumn;
             boolean squareAheadIsEmpty = board[oneSquareAhead] == ' ';
-            boolean twoSquaresAheadIsEmpty = board[twoSquaresAhead] == ' ';
             boolean pawnAtOriginalPosition = pP == 'p' && startingRow==6 || pP == 'P' && startingRow==1;
             char[] whitePromotions = {'c', 'h', 'b', 'q'};
             char[] blackPromotions = {'C', 'H', 'B', 'Q'};
             char[] promotions = pP=='p' ? whitePromotions : blackPromotions;
 
 //HANDLE TWO SQUARE PAWN PUSH        
-            if (pawnAtOriginalPosition&&squareAheadIsEmpty&&twoSquaresAheadIsEmpty){
+            if (pawnAtOriginalPosition && squareAheadIsEmpty && board[twoSquaresAhead] == ' '){
                 char[] modifiedBoard = board.clone(); 
                 modifiedBoard[start] = ' ';
                 modifiedBoard[oneSquareAhead] = pP;
