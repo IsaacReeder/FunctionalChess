@@ -1,0 +1,17 @@
+syntax = "proto3";
+package chess;
+
+option java_package = "com.coderz.app";
+option java_outer_classname = "ChessProtos";
+message PingPongBall {  
+    repeated string history = 1;
+    bool white = 2;
+    int32 depth = 3;
+    double estimate = 4;
+    double valueAtThisDepth = 5;
+    double alpha = 6;
+    double beta = 7;
+    }
+message Stack {
+    repeated PingPongBall balls = 1;
+    }
