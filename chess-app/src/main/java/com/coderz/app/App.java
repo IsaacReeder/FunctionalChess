@@ -73,8 +73,6 @@ class App {
     
     
             } catch (Exception e){}    
-        } else if(args.mode.equals("mapper")) {
-            System.out.println("Yay we made it to the mapper!!");
         } else if(args.mode.equals("primer")) {
             try
             {
