@@ -12,6 +12,7 @@ import com.coderz.app.ChessProtos.*;
 import com.beust.jcommander.*;
 import org.apache.commons.lang3.ArrayUtils;
 import static java.util.stream.Collectors.toList;
+import java.util.function.*;
 
 class App {
     public interface ILambda<R,P> {
@@ -41,6 +42,8 @@ class App {
             .addObject(args)
             .build()
             .parse(argv);
+
+
         if(args.mode.equals("alphaBeta"))
         {
             try{
@@ -1570,5 +1573,32 @@ class App {
         }
 
 ////////
+
+        public static String pingPongBallToStringThatIsPrintable(PingPongBall a){
+            Function<PingPongBall,PingPongBall> fun = x -> x;
+            return fun
+                .andThen( x -> x.toByteArray() )
+                .andThen( x -> Base64.getEncoder().encodeToString(x) )
+                .apply( a );
+        }
+////////
+        public static PingPongBall stringThatIsPrintableToPingPongBall(String a){
+            Function<String,String> fun = x -> x;
+            return fun
+              .andThen( x -> x.split( "\\r?\\n" )  )
+              .andThen( x -> x[0] )
+              .andThen( x -> x.getBytes() )
+              .andThen( x -> Base64.getDecoder().decode(x) )
+              .andThen( x -> parseByteArrayToPingPongBallOrNull(x) )
+              .apply( a );
+        }
+
+        public static PingPongBall parseByteArrayToPingPongBallOrNull(byte[] a) {
+            try {
+                return PingPongBall.parseFrom(a);
+            } catch(Exception e){ return null; }
+        }
+
+
 
 }
