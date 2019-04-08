@@ -78,7 +78,7 @@ class App {
     
     
             } catch (Exception e){}    
-        } else if(args.mode.equals("primer")) {
+        } else if(args.mode.equals("wafuk")) {
             try
             {
                 List<char[]> history = new ArrayList<>();
@@ -228,7 +228,7 @@ class App {
                         .build()
                         
                 ) 
-                .peek(x -> System.out.println(x))
+//                .peek(x -> System.out.println(x))
                 .reduce( null , (a,b) -> a==null ? b : 
                     a.getWhite() ? 
                         a.getValueAtThisDepth()>b.getValueAtThisDepth() ? a : b
@@ -1261,7 +1261,8 @@ class App {
         public static void printChessBoard(char[] node){
             for(int r=0;r<8;r++) {
                 for(int c=0;c<8;c++){
-                    System.out.print(Character.toString(node[r*8+c]));
+                    System.out.print(Character.toString(symbol(node[r*8+c])));
+                    System.out.print(' ');
                 } 
                 System.out.println();
             }
