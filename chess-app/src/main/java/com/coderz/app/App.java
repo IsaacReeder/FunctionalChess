@@ -36,7 +36,9 @@ class App {
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
     public static void main(String[] argv) {
-                
+        
+
+        
         Args args = new Args();
         JCommander.newBuilder()
             .addObject(args)
@@ -92,9 +94,16 @@ class App {
                             };
                 history.add(chessBoard0);
     
-                byte[] byteArray =  
+                PingPongBall p =
                 PingPongBall.newBuilder().addAllHistory(history.stream().map(x-> new String(x)).collect(Collectors.toList()))
-                .setWhite(true).setDepth(5).setAlpha(ninf).setBeta(inf).build().toByteArray();
+                .setWhite(true).setDepth(5).setAlpha(ninf).setBeta(inf).build();
+                System.out.println("***********************");
+                String x = pingPongBallToString(p);
+                System.out.println(x);
+                PingPongBall z = stringToPingPongBall(x); 
+                System.out.println(z);
+                System.out.println("***********************");
+                byte[] byteArray = p.toByteArray();
                 System.out.write(byteArray);
                 System.out.flush();
     
@@ -1574,7 +1583,7 @@ class App {
 
 ////////
 
-        public static String pingPongBallToStringThatIsPrintable(PingPongBall a){
+        public static String pingPongBallToString(PingPongBall a){
             Function<PingPongBall,PingPongBall> fun = x -> x;
             return fun
                 .andThen( x -> x.toByteArray() )
@@ -1582,7 +1591,7 @@ class App {
                 .apply( a );
         }
 ////////
-        public static PingPongBall stringThatIsPrintableToPingPongBall(String a){
+        public static PingPongBall stringToPingPongBall(String a){
             Function<String,String> fun = x -> x;
             return fun
               .andThen( x -> x.split( "\\r?\\n" )  )
@@ -1599,6 +1608,24 @@ class App {
             } catch(Exception e){ return null; }
         }
 
-
+        public static char symbol(char a)
+        {
+            switch (a)
+            {
+                case 'p': return '\u2659';
+                case 'c': return '\u2656';
+                case 'h': return '\u2658';
+                case 'b': return '\u2657';
+                case 'k': return '\u2654';
+                case 'q': return '\u2655';
+                case 'P': return '\u265f';
+                case 'C': return '\u265c';
+                case 'H': return '\u265e';
+                case 'B': return '\u265d';
+                case 'K': return '\u265a';
+                case 'Q': return '\u265b';
+            }
+            return ' ';
+        } 
 
 }
