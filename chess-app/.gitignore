@@ -9,5 +9,4 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 *~
-*.swp
-*.swo
+.*.sw*
