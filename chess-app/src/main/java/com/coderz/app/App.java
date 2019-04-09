@@ -39,14 +39,24 @@ class App {
 
     public static void main(String[] argv) {
             
+        List<char[]> history = new ArrayList<>();     
+        char [] chessBoard = {
+                    'C','H','B','Q','K','B','H','C',
+                    'P','P','P','P','P','P','P','P',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    ' ',' ',' ',' ',' ',' ',' ',' ',
+                    'p','p','p','p','p','p','p','p',
+                    'c','h','b','q','k','b','h','c'
+                    };
+        history.add(chessBoard);
         Scanner in = new Scanner(System.in);
         while(!gameOver(history, myTeam))
         {
             System.out.println("\nSelect your chess piece by board position ");
-            int startingPosition = new scanner.nextInt();
-            scanner.nextLine();
+            in.nextLine();
             System.out.println("\nSelect your destination or attack vector ");
-            int destination = new scanner.nextInt();
 
 
         } 
