@@ -36,17 +36,17 @@ class App {
     static final double inf = Double.POSITIVE_INFINITY;
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
-    public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] argv) {
             
+        Scanner in = new Scanner(System.in);
         while(!gameOver(history, myTeam))
         {
             System.out.println("\nSelect your chess piece by board position ");
             int startingPosition = new scanner.nextInt();
             scanner.nextLine();
             System.out.println("\nSelect your destination or attack vector ");
-            int destination = new Scanner.nextInt();
+            int destination = new scanner.nextInt();
 
 
         } 
