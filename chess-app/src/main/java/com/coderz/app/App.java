@@ -51,26 +51,28 @@ class App {
                         'c','h','b','q','k','b','h','c'
                         };
             h.add(cBoard);
-            boolean white = h.size() % 2==1;
+            boolean currentTeam = h.size() % 2==1;
+            boolean playerTeam  = c == 'W';
             System.out.println("\nSelect your color: W for white, B for Black");
             char c=in.next(".").charAt(0);
-            if(c=='W'){
-                boolean playerChooseWhite = true; 
-
-            }else{
-                boolean playerChooseWhite = false;
-
-            };
              
+            
             Scanner in = new Scanner(System.in);
-            while(!gameOver(h, white))
+            while(!gameOver(h, currentTeam))
             {
-                System.out.println("\nSelect your chess piece by board position ");
-                int startPosition = in.nextInt();
-                in.nextLine();
-                System.out.println("\nSelect your destination or attack vector ");
-                int destination = in.nextInt();
-                printChessBoard(cBoard); 
+                if(currentTeam == playerTeam){
+                    System.out.println("\nSelect your chess piece by board position ");
+                    int startPosition = in.nextInt();
+                    in.nextLine();
+                    System.out.println("\nSelect your destination or attack vector ");
+                    int destination = in.nextInt();
+                    printChessBoard(cBoard); 
+                } else {
+                    
+
+                }   
+
+
                 white = h.size() % 2==1;
                  
             }
