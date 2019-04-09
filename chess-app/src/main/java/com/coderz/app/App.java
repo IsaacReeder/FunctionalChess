@@ -4,15 +4,16 @@ import java.io.*;
 import java.util.*;
 import java.util.Map;
 import java.util.Arrays;
+import java.util.scanner;
+import java.util.function.*;
 import java.util.concurrent.*;
+import com.beust.jcommander.*;
 import redis.clients.jedis.Jedis;
 import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 import com.coderz.app.ChessProtos.*;
-import com.beust.jcommander.*;
 import org.apache.commons.lang3.ArrayUtils;
 import static java.util.stream.Collectors.toList;
-import java.util.function.*;
 
 class App {
     public interface ILambda<R,P> {
@@ -35,10 +36,23 @@ class App {
     static final double inf = Double.POSITIVE_INFINITY;
     static final double ninf = Double.NEGATIVE_INFINITY; 
    
-    public static void main(String[] argv) {
-        
 
-        
+    public static void main(String[] argv) {
+            
+    public static Scanner scanner = new Scanner(system.in);
+        while(!inCheck)
+        {
+            System.out.println("\nSelect your chess piece by board position ");
+            int startingPosition = new scanner.nextInt();
+            System.out.println("Possible moves: " +  possibleMoves(startingPosition);
+            scanner.nextLine();
+            System.out.println("\nSelect your destination or attack vector ");
+            int destination = new Scanner.nextInt();
+            //link a function athat deals with checking destinations of moves and/or  
+
+
+
+        } 
         Args args = new Args();
         JCommander.newBuilder()
             .addObject(args)
@@ -1603,11 +1617,15 @@ class App {
               .apply( a );
         }
 
+////////
+ 
         public static PingPongBall parseByteArrayToPingPongBallOrNull(byte[] a) {
             try {
                 return PingPongBall.parseFrom(a);
             } catch(Exception e){ return null; }
         }
+
+////////
 
         public static char symbol(char a)
         {
@@ -1629,4 +1647,49 @@ class App {
             return ' ';
         } 
 
-}
+////////
+
+        
+       public static Set<Integer> possibleMoves (int piece, char[] board) {
+           Set<Integer> halo = new HashSet<Integer>();
+           int friendlyPigeon = board[locationOfFriendlyPigeon];
+           boolean colorOfFriendlyPigeon = Character.isUpperCase(friendlyPigeon);
+               int pigeon = board[piece];
+               boolean colorOfPigeon = Character.isUpperCase(pigeon);
+               boolean enemyPigeon = colorOfPigeon != colorOfFriendlyPigeon;
+               boolean empty = pigeon == ' ';
+               if( !empty && enemyPigeon )
+               {
+                   switch(pigeon)
+                   {
+                       case 'k':  
+                       case 'K':  
+                           halo.addAll( kingHalo( i, board ));
+                           break;
+                       case 'p':  
+                       case 'P':
+                           halo.addAll( pawnHalo( i, board ));
+                           break;
+                       case 'h':  
+                       case 'H':
+                           halo.addAll( genericHalo( i, board, new  Horse() ));
+                           break;
+                       case 'b':  
+                       case 'B':
+                           halo.addAll( genericHalo( i, board, new  Bishop() ));
+                           break;
+                       case 'q':  
+                       case 'Q':
+                           halo.addAll( genericHalo( i, board, new  Queen() ));
+                           break;
+                       case 'c':  
+                       case 'C':
+                           halo.addAll( genericHalo( i, board, new  Rook() ));
+                           break;
+                   }
+               } 
+           } 
+
+           return halo;
+} 
+
