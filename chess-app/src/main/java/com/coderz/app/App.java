@@ -68,11 +68,12 @@ class App {
             while(!gameOver(history, currentTeam))
             {
  
+                printChessBoard(history[history.size()-1]); 
 
                 if(currentTeam == playerTeam){
 
 
-                    while(true)
+                    while(!successfulMove)
                     {
 
                         System.out.println("\nSelect your chess piece by board position ");
@@ -88,8 +89,7 @@ class App {
                         List<char []> proposedHistory = history.clone();
                         proposedHistory.add(modifiedBoard);
                         history = proposedHistory;
-                        printChessBoard(history[history.size()-1]); 
-
+                        successfulMove = true;
                     }
 
 
