@@ -87,12 +87,12 @@ class App {
                         char pigeon = modifiedBoard[startPosition];
                         modifiedBoard[startPosition] = ' ';
                         modifiedBoard[destination] = pigeon;
-                        List<char []> proposedHistory = history.clone();
+                        List<char []> proposedHistory = new ArrayList<>(history); 
                         proposedHistory.add(modifiedBoard);
                         List<List<char []>> validHistories = chessChildren(history, currentTeam);
                         for (List<char []> validHistory : validHistories)
                         {
-                            if (Arrays.equals(modifiedHistory.get(modifiedHistory.size()-1) , validHistory.get(validHistory.size()-1)))
+                            if (Arrays.equals(proposedHistory.get(proposedHistory.size()-1) , validHistory.get(validHistory.size()-1)))
                             {
                                 successfulMove = true;
                                 history = proposedHistory;    
@@ -124,7 +124,7 @@ class App {
                             .newBuilder()
                             .addAllHistory( possibleNewHistory.stream().map( x  -> new String(x)).collect(Collectors.toList()) )
                             .setWhite(white)
-                            .setDepth(depth)
+                            .setDepth(args.depth)
                             .build()
                     )
                     .parallel()
@@ -168,7 +168,7 @@ class App {
                 }   
 
 
-                currentTeam = h.size() % 2==1;
+                currentTeam = history.size() % 2==1;
                  
             }
 
