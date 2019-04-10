@@ -92,7 +92,7 @@ class App {
                         List<List<char []>> validHistories = chessChildren(history, currentTeam);
                         for (List<char []> validHistory : validHistories)
                         {
-                            if(history.equals(validHistory))
+                            if (Arrays.equals(modifiedHistory.get(modifiedHistory.size()-1) , validHistory.get(validHistory.size()-1)))
                             {
                                 successfulMove = true;
                                 history = proposedHistory;    
