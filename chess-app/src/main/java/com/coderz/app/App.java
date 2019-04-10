@@ -68,12 +68,12 @@ class App {
             while(!gameOver(history, currentTeam))
             {
  
-                printChessBoard(history[history.size()-1]); 
+                printChessBoard(history.get(history.size()-1)); 
 
                 if(currentTeam == playerTeam){
 
 
-                    boolean succuessfulMove = false;
+                    boolean successfulMove = false;
                     while(!successfulMove)
                     {
 
@@ -83,10 +83,10 @@ class App {
                         System.out.println("\nSelect your destination or attack vector ");
                         int destination = in.nextInt();
     
-                        char [] modifiedBoard = history[history.size()-1].clone(); 
-                        char pigeon = modifiedBoard(startPosition);
-                        modifiedBoard(startPosition) = ' ';
-                        modifiedBoard(destination) = pigeon;
+                        char [] modifiedBoard = history.get(history.size()-1).clone(); 
+                        char pigeon = modifiedBoard[startPosition];
+                        modifiedBoard[startPosition] = ' ';
+                        modifiedBoard[destination] = pigeon;
                         List<char []> proposedHistory = history.clone();
                         proposedHistory.add(modifiedBoard);
                         List<List<char []>> validHistories = chessChildren(history, currentTeam);

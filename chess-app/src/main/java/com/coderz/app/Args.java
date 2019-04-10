@@ -16,5 +16,4 @@ public class Args{
 
     @Parameter(names = "-depth", description = "depth of the game tree")
     public int depth = 3;
-    public boolean debug = false;
 }
