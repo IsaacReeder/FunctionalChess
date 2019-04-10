@@ -112,8 +112,7 @@ class App {
 
 
                     boolean otherTeam = !currentTeam;
-                    printChessHistory(history);
-                    System.out.println("boardValue = " + boardValue(history.get(history.size()-1)));
+//                    System.out.println("boardValue = " + boardValue(history.get(history.size()-1)));
                     final boolean white = currentTeam;
                     history =  
                     chessChildren(history, white)
