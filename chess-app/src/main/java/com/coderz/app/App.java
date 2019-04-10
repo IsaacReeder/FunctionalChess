@@ -39,7 +39,7 @@ class App {
     public static void main(String[] argv) {
         
         {    
-            List<char[]> h = new ArrayList<>();     
+            List<char[]> history = new ArrayList<>();     
             char [] cBoard = {
                         'C','H','B','Q','K','B','H','C',
                         'P','P','P','P','P','P','P','P',
@@ -50,15 +50,15 @@ class App {
                         'p','p','p','p','p','p','p','p',
                         'c','h','b','q','k','b','h','c'
                         };
-            h.add(cBoard);
-            boolean currentTeam = h.size() % 2==1;
-            boolean playerTeam  = c == 'W';
+            history.add(cBoard);
+            boolean currentTeam = history.size() % 2==1;
             System.out.println("\nSelect your color: W for white, B for Black");
             char c=in.next(".").charAt(0);
+            boolean playerTeam  = (c == 'W');
              
             
             Scanner in = new Scanner(System.in);
-            while(!gameOver(h, currentTeam))
+            while(!gameOver(history, currentTeam))
             {
                 if(currentTeam == playerTeam){
                     System.out.println("\nSelect your chess piece by board position ");
@@ -68,7 +68,64 @@ class App {
                     int destination = in.nextInt();
                     printChessBoard(cBoard); 
                 } else {
-                    
+                   
+
+
+
+
+                    boolean otherTeam = !currentTeam;
+                    printChessHistory(history);
+                    System.out.println("boardValue = " + boardValue(history.get(history.size()-1)));
+                    final boolean white = currentTeam;
+                    history =  
+                    chessChildren(history, white)
+                    .stream()
+                    .map(
+                        possibleNewHistory -> 
+                            PingPongBall
+                            .newBuilder()
+                            .addAllHistory( possibleNewHistory.stream().map( x  -> new String(x)).collect(Collectors.toList()) )
+                            .setWhite(white)
+                            .setDepth(depth)
+                            .build()
+                    )
+                    .parallel()
+                    .map(
+    
+                        pingPongBall ->  
+                            PingPongBall
+                            .newBuilder()
+                            .mergeFrom(pingPongBall)
+                            .setValueAtThisDepth(
+                                
+                                chessAlphaBeta(
+                                    pingPongBall.getHistoryList().stream().map(s -> s.toCharArray()).collect(Collectors.toList()),
+                                    pingPongBall.getDepth(),
+                                    ninf,
+                                    inf,
+                                    !pingPongBall.getWhite()
+                                )
+                            )
+                            
+                            .build()
+                            
+                    ) 
+    //                .peek(x -> System.out.println(x))
+                    .reduce( null , (a,b) -> a==null ? b : 
+                        a.getWhite() ? 
+                            a.getValueAtThisDepth()>b.getValueAtThisDepth() ? a : b
+                            :
+                            a.getValueAtThisDepth()<b.getValueAtThisDepth() ? a : b
+                    )
+                    .getHistoryList().stream().map(s -> s.toCharArray()).collect(Collectors.toList());
+
+
+
+
+
+
+
+ 
 
                 }   
 
@@ -83,8 +140,17 @@ class App {
             .build()
             .parse(argv);
 
+        if (args.mode.equals("play")){
+         
 
-        if(args.mode.equals("alphaBeta"))
+
+
+
+
+
+
+
+        } else if (args.mode.equals("alphaBeta"))
         {
             try{
             
@@ -229,6 +295,10 @@ class App {
             boolean myTeam = history.size() % 2==1;
             while(!gameOver(history, myTeam))
             {
+
+
+
+
                 boolean otherTeam = !myTeam;
                 printChessHistory(history);
                 System.out.println("boardValue = " + boardValue(history.get(history.size()-1)));
@@ -275,6 +345,10 @@ class App {
                 )
                 .getHistoryList().stream().map(s -> s.toCharArray()).collect(Collectors.toList());
                 myTeam = history.size()%2==1;
+
+
+
+
 
 
             }
