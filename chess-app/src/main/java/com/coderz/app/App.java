@@ -83,19 +83,19 @@ class App {
                         System.out.println("\nSelect your destination or attack vector ");
                         int destination = in.nextInt();
     
+                        char [] originalBoard = history.get(history.size()-1);
                         char [] modifiedBoard = history.get(history.size()-1).clone(); 
                         char pigeon = modifiedBoard[startPosition];
                         modifiedBoard[startPosition] = ' ';
                         modifiedBoard[destination] = pigeon;
-                        List<char []> proposedHistory = new ArrayList<>(history); 
-                        proposedHistory.add(modifiedBoard);
                         List<List<char []>> validHistories = chessChildren(history, currentTeam);
                         for (List<char []> validHistory : validHistories)
                         {
-                            if (Arrays.equals(proposedHistory.get(proposedHistory.size()-1) , validHistory.get(validHistory.size()-1)))
+                            char[] validBoard = validHistory.get(validHistory.size()-1);
+                            if (modifiedBoard[startPosition] == validBoard[startPosition] && modifiedBoard[destination] == validBoard[destination] && originalBoard[startPosition] != ' ')
                             {
                                 successfulMove = true;
-                                history = proposedHistory;    
+                                history = validHistory;    
                             }
                         }
                     }
