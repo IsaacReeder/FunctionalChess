@@ -69,27 +69,29 @@ class App {
             {
  
 
-
-
-                char [] modifiedBoard = history[history.size()-1].clone(); 
-                char pigeon = modifiedBoard(startPosition);
-                modifiedBoard(startPosition) = ' ';
-                modifiedBoard(destination) = pigeon;
-                List<char []> proposedHistory = history.clone();
-                proposedHistory.add(modifiedBoard);
-                history = proposedHistory;
-                printChessBoard(history[history.size()-1]); 
-                
-
-
-
-
                 if(currentTeam == playerTeam){
-                    System.out.println("\nSelect your chess piece by board position ");
-                    int startPosition = in.nextInt();
-                    in.nextLine();
-                    System.out.println("\nSelect your destination or attack vector ");
-                    int destination = in.nextInt();
+
+
+                    while(true)
+                    {
+
+                        System.out.println("\nSelect your chess piece by board position ");
+                        int startPosition = in.nextInt();
+                        in.nextLine();
+                        System.out.println("\nSelect your destination or attack vector ");
+                        int destination = in.nextInt();
+    
+                        char [] modifiedBoard = history[history.size()-1].clone(); 
+                        char pigeon = modifiedBoard(startPosition);
+                        modifiedBoard(startPosition) = ' ';
+                        modifiedBoard(destination) = pigeon;
+                        List<char []> proposedHistory = history.clone();
+                        proposedHistory.add(modifiedBoard);
+                        history = proposedHistory;
+                        printChessBoard(history[history.size()-1]); 
+
+                    }
+
 
 
 
