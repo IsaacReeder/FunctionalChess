@@ -73,6 +73,7 @@ class App {
                 if(currentTeam == playerTeam){
 
 
+                    boolean succuessfulMove = false;
                     while(!successfulMove)
                     {
 
@@ -88,8 +89,15 @@ class App {
                         modifiedBoard(destination) = pigeon;
                         List<char []> proposedHistory = history.clone();
                         proposedHistory.add(modifiedBoard);
-                        history = proposedHistory;
-                        successfulMove = true;
+                        List<List<char []>> validHistories = chessChildren(history, currentTeam);
+                        for (List<char []> validHistory : validHistories)
+                        {
+                            if(history.equals(validHistory))
+                            {
+                                successfulMove = true;
+                                history = proposedHistory;    
+                            }
+                        }
                     }
 
 
