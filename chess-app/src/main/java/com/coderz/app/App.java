@@ -38,7 +38,14 @@ class App {
 
     public static void main(String[] argv) {
         
-        {    
+        Args args = new Args();
+        JCommander.newBuilder()
+            .addObject(args)
+            .build()
+            .parse(argv);
+
+        if (args.mode.equals("play")){
+         
             List<char[]> history = new ArrayList<>();     
             char [] cBoard = {
                         'C','H','B','Q','K','B','H','C',
@@ -53,20 +60,41 @@ class App {
             history.add(cBoard);
             boolean currentTeam = history.size() % 2==1;
             System.out.println("\nSelect your color: W for white, B for Black");
+            Scanner in = new Scanner(System.in);
             char c=in.next(".").charAt(0);
             boolean playerTeam  = (c == 'W');
              
             
-            Scanner in = new Scanner(System.in);
             while(!gameOver(history, currentTeam))
             {
+ 
+
+
+
+                char [] modifiedBoard = history[history.size()-1].clone(); 
+                char pigeon = modifiedBoard(startPosition);
+                modifiedBoard(startPosition) = ' ';
+                modifiedBoard(destination) = pigeon;
+                List<char []> proposedHistory = history.clone();
+                proposedHistory.add(modifiedBoard);
+                history = proposedHistory;
+                printChessBoard(history[history.size()-1]); 
+                
+
+
+
+
                 if(currentTeam == playerTeam){
                     System.out.println("\nSelect your chess piece by board position ");
                     int startPosition = in.nextInt();
                     in.nextLine();
                     System.out.println("\nSelect your destination or attack vector ");
                     int destination = in.nextInt();
-                    printChessBoard(cBoard); 
+
+
+
+
+
                 } else {
                    
 
@@ -130,18 +158,9 @@ class App {
                 }   
 
 
-                white = h.size() % 2==1;
+                currentTeam = h.size() % 2==1;
                  
             }
-        } 
-        Args args = new Args();
-        JCommander.newBuilder()
-            .addObject(args)
-            .build()
-            .parse(argv);
-
-        if (args.mode.equals("play")){
-         
 
 
 
