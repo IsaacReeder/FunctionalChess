@@ -20,23 +20,6 @@ class App {
        public R slides(P start);
     }
 
-    public interface ILambda<R,P> {
-        public R slides(P param);
-    } 
-
-    public static class Bishop implements ILambda <List<List<Integer>>,Integer> {
-        public List<List<Integer>> slides(Integer start) { return App.bishopSlides(start); }
-    }
-    public static class Rook implements ILambda <List<List<Integer>>,Integer> {
-        public List<List<Integer>> slides(Integer start) { return App.rookSlides(start); }
-    }
-    public static class Horse implements ILambda <List<List<Integer>>,Integer> {
-        public List<List<Integer>> slides(Integer start) { return App.horseSlides(start); }
-    }
-    public static class Queen implements ILambda <List<List<Integer>>,Integer> {
-        public List<List<Integer>> slides(Integer start) { return App.queenSlides(start); }
-    }
-    
     static final double inf = Double.POSITIVE_INFINITY;
     static final double ninf = Double.NEGATIVE_INFINITY; 
   
@@ -54,10 +37,6 @@ class App {
 
         if (args.mode.equals("play")){
          
-            Integer[] way = {0, 4, 8};
-            List<Integer>w = Arrays.asList(way);
-            w.forEach(    App::funny    );
-
             List<char[]> history = new ArrayList<>();     
             char [] cBoard = {
                         'C','H','B','Q','K','B','H','C',
@@ -559,21 +538,21 @@ class App {
                 }
             }
             {
-                List <char[]> resultList = genericBoards (52, history, new Bishop());
+                List <char[]> resultList = genericBoards (52, history, x -> App.bishopSlides((Integer)x));
                 for(char[] cb : resultList) 
                 {
                     printChessBoard(cb);
                 }
             }
             {
-                List <char[]> resultList = genericBoards (61, history, new Horse());
+                List <char[]> resultList = genericBoards (61, history,  x -> App.horseSlides((Integer)x));
                 for(char[] cb : resultList) 
                 {
                     printChessBoard(cb);
                 }
             }
             {
-                List <char[]> resultList = genericBoards (40, history, new Rook());
+                List <char[]> resultList = genericBoards (40, history, x -> App.horseSlides((Integer)x));
                 for(char[] cb : resultList) 
                 {
                     printChessBoard(cb);
@@ -625,21 +604,21 @@ class App {
                 }
             }
             {
-                List <char[]> resultList = genericBoards (52, history, new Bishop());
+                List <char[]> resultList = genericBoards (52, history, x -> App.bishopSlides((Integer)x));
                 for(char[] cb : resultList) 
                 {
                     printChessBoard(cb);
                 }
             }
             {
-                List <char[]> resultList = genericBoards (61, history, new Horse());
+                List <char[]> resultList = genericBoards (61, history, x -> App.horseSlides((Integer)x));
                 for(char[] cb : resultList) 
                 {
                     printChessBoard(cb);
                 }
             }
             {
-                List <char[]> resultList = genericBoards (40, history, new Rook());
+                List <char[]> resultList = genericBoards (40, history, x -> App.rookSlides((Integer)x));
                 for(char[] cb : resultList) 
                 {
                     printChessBoard(cb);
@@ -1017,10 +996,10 @@ class App {
 
 ////////
 
-        public static List<char[]> genericBoards (int start, List<char[]> history, ILambda <List<List<Integer>>,Integer> f ) {
+        public static List<char[]> genericBoards (int start, List<char[]> history, Slider slider ) {
             char[] board = history.get(history.size()-1);
             List<char[]> boards = new ArrayList<char[]>();
-            List<List<Integer>> slides = f.slides(start); 
+            List<List<Integer>>slides = (List<List<Integer>>)slider.slides(start);
             for( List<Integer>slide : slides )
             {
                 boolean somethingInTheWay = false;
@@ -1557,7 +1536,7 @@ class App {
                         case 'h':  
                         case 'H':
                             { 
-                                List<char[]> boards = genericBoards(i, history, new Horse());
+                                List <char[]> boards = genericBoards (i, history, x -> App.horseSlides((Integer)x));
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
                                     alteredHistory.add(aBoardInTheList);
@@ -1568,7 +1547,7 @@ class App {
                         case 'b':  
                         case 'B':
                             { 
-                                List<char[]> boards = genericBoards(i, history, new Bishop());
+                                List <char[]> boards = genericBoards (i, history, x -> App.bishopSlides((Integer)x));
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
                                     alteredHistory.add(aBoardInTheList);
@@ -1579,7 +1558,7 @@ class App {
                         case 'q':  
                         case 'Q':
                             { 
-                                List<char[]> boards = genericBoards(i, history, new Queen());
+                                List <char[]> boards = genericBoards (i, history, x -> App.queenSlides((Integer)x));
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
                                     alteredHistory.add(aBoardInTheList);
@@ -1590,7 +1569,7 @@ class App {
                         case 'c':  
                         case 'C':
                             { 
-                                List<char[]> boards = genericBoards(i, history, new Rook());
+                                List <char[]> boards = genericBoards (i, history, x -> App.rookSlides((Integer)x));
                                 for(char[] aBoardInTheList : boards) {
                                     List<char[]> alteredHistory = new ArrayList<>(history);
                                     alteredHistory.add(aBoardInTheList);
