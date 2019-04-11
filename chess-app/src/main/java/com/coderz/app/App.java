@@ -15,6 +15,11 @@ import org.apache.commons.lang3.ArrayUtils;
 import static java.util.stream.Collectors.toList;
 
 class App {
+
+    public interface Slider<R,P> {
+       public R slides(P start);
+    }
+
     public interface ILambda<R,P> {
         public R slides(P param);
     } 
@@ -34,7 +39,10 @@ class App {
     
     static final double inf = Double.POSITIVE_INFINITY;
     static final double ninf = Double.NEGATIVE_INFINITY; 
-   
+  
+    public static void funny(Integer a) {
+        System.out.println(a);
+    }
 
     public static void main(String[] argv) {
         
@@ -46,6 +54,10 @@ class App {
 
         if (args.mode.equals("play")){
          
+            Integer[] way = {0, 4, 8};
+            List<Integer>w = Arrays.asList(way);
+            w.forEach(    App::funny    );
+
             List<char[]> history = new ArrayList<>();     
             char [] cBoard = {
                         'C','H','B','Q','K','B','H','C',
@@ -419,10 +431,10 @@ class App {
                     'p','p','p','p',' ','p','p','p',
                     ' ','h','b',' ','k','b','h','c'
                     };
-          System.out.println( "Bishop Halo" + genericHalo( 61, haloBoard, new Bishop() ));
-          System.out.println( "Rook Halo" +  genericHalo( 40, haloBoard, new Rook() ));
-          System.out.println( "Horse Halo" + genericHalo( 18, haloBoard, new Horse() ));
-          System.out.println( "Queen Halo" + genericHalo( 43, haloBoard, new Queen() ));
+          System.out.println( "Bishop Halo" + genericHalo( 61, haloBoard, x -> App.bishopSlides((Integer)x)  ));
+          System.out.println( "Rook Halo" +  genericHalo( 40, haloBoard, x -> App.rookSlides((Integer)x)   ));
+          System.out.println( "Horse Halo" + genericHalo( 18, haloBoard, x -> App.horseSlides((Integer)x)  ));
+          System.out.println( "Queen Halo" + genericHalo( 43, haloBoard, x -> App.queenSlides((Integer)x)  ));
           System.out.println( "Pawn Halo" + pawnHalo( 8, haloBoard ));
           System.out.println( "King Halo" + kingHalo( 60, haloBoard ));
           System.out.println( "Enemy Halo" + enemyHalo( 60, haloBoard ));
@@ -1157,11 +1169,11 @@ class App {
 
 ////////
 
-        public static Set<Integer>genericHalo(int start, char[] board, ILambda <List<List<Integer>>,Integer> f ) {
+        public static Set<Integer>genericHalo(int start, char[] board, Slider slider) {
             int startingRow = start/8;
             int startingColumn = start%8;
             Set<Integer> halo = new HashSet<Integer>();
-            List<List<Integer>>slides = f.slides(start);
+            List<List<Integer>>slides = (List<List<Integer>>)slider.slides(start);
             for( List<Integer>slide : slides )
             {
                 int indexOfFirstElement = 0;
@@ -1445,19 +1457,19 @@ class App {
                            break;
                        case 'h':  
                        case 'H':
-                           halo.addAll( genericHalo( i, board, new  Horse() ));
+                           halo.addAll( genericHalo( i, board, x -> App.horseSlides((Integer)x)  ));
                            break;
                        case 'b':  
                        case 'B':
-                           halo.addAll( genericHalo( i, board, new  Bishop() ));
+                           halo.addAll( genericHalo( i, board, x -> App.bishopSlides((Integer)x)  ));
                            break;
                        case 'q':  
                        case 'Q':
-                           halo.addAll( genericHalo( i, board, new  Queen() ));
+                           halo.addAll( genericHalo( i, board, x -> App.queenSlides((Integer)x)  ));
                            break;
                        case 'c':  
                        case 'C':
-                           halo.addAll( genericHalo( i, board, new  Rook() ));
+                           halo.addAll( genericHalo( i, board, x -> App.rookSlides((Integer)x)  ));
                            break;
                    }
                } 
