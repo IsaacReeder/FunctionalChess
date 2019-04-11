@@ -82,7 +82,10 @@ class App {
                         in.nextLine();
                         System.out.println("\nSelect your destination or attack vector ");
                         int destination = in.nextInt();
-    
+   
+                        if (startPosition < 0 || startPosition > 63 ||
+                            destination < 0 || destination > 63 ) break; 
+ 
                         char [] originalBoard = history.get(history.size()-1);
                         char [] modifiedBoard = history.get(history.size()-1).clone(); 
                         char pigeon = modifiedBoard[startPosition];
