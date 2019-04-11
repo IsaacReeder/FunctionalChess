@@ -1245,7 +1245,7 @@ class App {
             if (pawnAtOriginalPosition && squareAheadIsEmpty && board[twoSquaresAhead] == ' '){
                 char[] modifiedBoard = board.clone(); 
                 modifiedBoard[start] = ' ';
-                modifiedBoard[oneSquareAhead] = pP;
+                modifiedBoard[twoSquaresAhead] = pP;
                 boards.add(modifiedBoard);
 
             }
