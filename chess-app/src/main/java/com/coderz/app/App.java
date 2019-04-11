@@ -23,10 +23,6 @@ class App {
     static final double inf = Double.POSITIVE_INFINITY;
     static final double ninf = Double.NEGATIVE_INFINITY; 
   
-    public static void funny(Integer a) {
-        System.out.println(a);
-    }
-
     public static void main(String[] argv) {
         
         Args args = new Args();
