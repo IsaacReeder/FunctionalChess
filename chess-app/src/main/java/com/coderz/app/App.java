@@ -82,7 +82,11 @@ class App {
                         for (List<char []> validHistory : validHistories)
                         {
                             char[] validBoard = validHistory.get(validHistory.size()-1);
-                            if (modifiedBoard[startPosition] == validBoard[startPosition] && modifiedBoard[destination] == validBoard[destination] && originalBoard[startPosition] != ' ')
+
+                            boolean exactMatch = Arrays.equals(modifiedBoard,validBoard);
+                            boolean softMatchAllowed = pigeon == 'p' || pigeon == 'P' || pigeon == 'k' || pigeon == 'K';
+                            boolean softMatch = modifiedBoard[startPosition] == validBoard[startPosition] && modifiedBoard[destination] == validBoard[destination];
+                            if (exactMatch || softMatchAllowed && softMatch) 
                             {
                                 successfulMove = true;
                                 history = validHistory;    
