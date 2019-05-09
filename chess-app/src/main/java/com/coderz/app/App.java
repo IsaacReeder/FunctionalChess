@@ -31,7 +31,41 @@ class App {
             .build()
             .parse(argv);
 
-        if (args.mode.equals("play")){
+        if (args.mode.equals("hack")){
+             
+            char [] pinultimateBoard = {
+                        'C','H','B','Q','K','B','H','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p','p','p','p','p','p',
+                        'c','h','b','q','k',' ',' ','c'
+                        };
+
+            char [] ultimateBoard = {
+                        'C','H','B','Q','K','B','H','C',
+                        'P','P','P','P','P','P','P','P',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        ' ',' ',' ',' ',' ',' ',' ',' ',
+                        'p','p','p','p','p','p','p','p',
+                        'c','h','b','q',' ','c','k',' '
+            };
+            Boolean white = true;
+
+////////
+
+            System.out.println(startingPositionOfMovingPiece(white, pinultimateBoard, ultimateBoard)); 
+        
+////////
+
+
+
+        }else if (args.mode.equals("play")){
+
          
             List<char[]> history = new ArrayList<>();     
             char [] cBoard = {
@@ -1767,9 +1801,48 @@ class App {
             return ' ';
         } 
 
+////////retainAll() is java's idea of intersection function
+
+        public static Set<Integer> intersection(Set<Integer>a, Set<Integer>b){
+                Set<Integer> c = new HashSet<Integer>(a);
+
+                c.retainAll(b);
+        
+        return c;
+        }
+        
 ////////
 
+        public static int startingPositionOfMovingPiece (boolean white, char[] pinultimateBoard, char[] ultimateBoard) {
+	    Set<Integer> squaresOnPinultimateBoardThatHaveAPieceForThisPlayer = new HashSet<Integer>();
+             
+            for(int i=0; i<64; i++){
+                if(white && Character.isLowerCase(pinultimateBoard[i]) || !white && Character.isUpperCase(pinultimateBoard[i]))
+                squaresOnPinultimateBoardThatHaveAPieceForThisPlayer.add(i);
 
-        
+            }   
+
+	    Set<Integer> squaresOnUltimateBoardThatHaveASpace = new HashSet<Integer>();
+             
+            for(int i=0; i<64; i++){
+                if(ultimateBoard[i] == ' ') squaresOnUltimateBoardThatHaveASpace.add(i);
+            }   
+
+            Set<Integer> c = intersection(squaresOnPinultimateBoardThatHaveAPieceForThisPlayer, squaresOnUltimateBoardThatHaveASpace); 
+
+            System.out.println(c);
+      
+            if(c.size() == 2){
+                for(int i=0; i<64; i++){
+                    if(white && pinultimateBoard[i] == 'k' || !white && pinultimateBoard[i] == 'K') 
+                    return i; 
+                } 
+
+            } 
+        return (Integer)c.toArray()[0];
+        }
+
+////////
+
 } 
 
