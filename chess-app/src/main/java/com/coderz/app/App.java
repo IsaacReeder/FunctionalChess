@@ -32,6 +32,7 @@ class App {
             .parse(argv);
 
         if (args.mode.equals("hack")){
+            System.out.println("hack to determine start square"); 
              
             char [] pinultimateBoard = {
                         'C','H','B','Q','K','B','H','C',
@@ -1813,34 +1814,96 @@ class App {
         
 ////////
 
-        public static int startingPositionOfMovingPiece (boolean white, char[] pinultimateBoard, char[] ultimateBoard) {
-	    Set<Integer> squaresOnPinultimateBoardThatHaveAPieceForThisPlayer = new HashSet<Integer>();
-             
-            for(int i=0; i<64; i++){
-                if(white && Character.isLowerCase(pinultimateBoard[i]) || !white && Character.isUpperCase(pinultimateBoard[i]))
-                squaresOnPinultimateBoardThatHaveAPieceForThisPlayer.add(i);
+        public static int startingPositionOfMovingPiece (boolean white, char[] penultimateBoard, char[] ultimateBoard) {
+            Set <Integer> squaresWithPiecesOnPenBoard = new HashSet<Integer>();
+            
+            for(int i = 0; i<64; i++) {
+                if(white && Character.isLowerCase(penultimateBoard[i]) || !white && Character.isUpperCase(penultimateBoard[i]))
+                {
+                    squaresWithPiecesOnPenBoard.add(i);
+                }
+            }
 
-            }   
+            Set <Integer> blankSquaresOnUltBoard = new HashSet <Integer>();
 
-	    Set<Integer> squaresOnUltimateBoardThatHaveASpace = new HashSet<Integer>();
-             
-            for(int i=0; i<64; i++){
-                if(ultimateBoard[i] == ' ') squaresOnUltimateBoardThatHaveASpace.add(i);
-            }   
+            for(int i=0; i<64; i++) {
+                if(ultimateBoard[i] == ' ') 
+                {
+                    blankSquaresOnUltBoard.add(i);
+                }
 
-            Set<Integer> c = intersection(squaresOnPinultimateBoardThatHaveAPieceForThisPlayer, squaresOnUltimateBoardThatHaveASpace); 
+            }
+            
+            Set<Integer> c = intersection(squaresWithPiecesOnPenBoard, blankSquaresOnUltBoard);
 
-            System.out.println(c);
-      
-            if(c.size() == 2){
-                for(int i=0; i<64; i++){
-                    if(white && pinultimateBoard[i] == 'k' || !white && pinultimateBoard[i] == 'K') 
-                    return i; 
-                } 
+                if(c.size() == 2) {
+                    for(int i=0; i<3; i++) {
+                        if(white && penultimateBoard[i] == 'k' || !white && penultimateBoard[i] == 'K') {
+                            return i;
+                        }
+                    }
+                }
+                return (Integer)c.toArray()[0];
+        } 
 
+////////
+
+        public static int letterTracking (boolean white, char[] penultimateBoard, char[] ultimateBoard) {
+            int startingSquare = startingPositionOfMovingPiece(white, penultimateBoard, ultimateBoard);
+            int characterThatIsMoving = penultimateBoard[startingSquare];
+            Set<Integer> placesImNot = new HashSet<Integer>(); 
+            Set<Integer> placesWhereIHangOut = new HashSet<Integer>(); 
+            
+ 
+            for(int i=0; i<64; i++) {
+                if(penultimateBoard[i] != characterThatIsMoving) {
+                    placesImNot.add(i);
+                }
             } 
-        return (Integer)c.toArray()[0];
+            for(int i=0; i<64; i++) {
+                if(ultimateBoard[i] == characterThatIsMoving) {
+                    placesWhereIHangOut.add(i);
+                }
+            } 
+              
+            Set<Integer> intersect = intersection(placesImNot, placesWhereIHangOut);
+            
+            return (Integer)intersect.toArray()[0];
+
         }
+
+////////
+
+        public static int friendlyTracker (boolean white, char[] penultimateBoard, char[] ultimateBoard) {
+            Set<Integer> placesWhereFriendliesWereNot = new HashSet<Integer>();
+            Set<Integer> placesWhereFriendliesNowAre = new HashSet<Integer>();
+ 
+            for(int i=0; i<64; i++) {
+                if(white && Character.isLowerCase(ultimateBoard[i]) || !white && Character.isUpperCase(ultimateBoard[i]))
+                    placesWhereFriendliesNowAre.add(i);
+            } 
+
+            for(int i=0; i<64; i++) {
+                if(white && !Character.isLowerCase(penultimateBoard[i]) || !white && !Character.isUpperCase(penultimateBoard[i]))
+                    placesWhereFriendliesWereNot.add(i);
+            }
+
+            return (Integer) intersection( placesWhereFriendliesNowAre, placesWhereFriendliesWereNot ).toArray()[0];
+
+        }
+
+////////
+
+        public static int pawnOrKing(boolean white, char[] penultimateBoard, char[] ultimateBoard) {
+            int startSquare = startingPositionOfMovingPiece(white, penultimateBoard, ultimateBoard);
+            int pigeon = penultimateBoard[startSquare];
+
+            if(pigeon == 'p' || pigeon == 'P'){
+                return friendlyTracker(white, penultimateBoard, ultimateBoard); 
+            } else {
+                return letterTracking(white, penultimateBoard, ultimateBoard);
+            }
+        } 
 
 ////////
 
