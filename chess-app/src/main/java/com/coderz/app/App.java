@@ -34,7 +34,7 @@ class App {
         if (args.mode.equals("hack")){
             System.out.println("hack to determine start square"); 
              
-            char [] pinultimateBoard = {
+            char [] penultimateBoard = {
                         'C','H','B','Q','K','B','H','C',
                         'P','P','P','P','P','P','P','P',
                         ' ',' ',' ',' ',' ',' ',' ',' ',
@@ -59,8 +59,9 @@ class App {
 
 ////////
 
-            System.out.println(startingPositionOfMovingPiece(white, pinultimateBoard, ultimateBoard)); 
-        
+            System.out.println(startingPositionOfMovingPiece(white, penultimateBoard, ultimateBoard)); 
+            System.out.println(endPositionOfMovingPiece(white, penultimateBoard, ultimateBoard)); 
+
 ////////
 
 
@@ -68,6 +69,27 @@ class App {
         }else if (args.mode.equals("play")){
 
          
+        System.out.println("                 /                  /                                 ");
+        System.out.println("          /     /           /      /                                  ");
+        System.out.println("         /     /           /      /            /                      ");
+        System.out.println("        /     /     /     /      /            /                   /   ");
+        System.out.println("      _      /     /     /      /            /                   /    ");
+        System.out.println("     | |          /     /      /            /                   /     ");
+        System.out.println("  ___| |__   ___  ___ ___     /   /        /          /        /      ");
+        System.out.println(" / __| '_ \\ / _ \\/ __/ __|       /        /          /        /     ");
+        System.out.println("| (__| | | |  __/\\__ \\__ \\      /        /          /        /     ");
+        System.out.println(" \\___|_| |_|\\___||___/___/                         /        /       ");
+        System.out.println("    o   o      | |_| |             .' '.      ( )        |\\.         ");
+        System.out.println("o   /\\ /\\  o   |     |    .-\"-.    (   )   .-. ^ .-.    /   '.     ");
+        System.out.println("\\`.'  `  `'/   '-----'    `. .'    `. .'  :   `.'   :  /_.'-  \\     ");
+        System.out.println(" \\        /    |     |    .' '.     | |   `.       .'     /   |      ");
+        System.out.println("  \\_.--._/    /_.---._\\  .'___'.  ._' '_.  )_.---._(     /____|     ");
+        System.out.println("  '.____.'    '._____.'  `-----'  '--^--'  `._____.'    `.____.'      ");
+        System.out.println("                                                                      ");
+        System.out.println("                                                                      ");
+        System.out.println("                                                                      ");
+        System.out.println("                                                                      ");
+ 
             List<char[]> history = new ArrayList<>();     
             char [] cBoard = {
                         'C','H','B','Q','K','B','H','C',
@@ -81,10 +103,11 @@ class App {
                         };
             history.add(cBoard);
             boolean currentTeam = history.size() % 2==1;
+
             System.out.println("\nSelect your color: W for white, B for Black");
             Scanner in = new Scanner(System.in);
             char c=in.next(".").charAt(0);
-            boolean playerTeam  = (c == 'W');
+            boolean playerTeam = (c == 'W');
              
             
             while(!gameOver(history, currentTeam))
@@ -176,7 +199,7 @@ class App {
                             .build()
                             
                     ) 
-    //                .peek(x -> System.out.println(x))
+                    .peek(x -> System.out.println(x))
                     .reduce( null , (a,b) -> a==null ? b : 
                         a.getWhite() ? 
                             a.getValueAtThisDepth()>b.getValueAtThisDepth() ? a : b
@@ -1894,7 +1917,7 @@ class App {
 
 ////////
 
-        public static int pawnOrKing(boolean white, char[] penultimateBoard, char[] ultimateBoard) {
+        public static int endPositionOfMovingPiece (boolean white, char[] penultimateBoard, char[] ultimateBoard) {
             int startSquare = startingPositionOfMovingPiece(white, penultimateBoard, ultimateBoard);
             int pigeon = penultimateBoard[startSquare];
 
