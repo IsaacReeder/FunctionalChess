@@ -31,21 +31,21 @@
 
 [![AI Chess ](http://img.youtube.com/vi/JPfVU8zGflQ/0.jpg)](http://www.youtube.com/watch?v=JPfVU8zGflQ "Video Title")
 
-Technologies used are Java, J-Commander, Google Protocol Buffers, GRPC, and JAVA Multicore API. Programmed using VIM, on Byobu. In this Chess game black represents negative, and white represents positive. Minimax recursively searches the possible history game tree of each move, and asks the opposing player to rate each of the moves,  then chooses which is best for us. The opposing player will always do his best to make moves that are bad for us. so the scores he gives us reflect that.
+Technologies used: Java, J-Commander, Google Protocol Buffers, GRPC, and JAVA Multicore API. Programmed using VIM, on Byobu. In this Chess game black represents negative, and white represents positive. Minimax recursively searches the possible history game tree of each move and asks my opposing player to rate each of the moves, then chooses which is best for me. The opposing player (AI) will always do its best to make moves that are bad for me. The scores it gives me will reflect that.
 
-The game tree for chess is vast, and there are too many possibilities. Therefor a limited search of the game tree is the best we can do. And a heuristic is used once a certain depth is reached in the tree. The way this program decides is by employing a heuristic that counts the pieces combined value that is returned, white looking for the highest possible return value, and black looking for the lowest possible return value.
+The game tree for chess is vast, and there are too many possibilities. Therefor a limited search of the game tree is the optimum outcome. A heuristic is used once a specific depth is reached in the game tree. This heuristic counts the pieces combined value being returned, white expecting the highest possible return value, and black the lowest possible return value.
 
- Later in this project, I transitioned from Mini-Max to the Alph-Beta Pruning algorithm. If the algorithm sees something that is pretty good, and then later sees something that worse on a different branch of the tree, he is halted and doesn’t continue to search that path in the tree, he just knows that the prior branch is much more acceptable. It prunes the branch without really searching it anymore. Its like looking down an alley and seeing something dangerous, and knowing there’s another alley that has cupcakes In it
+ Modification from Mini-Max to the predominant Alph-Beta Pruning algorithm happened roughly 7 weeks into this project. Alph-Beta algorithm will first identify what is currently an apposite find. If later Alph-Beta perceives something worse on a different branch of the tree, it immediately discontinues search of the path in the tree that contained the inapt finding. It knows that the prior branch is much more acceptable. Alph-Beta prunes the subjacent branch promptly. 
 
-Alpha Beta provides faster processing of the number of moves in a typical game, which is generally 30. 
+In short, Alpha Beta provides faster processing of the number of moves in a typical game as compared to Mini-Max. Ordinarily, the number of moves in a chess game is 30. 
 
-To improve performance I investigated multi-core programming.  My laptop has 12 cores. It's capable of clock speeds up to 4.8GHz. So I dived into using Multi-Core threading, exploring different branches with different cores. At this point each possible move was sent to a separate core for processing, increasing my overall processing speed greatly. I  implemented Google Protocol Buffers with the eventual goal of distributed processing to something like AWS cloud services, to hit the next level in this app. I choose the Google protocol Buffers because they have an API that works everywhere (IOS, Java, etc.) They are not Language or platform-specific. I was going to use GRPC, but then I was hired to West Marine.
+An investigation into multi-core programming was spurred by a sudden realization; this program had become something substantial. My laptop has 12 cores and is capable of clock speeds of 4.8GHz. The goal quickly became: I must use Multi-Core threading, to explore different branches synchronously using different cores. 
 
-Phew, now you understand what lives in this repository.
+Upon Succesful implementation each viable move was sent to a separate core for processing, increasing my overall processing speed markedly. I implemented Google Protocol Buffers with the eventual goal of distributed processing employing AWS cloud services. Google Protocol Buffers has an API that works everywhere (IOS, Java, etc.) Proto-Buffs are not Language or platform-specific. I considered GRPC, but as work ramped up this avocation, AI Chess fell to the wayside.
+
+phew! After reading that description, I'de wager you're ready to play chess. 
 
 ```html
-At this point, you may want to try this app out for yourself. After cloning this repository, install the dependencies and use the command:
-
 $ cd work/functionalChess/chess-app
 
 $ mvn package
@@ -54,11 +54,10 @@ $ mvn -q exec:java -Dexec.mainClass="com.coderz.app.App" -Dexec.args="-mode play
 ```
 
 
-You may notice this repository is a combination of two. The reasoning behind this merge is two-fold: search through this project in its entirety with ease, and to retain the git history. Git history is quite valuable. 
+You may notice this repository is a combination of two. The reasoning behind this merge is two-fold: the ability to search through this project in its entirety with ease and to retain the git history. Git history is quite valuable. 
 
-Below you will find the git commands I used to merge two repositories, sometimes including small descriptions. These commands may be useful to those of you who use Git regularly, or with increasing frequency. 
+Below you will find the git commands I used to merge two repositories, sometimes including small descriptions. 
 
-`Clone && use cloned repository for merge, as an added safety measure.`
 
 ```html 
 - git remote add IntChess <RemoteName> <RemoteURL>      
@@ -122,7 +121,10 @@ Below you will find the git commands I used to merge two repositories, sometimes
 
 ```
 
+"Chess is infinite: There are 400 different positions after each player makes one move apiece. There are 72,084 positions after two moves apiece. There are 9+ million positions after three moves apiece. There are 288+ billion different possible positions after four moves apiece. There are more 40-move games on Level-1 than the number of electrons in our universe. There are more game-trees of Chess than the number of galaxies (100+ billion), and more openings, defences, gambits, etc. than the number of quarks in our universe!" --Chesmayne
+
 Thanks for looking. If you enjoyed this project drop me a line, or star this repository to help me stay motivated. 
+
 
 
 ![IBM's Deep Blue](https://2.bp.blogspot.com/-uN4Z0M3iaIw/WnAYl5B1zhI/AAAAAAAAPJc/A5vSZxSPEi4ifjpVZn6JGGiE5FaXfZjTACLcBGAs/s1600/Kasparov_vs_Deep_Blue%2B%25283%2529.jpg)
